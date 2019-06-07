@@ -11,16 +11,15 @@
         <p class="govuk-body-l">
             <a href="/Help/index" class="govuk-link">Help</a> <span>/</span>
 
-            @foreach (var path in Model.Paths)
+            @if (Model.Paths != null && Model.Paths.Count() > 0)
             {
-                <a href="/Help/@path" class="govuk-link">@path</a> <span>/</span>
+                foreach (var path in Model.Paths)
+                {
+                    <a href="/Help/@path" class="govuk-link">@path</a> <span>/</span>
+                }
             }
 
             @Model.ThisLocation
-        </p>
-
-        <p class="govuk-body">
-            This is the Breadcrumb region
         </p>
     </div>
 </div>
