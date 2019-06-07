@@ -62,10 +62,16 @@ namespace DFC.App.Help
                     defaults: new { controller = "Sitemap", action = "Sitemap" }
                 );
 
+                routes.MapRoute(
+                    name: $"Breadcrumb-Action",
+                    template: "Help/Breadcrumb/{**data}",
+                    defaults: new { controller = "Help", action = "Breadcrumb" }
+                );
+
                 // add the default route
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Error}/{id?}");
+                    template: "{controller=Home}/{action=Error}");
             });
         }
     }

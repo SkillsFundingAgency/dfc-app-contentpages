@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using DFC.App.Help.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DFC.App.Help.Controllers
 {
@@ -17,9 +13,29 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
-        public IActionResult Breadcrumb()
+        public IActionResult Breadcrumb(string data)
         {
-            return View();
+            string[] paths = null;
+            string thisLocation = null;
+
+            if (!string.IsNullOrEmpty(data))
+            {
+                paths = data.Split('/');
+
+                if (paths.Length > 0)
+                {
+                    thisLocation = paths[paths.Length - 1];
+                    paths = new ArraySegment<string>(paths,0,paths.Length-1).ToArray();
+                }
+            }
+
+            var viewModel = new BreadcrumbViewModel()
+            {
+                Paths = paths,
+                ThisLocation = thisLocation
+            };
+
+            return View(viewModel);
         }
 
         [HttpGet]

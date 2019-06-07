@@ -1,4 +1,6 @@
-﻿@{
+﻿@model BreadcrumbViewModel
+
+@{
     ViewData["Title"] = "Help - Breadcrumb";
 }
 
@@ -7,6 +9,17 @@
         <h1 class="govuk-heading-xl">@ViewBag.Title</h1>
 
         <p class="govuk-body-l">
+            <a href="/Help/index" class="govuk-link">Help</a> <span>/</span>
+
+            @foreach (var path in Model.Paths)
+            {
+                <a href="/Help/@path" class="govuk-link">@path</a> <span>/</span>
+            }
+
+            @Model.ThisLocation
+        </p>
+
+        <p class="govuk-body">
             This is the Breadcrumb region
         </p>
     </div>
