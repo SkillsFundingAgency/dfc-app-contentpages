@@ -62,6 +62,13 @@ namespace DFC.App.Help
                     defaults: new { controller = "Sitemap", action = "Sitemap" }
                 );
 
+                // add the robots.txt route
+                routes.MapRoute(
+                    name: "Robots",
+                    template: "Robots.txt",
+                    defaults: new { controller = "Robot", action = "Robot" }
+                );
+
                 // add the default route
                 routes.MapRoute(
                     name: "default",
