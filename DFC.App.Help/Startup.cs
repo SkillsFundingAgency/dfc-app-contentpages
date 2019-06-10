@@ -55,13 +55,6 @@ namespace DFC.App.Help
 
             app.UseMvc(routes =>
             {
-                // add the breadcrumb routing
-                routes.MapRoute(
-                    name: $"Breadcrumb-Action",
-                    template: "Help/Breadcrumb/{**data}",
-                    defaults: new { controller = "Help", action = "Breadcrumb" }
-                );
-
                 // add the site map route
                 routes.MapRoute(
                     name: "Sitemap",

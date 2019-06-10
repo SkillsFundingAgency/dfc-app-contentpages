@@ -13,6 +13,7 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
+        [Route("Help/Breadcrumb/{**data}")]
         public IActionResult Breadcrumb(string data)
         {
             string[] paths = null;
