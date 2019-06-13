@@ -15,7 +15,7 @@
             "value": "__AspTier__"
         },
         "Environment": {
-            "value": "__Environment__"
+            "value": "__ReleaseEnvironmentName__"
         },
         "SharedAppServicePlanName": {
             "value": "__SharedAppServicePlanName__"
