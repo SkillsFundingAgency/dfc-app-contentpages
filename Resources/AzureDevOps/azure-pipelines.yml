@@ -1,4 +1,5 @@
 variables:
+    ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'     
     SolutionBaseName: 'DFC.App.Help'
     BuildPlatform: 'any cpu'
     BuildConfiguration: 'release'
@@ -23,6 +24,9 @@ jobs:
     - visualstudio
 
   steps:
+  - template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
+    parameters:
+      ArmTemplateRoot: $(ArmTemplateRoot)
   - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
       SolutionBaseName: $(SolutionBaseName)
