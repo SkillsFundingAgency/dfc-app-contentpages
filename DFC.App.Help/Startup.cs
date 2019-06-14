@@ -58,7 +58,7 @@ namespace DFC.App.Help
                 // add the site map route
                 routes.MapRoute(
                     name: "Sitemap",
-                    template: "Sitemap",
+                    template: "Sitemap.xml",
                     defaults: new { controller = "Sitemap", action = "Sitemap" }
                 );
 

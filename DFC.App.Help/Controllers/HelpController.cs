@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DFC.App.Help.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,12 @@ namespace DFC.App.Help.Controllers
 {
     public class HelpController : Controller
     {
+        public readonly static Dictionary<string, string> HelpArticles = new Dictionary<string, string>() {
+                    { "information-sources", "InformationSources" },
+                    { "privacy-and-cookies", "PrivacyAndCookies" },
+                    { "terms-and-conditions", "TermsAndConditions" }
+                };
+
         [HttpGet]
         public IActionResult Head()
         {
@@ -46,10 +53,22 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
-        [Route("help/index")]
-        public IActionResult Body()
+        [Route("help/{**data}")]
+        public IActionResult Body(string data)
         {
-            return View();
+            string viewName = nameof(Body);
+
+            if (!string.IsNullOrEmpty(data))
+            {
+                string key = data.ToLower();
+
+                if (HelpArticles.ContainsKey(key))
+                {
+                    viewName = HelpArticles[key];
+                }
+            }
+
+            return View(viewName);
         }
 
         [HttpGet]
@@ -58,25 +77,5 @@ namespace DFC.App.Help.Controllers
             return View();
         }
 
-        [HttpGet]
-        [Route("help/information-sources")]
-        public IActionResult InformationSources()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        [Route("help/privacy-and-cookies")]
-        public IActionResult PrivacyAndCookies()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        [Route("help/terms-and-conditions")]
-        public IActionResult TermsAndConditions()
-        {
-            return View();
-        }
     }
 }

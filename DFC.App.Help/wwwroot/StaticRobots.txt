@@ -1,1 +1,3 @@
-﻿// this is the help default robots.txt
+﻿User-agent: *
+
+Disallow: /StaticRobots.txt
