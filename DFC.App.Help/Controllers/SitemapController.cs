@@ -29,9 +29,11 @@ namespace DFC.App.Help.Controllers
 
                 // add the defaults
                 sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.Body), helpControllerName, null, Request.Scheme), Priority = 1 });
-                sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.InformationSources), helpControllerName, null, Request.Scheme), Priority = 1 });
-                sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.PrivacyAndCookies), helpControllerName, null, Request.Scheme), Priority = 1 });
-                sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.TermsAndConditions), helpControllerName, null, Request.Scheme), Priority = 1 });
+
+                foreach(var key in HelpController.HelpArticles.Keys)
+                {
+                    sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.Body), helpControllerName, null, Request.Scheme) + $"/{key}", Priority = 1 });
+                }
 
                 // extract the sitemap
                 string xmlString = sitemap.WriteSitemapToString();
