@@ -8,11 +8,8 @@ namespace DFC.App.Help.Cosmos.Client
 {
     public static class DocumentDBClient
     {
+        public static Models.Cosmos.CosmosDbConnection CosmosDbConnection;
         private static DocumentClient _documentClient;
-        private static string _connectionString;
-        private static string _databaseId;
-        private static string _collectionId;
-        private static string _partitionKey;
 
         public static DocumentClient CreateDocumentClient()
         {
@@ -20,11 +17,6 @@ namespace DFC.App.Help.Cosmos.Client
             {
                 return _documentClient;
             }
-
-            _connectionString = Environment.GetEnvironmentVariable(Models.Cosmos.EnvironmentVariableNames.CosmosConnectionString);
-            _databaseId = Environment.GetEnvironmentVariable(Models.Cosmos.EnvironmentVariableNames.CosmosDatabaseId);
-            _collectionId = Environment.GetEnvironmentVariable(Models.Cosmos.EnvironmentVariableNames.CosmosCollectionId);
-            _partitionKey = Environment.GetEnvironmentVariable(Models.Cosmos.EnvironmentVariableNames.CosmosPartitionKey);
 
             _documentClient = InitialiseDocumentClient();
 
@@ -36,12 +28,12 @@ namespace DFC.App.Help.Cosmos.Client
 
         private static DocumentClient InitialiseDocumentClient()
         {
-            if (string.IsNullOrWhiteSpace(_connectionString))
+            if (string.IsNullOrWhiteSpace(CosmosDbConnection.ConnectionString))
             {
                 throw new ArgumentNullException();
             }
 
-            var endPoint = _connectionString.Split(new[] { "AccountEndpoint=" }, StringSplitOptions.None)[1]
+            var endPoint = CosmosDbConnection.ConnectionString.Split(new[] { "AccountEndpoint=" }, StringSplitOptions.None)[1]
                 .Split(';')[0]
                 .Trim();
 
@@ -50,7 +42,7 @@ namespace DFC.App.Help.Cosmos.Client
                 throw new ArgumentNullException();
             }
 
-            var key = _connectionString.Split(new[] { "AccountKey=" }, StringSplitOptions.None)[1]
+            var key = CosmosDbConnection.ConnectionString.Split(new[] { "AccountKey=" }, StringSplitOptions.None)[1]
                 .Split(';')[0]
                 .Trim();
 
@@ -66,13 +58,13 @@ namespace DFC.App.Help.Cosmos.Client
         {
             try
             {
-                await _documentClient.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(_databaseId));
+                await _documentClient.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(CosmosDbConnection.DatabaseId));
             }
             catch (Microsoft.Azure.Documents.DocumentClientException e)
             {
                 if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    await _documentClient.CreateDatabaseAsync(new Microsoft.Azure.Documents.Database { Id = _databaseId });
+                    await _documentClient.CreateDatabaseAsync(new Microsoft.Azure.Documents.Database { Id = CosmosDbConnection.DatabaseId });
                 }
                 else
                 {
@@ -85,7 +77,7 @@ namespace DFC.App.Help.Cosmos.Client
         {
             try
             {
-                await _documentClient.ReadDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri(_databaseId, _collectionId));
+                await _documentClient.ReadDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri(CosmosDbConnection.DatabaseId, CosmosDbConnection.CollectionId));
             }
             catch (Microsoft.Azure.Documents.DocumentClientException e)
             {
@@ -94,12 +86,12 @@ namespace DFC.App.Help.Cosmos.Client
 
                     var pkDef = new PartitionKeyDefinition
                     {
-                        Paths = new Collection<string>() { _partitionKey }
+                        Paths = new Collection<string>() { CosmosDbConnection.PartitionKey }
                     };
 
                     await _documentClient.CreateDocumentCollectionAsync(
-                        UriFactory.CreateDatabaseUri(_databaseId),
-                        new Microsoft.Azure.Documents.DocumentCollection { Id = _collectionId, PartitionKey = pkDef },
+                        UriFactory.CreateDatabaseUri(CosmosDbConnection.DatabaseId),
+                        new Microsoft.Azure.Documents.DocumentCollection { Id = CosmosDbConnection.CollectionId, PartitionKey = pkDef },
                         new RequestOptions { OfferThroughput = 1000 });
                 }
                 else

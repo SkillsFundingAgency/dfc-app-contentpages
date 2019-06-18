@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using DFC.App.Help.Models;
+using DFC.App.Help.Services;
+using DFC.App.Help.ViewModels;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DFC.App.Help.Controllers
 {
     public class HelpController : Controller
     {
-        public readonly static Dictionary<string, string> HelpArticles = new Dictionary<string, string>() {
-                    { "information-sources", "InformationSources" },
-                    { "privacy-and-cookies", "PrivacyAndCookies" },
-                    { "terms-and-conditions", "TermsAndConditions" }
-                };
+        private readonly IHelpPageService _helpPageService;
+
+        public HelpController(IHelpPageService helpPageService)
+        {
+            _helpPageService = helpPageService;
+        }
 
         [HttpGet]
         public IActionResult Head()
@@ -33,7 +37,7 @@ namespace DFC.App.Help.Controllers
                 if (paths.Length > 0)
                 {
                     thisLocation = paths[paths.Length - 1];
-                    paths = new ArraySegment<string>(paths,0,paths.Length-1).ToArray();
+                    paths = new ArraySegment<string>(paths, 0, paths.Length - 1).ToArray();
                 }
             }
 
@@ -54,21 +58,24 @@ namespace DFC.App.Help.Controllers
 
         [HttpGet]
         [Route("help/{**data}")]
-        public IActionResult Body(string data)
+        public async System.Threading.Tasks.Task<IActionResult> Body(string data)
         {
-            string viewName = nameof(Body);
-
-            if (!string.IsNullOrEmpty(data))
+            string name = (!string.IsNullOrWhiteSpace(data) ? data : "index");
+            var vm = new DocumentViewModel()
             {
-                string key = data.ToLower();
+                Title = "Unknown Help document",
+                Contents = new HtmlString("Unknown Help document")
+            };
 
-                if (HelpArticles.ContainsKey(key))
-                {
-                    viewName = HelpArticles[key];
-                }
+            var doc = await _helpPageService.GetByNameAsync(name);
+
+            if (doc != null)
+            {
+                vm.Title = doc.Title;
+                vm.Contents = new HtmlString(doc.Contents);
             }
 
-            return View(viewName);
+            return View(vm);
         }
 
         [HttpGet]

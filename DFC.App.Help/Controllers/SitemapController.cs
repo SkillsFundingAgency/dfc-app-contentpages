@@ -5,20 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DFC.App.Help.Models;
+using DFC.App.Help.Services;
 
 namespace DFC.App.Help.Controllers
 {
     public class SitemapController : Controller
     {
         private readonly ILogger<SitemapController> _logger;
+        private readonly IHelpPageService _helpPageService;
 
-        public SitemapController(ILogger<SitemapController> logger)
+        public SitemapController(ILogger<SitemapController> logger, IHelpPageService helpPageService)
         {
             _logger = logger;
+            _helpPageService = helpPageService;
         }
 
         [HttpGet]
-        public ContentResult Sitemap()
+        public async Task<ContentResult> Sitemap()
         {
             try
             {
@@ -30,9 +33,14 @@ namespace DFC.App.Help.Controllers
                 // add the defaults
                 sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.Body), helpControllerName, null, Request.Scheme), Priority = 1 });
 
-                foreach(var key in HelpController.HelpArticles.Keys)
+                var helpPageModels = await _helpPageService.GetListAsync();
+
+                if (helpPageModels?.Count > 0)
                 {
-                    sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.Body), helpControllerName, null, Request.Scheme) + $"/{key}", Priority = 1 });
+                    foreach (var helpPageModel in helpPageModels.Where(w => w.IncludeInSitemap).OrderBy(o => o.Name))
+                    {
+                        sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.Body), helpControllerName, null, Request.Scheme) + $"/{helpPageModel.Name}", Priority = 1 });
+                    }
                 }
 
                 // extract the sitemap

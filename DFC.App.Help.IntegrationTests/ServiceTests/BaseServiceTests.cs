@@ -24,17 +24,15 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
             services.AddSingleton<IConfiguration>(configuration);
 
             services.AddSingleton<Cosmos.Provider.IDocumentDBProvider, Cosmos.Provider.DocumentDBProvider>();
-            services.AddSingleton<Services.IHelpPageService, Services.HelpPageService>();
+            services.AddScoped<Services.IHelpPageService, Services.HelpPageService>();
 
-            var helpPagesConfiguration = configuration.GetSection("Configurations:CosmosDbConnections:HelpPages").Get<Models.CosmosDbConnection>();
+            var cosmosDbConnection = configuration.GetSection("Configurations:CosmosDbConnections:HelpPages").Get<Help.Models.Cosmos.CosmosDbConnection>();
 
             _serviceProvider = services.BuildServiceProvider();
 
             // set the environment variables
-            Environment.SetEnvironmentVariable(Help.Models.Cosmos.EnvironmentVariableNames.CosmosConnectionString, helpPagesConfiguration.ConnectionString);
-            Environment.SetEnvironmentVariable(Help.Models.Cosmos.EnvironmentVariableNames.CosmosDatabaseId, helpPagesConfiguration.DatabaseId);
-            Environment.SetEnvironmentVariable(Help.Models.Cosmos.EnvironmentVariableNames.CosmosCollectionId, helpPagesConfiguration.CollectionId);
-            Environment.SetEnvironmentVariable(Help.Models.Cosmos.EnvironmentVariableNames.CosmosPartitionKey, helpPagesConfiguration.PartitionKey);
+            Help.Cosmos.Client.DocumentDBClient.CosmosDbConnection = cosmosDbConnection;
+            Help.Cosmos.Helper.DocumentDBHelper.CosmosDbConnection = cosmosDbConnection;
         }
 
         [TearDown]
