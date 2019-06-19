@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using DFC.App.Help.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DFC.App.Help.Models.Cosmos;
 using DFC.App.Help.Services;
 using DFC.App.Help.ViewModels;
 using Microsoft.AspNetCore.Html;
@@ -10,6 +12,9 @@ namespace DFC.App.Help.Controllers
 {
     public class HelpController : Controller
     {
+        public const string HelpPathRoot = "help";
+        private const string IndexArticleName = "index";
+
         private readonly IHelpPageService _helpPageService;
 
         public HelpController(IHelpPageService helpPageService)
@@ -18,71 +23,143 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
-        public IActionResult Head()
+        [Route("help/pages/{article}/htmlhead")]
+        public async Task<IActionResult> Head(string article)
         {
-            return View();
-        }
+            var vm = new HeadViewModel();
+            var helpPageModel = await GetHelpPageAsync(article);
 
-        [HttpGet]
-        [Route("Help/Breadcrumb/{**data}")]
-        public IActionResult Breadcrumb(string data)
-        {
-            string[] paths = null;
-            string thisLocation = null;
-
-            if (!string.IsNullOrEmpty(data))
+            if (helpPageModel != null)
             {
-                paths = data.Split('/');
-
-                if (paths.Length > 0)
-                {
-                    thisLocation = paths[paths.Length - 1];
-                    paths = new ArraySegment<string>(paths, 0, paths.Length - 1).ToArray();
-                }
-            }
-
-            var viewModel = new BreadcrumbViewModel()
-            {
-                Paths = paths,
-                ThisLocation = thisLocation
-            };
-
-            return View(viewModel);
-        }
-
-        [HttpGet]
-        public IActionResult BodyTop()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        [Route("help/{**data}")]
-        public async System.Threading.Tasks.Task<IActionResult> Body(string data)
-        {
-            string name = (!string.IsNullOrWhiteSpace(data) ? data : "index");
-            var vm = new DocumentViewModel()
-            {
-                Title = "Unknown Help document",
-                Contents = new HtmlString("Unknown Help document")
-            };
-
-            var doc = await _helpPageService.GetByNameAsync(name);
-
-            if (doc != null)
-            {
-                vm.Title = doc.Title;
-                vm.Contents = new HtmlString(doc.Contents);
+                vm.Title = helpPageModel.Title;
+                vm.Contents = GenerateMetaTags(helpPageModel.Metatags);
             }
 
             return View(vm);
         }
 
         [HttpGet]
-        public IActionResult BodyFooter()
+        [Route("help/pages/{article}/breadcrumb")]
+        public async Task<IActionResult> Breadcrumb(string article)
         {
-            return View();
+            var vm = new BreadcrumbViewModel();
+            var helpPageModel = await GetHelpPageAsync(article);
+
+            if (!string.IsNullOrWhiteSpace(article))
+            {
+                vm.Paths = new List<BreadcrumbPathViewModel>() {
+                    new BreadcrumbPathViewModel()
+                    {
+                        Route = "/",
+                        Title = "Home"
+                    },
+                    new BreadcrumbPathViewModel()
+                    {
+                        Route = $"/{HelpPathRoot}/{IndexArticleName}",
+                        Title = "Help"
+                    }
+                };
+
+                if (helpPageModel != null && string.Compare(helpPageModel.Name, IndexArticleName, true) != 0)
+                {
+                    var articlePathViewModel = new BreadcrumbPathViewModel()
+                    {
+                        Route = $"/{HelpPathRoot}/{helpPageModel.Name}",
+                        Title = helpPageModel.Title
+                    };
+
+                    vm.Paths.Add(articlePathViewModel);
+                    vm.Title = helpPageModel.Title;
+                }
+
+                vm.Paths.Last().IsLastItem = true;
+            }
+
+            return View(vm);
         }
+
+        [HttpGet]
+        [Route("help/pages/{article}/bodytop")]
+        public async Task<IActionResult> BodyTop(string article)
+        {
+            var vm = new BodyTopViewModel();
+            var helpPageModel = await GetHelpPageAsync(article);
+
+            if (helpPageModel != null)
+            {
+                vm.Title = helpPageModel.Title;
+                vm.Contents = null;
+            }
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        [Route("help/pages/{article}/contents")]
+        public async Task<IActionResult> Body(string article)
+        {
+            var vm = new BodyViewModel();
+            var helpPageModel = await GetHelpPageAsync(article);
+
+            if (helpPageModel != null)
+            {
+                vm.Title = helpPageModel.Title;
+                vm.Contents = new HtmlString(helpPageModel.Contents);
+            }
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        [Route("help/pages/{article}/bodyfooter")]
+        public async Task<IActionResult> BodyFooter(string article)
+        {
+            var vm = new BodyFooterViewModel();
+            var helpPageModel = await GetHelpPageAsync(article);
+
+            if (helpPageModel != null)
+            {
+                vm.Title = helpPageModel.Title;
+                vm.Contents = null;
+            }
+
+            return View(vm);
+        }
+
+        #region Define helper methods
+
+        private async Task<HelpPageModel> GetHelpPageAsync(string article)
+        {
+            string name = (!string.IsNullOrWhiteSpace(article) ? article : IndexArticleName);
+
+            var helpPageModel = await _helpPageService.GetByNameAsync(name);
+
+            return helpPageModel;
+        }
+
+        private HtmlString GenerateMetaTags(Models.Cosmos.MetatagsModel metatagsModel)
+        {
+            if (metatagsModel != null)
+            {
+                var sb = new StringBuilder();
+
+                if (!string.IsNullOrWhiteSpace(metatagsModel.Description))
+                {
+                    sb.AppendLine($"<meta name=\"description\" content=\"{ metatagsModel.Description}\">");
+                }
+
+                if (!string.IsNullOrWhiteSpace(metatagsModel.Keywords))
+                {
+                    sb.AppendLine($"<meta name=\"keywords\" content=\"{ metatagsModel.Keywords}\">");
+                }
+
+                return new HtmlString(sb.ToString());
+            }
+
+            return null;
+        }
+
+        #endregion
 
     }
 }

@@ -1,6 +1,4 @@
-using System;
-
-namespace DFC.App.Help.Models
+namespace DFC.App.Help.ViewModels
 {
     public class ErrorViewModel
     {
