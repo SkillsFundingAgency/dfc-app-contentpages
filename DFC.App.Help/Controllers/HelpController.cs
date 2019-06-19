@@ -26,7 +26,10 @@ namespace DFC.App.Help.Controllers
         [Route("help/pages/{article}/htmlhead")]
         public async Task<IActionResult> Head(string article)
         {
-            var vm = new HeadViewModel();
+            var vm = new HeadViewModel()
+            {
+                Contents = null
+            };
             var helpPageModel = await GetHelpPageAsync(article);
 
             if (helpPageModel != null)
