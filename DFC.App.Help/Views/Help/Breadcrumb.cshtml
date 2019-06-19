@@ -1,25 +1,26 @@
 ﻿@model BreadcrumbViewModel
 
 @{
-    ViewData["Title"] = "Help - Breadcrumb";
+    ViewData["Title"] = Model.Title;
 }
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">@ViewBag.Title</h1>
-
-        <p class="govuk-body-l">
-            <a href="/Help/index" class="govuk-link">Help</a> <span>/</span>
-
-            @if (Model.Paths != null && Model.Paths.Count() > 0)
+<div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+        @if (Model.Paths?.Count() > 0)
+        {
+            @foreach (var path in Model.Paths)
             {
-                foreach (var path in Model.Paths)
+                if (!path.IsLastItem)
                 {
-                    <a href="/Help/@path" class="govuk-link">@path</a> <span>/</span>
+                    <li class="govuk-breadcrumbs__list-item">
+                        <a class="govuk-breadcrumbs__link" href="@path.Route">@path.Title</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="govuk-breadcrumbs__list-item" aria-current="page">@path.Title</li>
                 }
             }
-
-            @Model.ThisLocation
-        </p>
-    </div>
+        }
+    </ol>
 </div>

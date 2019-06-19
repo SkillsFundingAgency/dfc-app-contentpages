@@ -1,38 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DFC.App.Help.Models;
+using DFC.App.Help.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DFC.App.Help.Models;
 
 namespace DFC.App.Help.Controllers
 {
     public class SitemapController : Controller
     {
         private readonly ILogger<SitemapController> _logger;
+        private readonly IHelpPageService _helpPageService;
 
-        public SitemapController(ILogger<SitemapController> logger)
+        public SitemapController(ILogger<SitemapController> logger, IHelpPageService helpPageService)
         {
             _logger = logger;
+            _helpPageService = helpPageService;
         }
 
         [HttpGet]
-        public ContentResult Sitemap()
+        public async Task<ContentResult> Sitemap()
         {
             try
             {
                 _logger.LogInformation("Generating Sitemap");
 
-                const string helpControllerName = "Help";
+                var sitemapUrlPrefix = $"{Request.Scheme}://{Request.Host}/{HelpController.HelpPathRoot}";
                 var sitemap = new Sitemap();
 
                 // add the defaults
-                sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.Body), helpControllerName, null, Request.Scheme), Priority = 1 });
-
-                foreach(var key in HelpController.HelpArticles.Keys)
+                sitemap.Add(new SitemapLocation()
                 {
-                    sitemap.Add(new SitemapLocation() { Url = Url.Action(nameof(HelpController.Body), helpControllerName, null, Request.Scheme) + $"/{key}", Priority = 1 });
+                    Url = sitemapUrlPrefix,
+                    Priority = 1
+                });
+
+                var helpPageModels = await _helpPageService.GetListAsync();
+
+                if (helpPageModels?.Count > 0)
+                {
+                    foreach (var helpPageModel in helpPageModels.Where(w => w.IncludeInSitemap).OrderBy(o => o.Name))
+                    {
+                        sitemap.Add(new SitemapLocation()
+                        {
+                            Url = $"{sitemapUrlPrefix}/{helpPageModel.Name}",
+                            Priority = 1
+                        });
+                    }
                 }
 
                 // extract the sitemap
