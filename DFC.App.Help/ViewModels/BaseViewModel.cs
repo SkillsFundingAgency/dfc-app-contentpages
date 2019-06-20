@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using Newtonsoft.Json;
 
 namespace DFC.App.Help.ViewModels
 {
     public abstract class BaseViewModel
     {
+        [JsonIgnore]
         public string Title { get; set; } = "Unknown Help title";
-
-        public HtmlString Contents { get; set; } = new HtmlString("Unknown Help content");
     }
 }

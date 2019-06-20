@@ -10,7 +10,7 @@
         {
             @foreach (var path in Model.Paths)
             {
-                if (!path.IsLastItem)
+                if (path.AddHyperlink)
                 {
                     <li class="govuk-breadcrumbs__list-item">
                         <a class="govuk-breadcrumbs__link" href="@path.Route">@path.Title</a>
