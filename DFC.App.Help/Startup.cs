@@ -40,7 +40,7 @@ namespace DFC.App.Help
             services.AddMvc(config =>
                 {
                     config.RespectBrowserAcceptHeader = true;
-                    config.ReturnHttpNotAcceptable = true;
+             //       config.ReturnHttpNotAcceptable = true;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

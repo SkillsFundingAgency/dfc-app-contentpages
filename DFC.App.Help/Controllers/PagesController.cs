@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DFC.App.Help.Models.Cosmos;
 using DFC.App.Help.Services;
@@ -10,10 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DFC.App.Help.Controllers
 {
-    //   [FormatFilter]
-    public class PagesController : Controller
+    public class PagesController : BaseController
     {
-        public const string HelpPathRoot = "Help";
+        public const string HelpPathRoot = "help";
         private const string IndexArticleName = "index";
 
         private readonly IHelpPageService _helpPageService;
@@ -37,7 +35,7 @@ namespace DFC.App.Help.Controllers
                 vm.Keywords = helpPageModel.Metatags?.Keywords;
             }
 
-            return View(vm);
+            return NegotiateContentResult(vm);
         }
 
         [HttpGet]
@@ -75,25 +73,17 @@ namespace DFC.App.Help.Controllers
                     vm.Title = helpPageModel.Title;
                 }
 
-                vm.Paths.Last().IsLastItem = true;
+                vm.Paths.Last().AddHyperlink = false;
             }
 
-            return View(vm);
+            return NegotiateContentResult(vm);
         }
 
         [HttpGet]
         [Route("pages/{article}/bodytop")]
-        public async Task<IActionResult> BodyTop(string article)
+        public IActionResult BodyTop(string article)
         {
-            var vm = new BodyTopViewModel();
-            var helpPageModel = await GetHelpPageAsync(article);
-
-            if (helpPageModel != null)
-            {
-                vm.Title = helpPageModel.Title;
-            }
-
-            return View(vm);
+            return NoContent();
         }
 
         [HttpGet]
@@ -109,22 +99,14 @@ namespace DFC.App.Help.Controllers
                 vm.Contents = new HtmlString(helpPageModel.Contents);
             }
 
-            return View(vm);
+            return NegotiateContentResult(vm);
         }
 
         [HttpGet]
         [Route("pages/{article}/bodyfooter")]
-        public async Task<IActionResult> BodyFooter(string article)
+        public IActionResult BodyFooter(string article)
         {
-            var vm = new BodyFooterViewModel();
-            var helpPageModel = await GetHelpPageAsync(article);
-
-            if (helpPageModel != null)
-            {
-                vm.Title = helpPageModel.Title;
-            }
-
-            return View(vm);
+            return NoContent();
         }
 
         #region Define helper methods
