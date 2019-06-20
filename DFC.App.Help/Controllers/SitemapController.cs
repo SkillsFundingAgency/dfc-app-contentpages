@@ -26,7 +26,7 @@ namespace DFC.App.Help.Controllers
             {
                 _logger.LogInformation("Generating Sitemap");
 
-                var sitemapUrlPrefix = $"{Request.Scheme}://{Request.Host}/{HelpController.HelpPathRoot}";
+                var sitemapUrlPrefix = $"{Request.Scheme}://{Request.Host}/{PagesController.HelpPathRoot}";
                 var sitemap = new Sitemap();
 
                 // add the defaults

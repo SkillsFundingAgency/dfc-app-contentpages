@@ -1,0 +1,18 @@
+﻿@model HeadViewModel
+
+@if (!string.IsNullOrWhiteSpace(Model.Title))
+{
+    ViewData["Title"] = $"Help | {Model.Title} | National Careers Service";
+
+    <title>@ViewData["Title"]</title>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.Description))
+{
+    <meta name="description" content="@Model.Description">
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.Description))
+{
+    <meta name="keywords" content="@Model.Keywords">
+}

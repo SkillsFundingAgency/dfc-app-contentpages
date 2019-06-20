@@ -10,39 +10,39 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DFC.App.Help.Controllers
 {
-    public class HelpController : Controller
+    //   [FormatFilter]
+    public class PagesController : Controller
     {
-        public const string HelpPathRoot = "help";
+        public const string HelpPathRoot = "Help";
         private const string IndexArticleName = "index";
 
         private readonly IHelpPageService _helpPageService;
 
-        public HelpController(IHelpPageService helpPageService)
+        public PagesController(IHelpPageService helpPageService)
         {
             _helpPageService = helpPageService;
         }
 
         [HttpGet]
-        [Route("help/pages/{article}/htmlhead")]
+        [Route("pages/{article}/htmlhead")]
         public async Task<IActionResult> Head(string article)
         {
-            var vm = new HeadViewModel()
-            {
-                Contents = null
-            };
+            var vm = new HeadViewModel();
             var helpPageModel = await GetHelpPageAsync(article);
 
             if (helpPageModel != null)
             {
                 vm.Title = helpPageModel.Title;
-                vm.Contents = GenerateMetaTags(helpPageModel.Metatags);
+                vm.Description = helpPageModel.Metatags?.Description;
+                vm.Keywords = helpPageModel.Metatags?.Keywords;
             }
 
             return View(vm);
         }
 
         [HttpGet]
-        [Route("help/pages/{article}/breadcrumb")]
+        [Route("pages/{article}/breadcrumb")]
+        [Produces("text/html", "application/json")]
         public async Task<IActionResult> Breadcrumb(string article)
         {
             var vm = new BreadcrumbViewModel();
@@ -82,7 +82,7 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
-        [Route("help/pages/{article}/bodytop")]
+        [Route("pages/{article}/bodytop")]
         public async Task<IActionResult> BodyTop(string article)
         {
             var vm = new BodyTopViewModel();
@@ -91,14 +91,13 @@ namespace DFC.App.Help.Controllers
             if (helpPageModel != null)
             {
                 vm.Title = helpPageModel.Title;
-                vm.Contents = null;
             }
 
             return View(vm);
         }
 
         [HttpGet]
-        [Route("help/pages/{article}/contents")]
+        [Route("pages/{article}/contents")]
         public async Task<IActionResult> Body(string article)
         {
             var vm = new BodyViewModel();
@@ -114,7 +113,7 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
-        [Route("help/pages/{article}/bodyfooter")]
+        [Route("pages/{article}/bodyfooter")]
         public async Task<IActionResult> BodyFooter(string article)
         {
             var vm = new BodyFooterViewModel();
@@ -123,7 +122,6 @@ namespace DFC.App.Help.Controllers
             if (helpPageModel != null)
             {
                 vm.Title = helpPageModel.Title;
-                vm.Contents = null;
             }
 
             return View(vm);
@@ -138,28 +136,6 @@ namespace DFC.App.Help.Controllers
             var helpPageModel = await _helpPageService.GetByNameAsync(name);
 
             return helpPageModel;
-        }
-
-        private HtmlString GenerateMetaTags(Models.Cosmos.MetatagsModel metatagsModel)
-        {
-            if (metatagsModel != null)
-            {
-                var sb = new StringBuilder();
-
-                if (!string.IsNullOrWhiteSpace(metatagsModel.Description))
-                {
-                    sb.AppendLine($"<meta name=\"description\" content=\"{ metatagsModel.Description}\">");
-                }
-
-                if (!string.IsNullOrWhiteSpace(metatagsModel.Keywords))
-                {
-                    sb.AppendLine($"<meta name=\"keywords\" content=\"{ metatagsModel.Keywords}\">");
-                }
-
-                return new HtmlString(sb.ToString());
-            }
-
-            return null;
         }
 
         #endregion
