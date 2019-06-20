@@ -22,6 +22,56 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
+        [Route("pages")]
+        public async Task<IActionResult> Index()
+        {
+            var vm = new IndexViewModel();
+            var helpPageModels = await _helpPageService.GetListAsync();
+
+            if (helpPageModels != null)
+            {
+                vm.Documents = (from a in helpPageModels.OrderBy(o => o.Name)
+                                select new IndexDocumentViewModel()
+                                {
+                                    Name = a.Name,
+                                    Title = a.Title
+                                }
+                );
+            }
+
+            return NegotiateContentResult(vm);
+        }
+
+        [HttpGet]
+        [Route("pages/{article}")]
+        public async Task<IActionResult> Document(string article)
+        {
+            var helpPageModel = await GetHelpPageAsync(article);
+
+            if (helpPageModel != null)
+            {
+                var vm = new DocumentViewModel
+                {
+                    Breadcrumb = BuildBreadcrumb(helpPageModel),
+
+                    DocumentId = helpPageModel.DocumentId,
+                    Name = helpPageModel.Name,
+                    Title = helpPageModel.Title,
+                    IncludeInSitemap = helpPageModel.IncludeInSitemap,
+                    Description = helpPageModel.Metatags?.Description,
+                    Keywords = helpPageModel.Metatags?.Keywords,
+                    Contents = new HtmlString(helpPageModel.Contents),
+                    LastReviewed = helpPageModel.LastReviewed,
+                    Urls = helpPageModel.Urls
+                };
+
+                return NegotiateContentResult(vm);
+            }
+
+            return NoContent();
+        }
+
+        [HttpGet]
         [Route("pages/{article}/htmlhead")]
         public async Task<IActionResult> Head(string article)
         {
@@ -43,38 +93,8 @@ namespace DFC.App.Help.Controllers
         [Produces("text/html", "application/json")]
         public async Task<IActionResult> Breadcrumb(string article)
         {
-            var vm = new BreadcrumbViewModel();
             var helpPageModel = await GetHelpPageAsync(article);
-
-            if (!string.IsNullOrWhiteSpace(article))
-            {
-                vm.Paths = new List<BreadcrumbPathViewModel>() {
-                    new BreadcrumbPathViewModel()
-                    {
-                        Route = "/",
-                        Title = "Home"
-                    },
-                    new BreadcrumbPathViewModel()
-                    {
-                        Route = $"/{HelpPathRoot}/{IndexArticleName}",
-                        Title = "Help"
-                    }
-                };
-
-                if (helpPageModel != null && string.Compare(helpPageModel.Name, IndexArticleName, true) != 0)
-                {
-                    var articlePathViewModel = new BreadcrumbPathViewModel()
-                    {
-                        Route = $"/{HelpPathRoot}/{helpPageModel.Name}",
-                        Title = helpPageModel.Title
-                    };
-
-                    vm.Paths.Add(articlePathViewModel);
-                    vm.Title = helpPageModel.Title;
-                }
-
-                vm.Paths.Last().AddHyperlink = false;
-            }
+            var vm = BuildBreadcrumb(helpPageModel);
 
             return NegotiateContentResult(vm);
         }
@@ -118,6 +138,40 @@ namespace DFC.App.Help.Controllers
             var helpPageModel = await _helpPageService.GetByNameAsync(name);
 
             return helpPageModel;
+        }
+
+        private BreadcrumbViewModel BuildBreadcrumb(HelpPageModel helpPageModel)
+        {
+            var vm = new BreadcrumbViewModel
+            {
+                Paths = new List<BreadcrumbPathViewModel>() {
+                    new BreadcrumbPathViewModel()
+                    {
+                        Route = "/",
+                        Title = "Home"
+                    },
+                    new BreadcrumbPathViewModel()
+                    {
+                        Route = $"/{HelpPathRoot}/{IndexArticleName}",
+                        Title = "Help"
+                    }
+                }
+            };
+
+            if (helpPageModel != null && string.Compare(helpPageModel.Name, IndexArticleName, true) != 0)
+            {
+                var articlePathViewModel = new BreadcrumbPathViewModel()
+                {
+                    Route = $"/{HelpPathRoot}/{helpPageModel.Name}",
+                    Title = helpPageModel.Title
+                };
+
+                vm.Paths.Add(articlePathViewModel);
+            }
+
+            vm.Paths.Last().AddHyperlink = false;
+
+            return vm;
         }
 
         #endregion

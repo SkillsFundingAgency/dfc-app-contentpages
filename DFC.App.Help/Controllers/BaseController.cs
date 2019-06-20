@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -15,20 +13,25 @@ namespace DFC.App.Help.Controllers
         {
             if (Request.Headers.Keys.Contains(HeaderNames.Accept))
             {
-                var acceptHeader = Request.Headers[HeaderNames.Accept].ToString().ToLower();
+                var acceptHeaders = Request.Headers[HeaderNames.Accept].ToString().ToLower().Split(';');
 
-                if (acceptHeader == MediaTypeNames.Application.Json)
+                foreach (var acceptHeader in acceptHeaders)
                 {
-                    return Ok(viewModel);
-                }
+                    var items = acceptHeader.Split(',');
 
-                if (acceptHeader != MediaTypeNames.Text.Html && acceptHeader != "*/*")
-                {
-                    return StatusCode((int)HttpStatusCode.NotAcceptable);
+                    if (items.Contains(MediaTypeNames.Application.Json))
+                    {
+                        return Ok(viewModel);
+                    }
+
+                    if (items.Contains(MediaTypeNames.Text.Html) || items.Contains("*/*"))
+                    {
+                        return View(viewModel);
+                    }
                 }
             }
 
-            return View(viewModel);
+            return StatusCode((int)HttpStatusCode.NotAcceptable);
         }
     }
 }

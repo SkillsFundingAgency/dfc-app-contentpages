@@ -1,0 +1,14 @@
+﻿@model IndexViewModel
+
+    <html>
+    <body>
+        <ul>
+            @foreach (var document in Model.Documents)
+            {
+                <li>
+                    <a href="/pages/@document.Name">@document.Title</a>
+                </li>
+            }
+        </ul>
+    </body>
+    </html>

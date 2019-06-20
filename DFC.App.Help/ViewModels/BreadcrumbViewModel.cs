@@ -2,7 +2,7 @@
 
 namespace DFC.App.Help.ViewModels
 {
-    public class BreadcrumbViewModel : BaseViewModel
+    public class BreadcrumbViewModel
     {
         public IList<BreadcrumbPathViewModel> Paths { get; set; }
     }
