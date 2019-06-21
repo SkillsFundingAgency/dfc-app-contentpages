@@ -38,6 +38,34 @@ namespace DFC.App.Help.Controllers
             return NegotiateContentResult(vm);
         }
 
+        [HttpPost]
+        [Route("pages/help")]
+        public async Task<IActionResult> Help([FromBody]HelpPageModel helpPageModel)
+        {
+            if (helpPageModel == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            HelpPageModel clientResponse = null;
+            var existingHelpPageModel = await GetHelpPageAsync(helpPageModel.Name);
+            if (existingHelpPageModel == null)
+            {
+                clientResponse = await _helpPageService.CreateAsync(helpPageModel);
+            }
+            else
+            {
+                clientResponse = await _helpPageService.ReplaceAsync(helpPageModel);
+            }
+
+            return new CreatedAtActionResult("Head", "Pages", new { article = clientResponse.Name }, clientResponse);
+        }
+
         [HttpGet]
         [Route("pages/{article}/breadcrumb")]
         [Produces("text/html", "application/json")]
