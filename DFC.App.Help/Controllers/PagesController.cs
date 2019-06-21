@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using DFC.App.Help.Models.Cosmos;
 using DFC.App.Help.Services;
@@ -38,9 +39,17 @@ namespace DFC.App.Help.Controllers
             return NegotiateContentResult(vm);
         }
 
+        [HttpDelete]
+        [Route("pages/{article}")]
+        public IActionResult HelpDelete(string article)
+        {
+            return StatusCode((int)HttpStatusCode.NotImplemented);
+        }
+
+        [HttpPut]
         [HttpPost]
         [Route("pages/help")]
-        public async Task<IActionResult> Help([FromBody]HelpPageModel helpPageModel)
+        public async Task<IActionResult> HelpCreateOrUpdate([FromBody]HelpPageModel helpPageModel)
         {
             if (helpPageModel == null)
             {
