@@ -111,18 +111,20 @@ namespace DFC.App.Help.Controllers
                 return BadRequest(ModelState);
             }
 
-            HelpPageModel clientResponse = null;
             var existingHelpPageModel = await GetHelpPageAsync(helpPageModel.Name);
+
             if (existingHelpPageModel == null)
             {
-                clientResponse = await _helpPageService.CreateAsync(helpPageModel);
+                var createdResponse = await _helpPageService.CreateAsync(helpPageModel);
+
+                return new CreatedAtActionResult(nameof(Document), "Pages", new { article = createdResponse.Name }, createdResponse);
             }
             else
             {
-                clientResponse = await _helpPageService.ReplaceAsync(helpPageModel);
-            }
+                var updatedResponse = await _helpPageService.ReplaceAsync(helpPageModel);
 
-            return new CreatedAtActionResult("Head", "Pages", new { article = clientResponse.Name }, clientResponse);
+                return new OkObjectResult(updatedResponse);
+            }
         }
 
         [HttpGet]
