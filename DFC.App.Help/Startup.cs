@@ -1,12 +1,13 @@
 ﻿using DFC.App.Help.Cosmos.Client;
 using DFC.App.Help.Cosmos.Helper;
 using DFC.App.Help.Cosmos.Provider;
+using DFC.App.Help.Filters;
+using DFC.App.Help.Framework;
 using DFC.App.Help.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,13 +35,16 @@ namespace DFC.App.Help
             DocumentDBClient.CosmosDbConnection = Configuration.GetSection("Configurations:CosmosDbConnections:HelpPages").Get<Models.Cosmos.CosmosDbConnection>();
             DocumentDBHelper.CosmosDbConnection = DocumentDBClient.CosmosDbConnection;
 
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
             services.AddSingleton<IDocumentDBProvider, DocumentDBProvider>();
             services.AddScoped<IHelpPageService, HelpPageService>();
 
             services.AddMvc(config =>
                 {
+                    config.Filters.Add<LoggingAsynchActionFilter>();
                     config.RespectBrowserAcceptHeader = true;
-             //       config.ReturnHttpNotAcceptable = true;
+                    //       config.ReturnHttpNotAcceptable = true;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
