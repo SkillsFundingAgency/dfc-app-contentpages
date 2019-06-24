@@ -1,12 +1,8 @@
 ﻿@model BreadcrumbViewModel
 
-@{
-    ViewData["Title"] = Model.Title;
-}
-
 <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
-        @if (Model.Paths?.Count() > 0)
+        @if (Model?.Paths?.Count() > 0)
         {
             @foreach (var path in Model.Paths)
             {
