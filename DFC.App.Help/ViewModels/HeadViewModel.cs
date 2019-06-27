@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Html;
-
-namespace DFC.App.Help.ViewModels
+﻿namespace DFC.App.Help.ViewModels
 {
     public class HeadViewModel : BaseViewModel
     {

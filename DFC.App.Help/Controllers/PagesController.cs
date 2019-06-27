@@ -59,11 +59,13 @@ namespace DFC.App.Help.Controllers
                     Name = helpPageModel.Name,
                     Title = helpPageModel.Title,
                     IncludeInSitemap = helpPageModel.IncludeInSitemap,
-                    Description = helpPageModel.Metatags?.Description,
-                    Keywords = helpPageModel.Metatags?.Keywords,
-                    Contents = new HtmlString(helpPageModel.Contents),
+                    Description = helpPageModel.MetaTags?.Description,
+                    Keywords = helpPageModel.MetaTags?.Keywords,
+                    Content = new HtmlString(helpPageModel.Content),
                     LastReviewed = helpPageModel.LastReviewed,
-                    Urls = helpPageModel.Urls
+                    LastPublished = helpPageModel.LastPublished,
+                    Urls = helpPageModel.Urls,
+                    SiteInfinityId = helpPageModel.SiteInfinityId
                 };
 
                 return NegotiateContentResult(vm);
@@ -82,8 +84,8 @@ namespace DFC.App.Help.Controllers
             if (helpPageModel != null)
             {
                 vm.Title = helpPageModel.Title;
-                vm.Description = helpPageModel.Metatags?.Description;
-                vm.Keywords = helpPageModel.Metatags?.Keywords;
+                vm.Description = helpPageModel.MetaTags?.Description;
+                vm.Keywords = helpPageModel.MetaTags?.Keywords;
             }
 
             return NegotiateContentResult(vm);
@@ -155,7 +157,7 @@ namespace DFC.App.Help.Controllers
             if (helpPageModel != null)
             {
                 vm.Title = helpPageModel.Title;
-                vm.Contents = new HtmlString(helpPageModel.Contents);
+                vm.Contents = new HtmlString(helpPageModel.Content);
             }
 
             return NegotiateContentResult(vm);
