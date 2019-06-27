@@ -39,8 +39,6 @@ namespace DFC.App.Help.Services
 
         public async Task<HelpPageModel> CreateAsync(HelpPageModel helpPageModel)
         {
-            helpPageModel.DocumentId = null;
-
             var response = await _documentDbProvider.CreateHelpPageAsync(helpPageModel);
 
             return response.StatusCode == HttpStatusCode.Created ? (dynamic)response.Resource : null;

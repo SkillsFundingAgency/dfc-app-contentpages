@@ -26,7 +26,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel);
 
             // act
-            var result = await helpPageService.DeleteAsync(createdHelpPageModel.DocumentId.Value);
+            var result = await helpPageService.DeleteAsync(createdHelpPageModel.DocumentId);
 
             // assert
             result.Should().BeTrue();

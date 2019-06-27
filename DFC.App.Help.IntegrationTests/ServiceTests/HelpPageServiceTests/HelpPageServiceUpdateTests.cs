@@ -19,7 +19,8 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_Update";
             var helpPageModel = new HelpPageModel()
             {
-                Name = name + "_" + Guid.NewGuid().ToString()
+                Name = name + "_" + Guid.NewGuid().ToString(),
+                DocumentId = Guid.NewGuid()
             };
             var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
 
