@@ -18,12 +18,12 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_GetByName";
             var helpPageModel = new HelpPageModel()
             {
-                Name = name + "_" + Guid.NewGuid().ToString()
+                Name = name + "_" + Guid.NewGuid().ToString(),
+                DocumentId = Guid.NewGuid()
             };
             var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
 
-            var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel);
-            helpPageModel.DocumentId = createdHelpPageModel.DocumentId;
+            await helpPageService.CreateAsync(helpPageModel);
 
             // act
             var result = await helpPageService.GetByNameAsync(helpPageModel.Name);

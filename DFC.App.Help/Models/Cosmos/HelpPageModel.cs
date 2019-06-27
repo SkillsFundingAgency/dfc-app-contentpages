@@ -7,9 +7,7 @@ namespace DFC.App.Help.Models.Cosmos
     public class HelpPageModel
     {
         [JsonProperty(PropertyName = "id")]
-        public Guid? DocumentId { get; set; }
-
-        public Guid SiteInfinityId { get; set; }
+        public Guid DocumentId { get; set; }
 
         [Required]
         public string Name { get; set; }

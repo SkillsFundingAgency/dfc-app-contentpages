@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DFC.App.Help.Models.Cosmos;
 using FluentAssertions;
@@ -18,11 +20,13 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_GetList";
             var helpPageModels = new List<HelpPageModel>() {
                 new HelpPageModel() {
-                    Name = name + "_1"
+                    Name = name + "_1",
+                    DocumentId=Guid.NewGuid()
                 },
                 new HelpPageModel()
                 {
-                    Name = name + "_2"
+                    Name = name + "_2",
+                    DocumentId=Guid.NewGuid()
                 }
             };
             var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
@@ -35,9 +39,8 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             // assert
             results.Should().NotBeNull();
             results.Count.Should().BeGreaterOrEqualTo(helpPageModels.Count);
-            results[0].DocumentId.Should().NotBeNull();
+            results.Should().Contain(x => helpPageModels.Any(y => y.DocumentId == x.DocumentId));
             results[0].Name.Should().NotBeNull();
-            results[1].DocumentId.Should().NotBeNull();
             results[1].Name.Should().NotBeNull();
         }
     }

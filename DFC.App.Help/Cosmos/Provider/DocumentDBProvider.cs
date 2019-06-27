@@ -114,7 +114,7 @@ namespace DFC.App.Help.Cosmos.Provider
                 return null;
             }
 
-            var documentUri = DocumentDBHelper.CreateDocumentUri(helpPageModel.DocumentId.Value);
+            var documentUri = DocumentDBHelper.CreateDocumentUri(helpPageModel.DocumentId);
 
             var response = await client.ReplaceDocumentAsync(documentUri, helpPageModel);
 

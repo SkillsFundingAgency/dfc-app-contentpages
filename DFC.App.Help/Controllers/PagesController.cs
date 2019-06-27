@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -64,8 +65,7 @@ namespace DFC.App.Help.Controllers
                     Content = new HtmlString(helpPageModel.Content),
                     LastReviewed = helpPageModel.LastReviewed,
                     LastPublished = helpPageModel.LastPublished,
-                    Urls = helpPageModel.Urls,
-                    SiteInfinityId = helpPageModel.SiteInfinityId
+                    Urls = helpPageModel.Urls
                 };
 
                 return NegotiateContentResult(vm);
@@ -92,10 +92,17 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpDelete]
-        [Route("pages/{article}")]
-        public IActionResult HelpDelete(string article)
+        [Route("pages/{documentId}")]
+        public async Task<IActionResult> HelpDelete(Guid documentId)
         {
-            return StatusCode((int)HttpStatusCode.NotImplemented);
+            var doc = await _helpPageService.GetByIdAsync(documentId);
+            if (doc == null)
+            {
+                return NotFound();
+            }
+
+            await _helpPageService.DeleteAsync(documentId);
+            return Ok();
         }
 
         [HttpPut]
@@ -113,10 +120,15 @@ namespace DFC.App.Help.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingHelpPageModel = await GetHelpPageAsync(helpPageModel.Name);
+            var existingHelpPageModel = await _helpPageService.GetByIdAsync(helpPageModel.DocumentId);
 
             if (existingHelpPageModel == null)
             {
+                if (helpPageModel.DocumentId == Guid.Empty)
+                {
+                    helpPageModel.DocumentId = Guid.NewGuid();
+                }
+
                 var createdResponse = await _helpPageService.CreateAsync(helpPageModel);
 
                 return new CreatedAtActionResult(nameof(Document), "Pages", new { article = createdResponse.Name }, createdResponse);

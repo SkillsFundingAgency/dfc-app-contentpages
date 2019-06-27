@@ -17,8 +17,6 @@ namespace DFC.App.Help.ViewModels
         [Display(Name = "Include In SiteMap")]
         public bool IncludeInSitemap { get; set; }
 
-        public Guid SiteInfinityId { get; set; }
-
         public string Description { get; set; }
 
         public string Keywords { get; set; }
