@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace DFC.App.Help.Models.Cosmos
 {
-	public class HelpPageModel
-	{
-        [Newtonsoft.Json.JsonProperty(PropertyName = "id")]
+    public class HelpPageModel
+    {
+        [JsonProperty(PropertyName = "id")]
         public Guid? DocumentId { get; set; }
 
-		public string Name { get; set; }
+        public Guid SiteInfinityId { get; set; }
 
-		public string Title { get; set; }
+        [Required]
+        public string Name { get; set; }
 
-		public bool IncludeInSitemap { get; set; }
+        public string Title { get; set; }
 
-		public MetatagsModel Metatags { get; set; }
+        [Display(Name = "Page Title")]
+        public string PageTitle { get; set; }
 
-		public string Contents { get; set; }
+        [Display(Name = "Include In SiteMap")]
+        public bool IncludeInSitemap { get; set; }
 
-		public DateTime LastReviewed { get; set; }
+        public MetaTagsModel MetaTags { get; set; }
 
-		public string[] Urls { get; set; }
-	}
+        public string Content { get; set; }
+
+        [Display(Name = "Last Reviewed")]
+        public DateTime LastReviewed { get; set; }
+
+        [Display(Name = "Last Published")]
+        public DateTime? LastPublished { get; set; }
+
+        public string[] Urls { get; set; }
+    }
 }
 
 //TODO: ian: delete the following
