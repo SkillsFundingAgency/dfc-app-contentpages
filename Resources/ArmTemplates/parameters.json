@@ -22,6 +22,21 @@
         },
         "SharedAppServicePlanResourceGroup": {
             "value": "__SharedAppServicePlanResourceGroup__"
+        },
+        "cosmosEndpointUrl": {
+            "value": "__appSharedCosmosEndpointUrl__"
+        },
+        "cosmosAccessKey": {
+            "value": "__appSharedCosmosPrimaryKey__"
+        },
+        "cosmosDatabaseName": {
+            "value": "__appDatabaseId__"
+        },
+        "cosmosCollectionHelpPages": {
+            "value": "__helpAppCollectionName__"
+        },
+        "cosmosCollectionHelpPagesPartitionKey": {
+            "value": "__helpAppCollectionPartitionKey__"
         }
     }
 }

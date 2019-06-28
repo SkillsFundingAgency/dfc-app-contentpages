@@ -28,6 +28,21 @@
         "SharedAppServicePlanResourceGroup": {
             "type": "string",
             "defaultValue": ""
+        },
+        "cosmosEndpointUrl": {
+            "type": "string"
+        },
+        "cosmosAccessKey": {
+            "type": "string"
+        },
+        "cosmosDatabaseName": {
+            "type": "string"
+        },
+        "cosmosCollectionHelpPages": {
+            "type": "string"
+        },
+        "cosmosCollectionHelpPagesPartitionKey": {
+            "type": "string"
         }
     },
     "variables": {
@@ -127,6 +142,26 @@
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                                 "value": "[reference(variables('AppServiceAppInsightsName')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__HelpPages__EndpointUrl",
+                                "value": "[parameters('cosmosEndpointUrl')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__HelpPages__AccessKey",
+                                "value": "[parameters('cosmosAccessKey')]"
+                            }
+                            {
+                                "name": "Configuration__CosmosDbConnections__HelpPages__DatabaseId",
+                                "value": "[parameters('cosmosDatabaseName')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__HelpPages__CollectionId",
+                                "value": "[parameters('cosmosCollectionHelpPages')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__HelpPages__PartitionKey",
+                                "value": "[parameters('cosmosCollectionHelpPagesPartitionKey')]"
                             }
                         ]
                     }
