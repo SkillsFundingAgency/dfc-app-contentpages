@@ -25,7 +25,32 @@ namespace DFC.App.Help.Cosmos.Provider
             var collectionUri = DocumentDBHelper.CreateDocumentCollectionUri();
 
             var query = client.CreateDocumentQuery<HelpPageModel>(collectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
-                              .Where(so => so.Name == name.ToLower() || so.Urls.Contains(name.ToLower()))
+                              .Where(so => so.Name == name.ToLower())
+                              .AsDocumentQuery();
+
+            if (query == null)
+            {
+                return null;
+            }
+
+            var helpPageModels = await query.ExecuteNextAsync<HelpPageModel>();
+
+            return helpPageModels?.FirstOrDefault();
+        }
+
+        public async Task<HelpPageModel> GetHelpPageByAlternativeNameAsync(string name)
+        {
+            var client = DocumentDBClient.CreateDocumentClient();
+
+            if (client == null)
+            {
+                return null;
+            }
+
+            var collectionUri = DocumentDBHelper.CreateDocumentCollectionUri();
+
+            var query = client.CreateDocumentQuery<HelpPageModel>(collectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
+                              .Where(so => so.Urls.Contains(name.ToLower()))
                               .AsDocumentQuery();
 
             if (query == null)
