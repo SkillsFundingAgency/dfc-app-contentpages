@@ -1,0 +1,40 @@
+﻿{
+	"DatabaseName": "__appDatabaseId__",
+	"Collections": [
+		{
+			"CollectionName": "__helpAppCollectionName__",
+			"OfferThroughput": __helpAppCollectionThroughput__,
+			"PartitionKey": "__helpAppCollectionPartitionKey__",
+			"IndexingPolicy": {
+				"indexingMode": "consistent",
+				"automatic": true,
+				"includedPaths": [
+					{
+						"path": "/*",
+						"indexes": [
+							{
+								"kind": "Range",
+								"dataType": "Number",
+								"precision": -1
+							},
+							{
+								"kind": "Range",
+								"dataType": "String",
+								"precision": -1
+							},
+							{
+								"kind": "Spatial",
+								"dataType": "Point"
+							}
+						]
+					}
+				],
+				"excludedPaths": [
+					{
+						"path": "/\"_etag\"/?"
+					}
+				]
+			}
+		}
+	]
+}
