@@ -179,7 +179,7 @@ namespace DFC.App.Help.Controllers
                 {
                     var alternateUrl = $"{Request.Scheme}://{Request.Host}/{PagesController.HelpPathRoot}/{alternateHelpPageModel.Name}";
 
-                    return RedirectPermanentPreserveMethod(alternateUrl);
+                    return RedirectPermanent(alternateUrl);
                 }
             }
 
