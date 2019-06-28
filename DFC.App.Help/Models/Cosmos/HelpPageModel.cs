@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace DFC.App.Help.Models.Cosmos
 {
-    public class HelpPageModel
+    public class HelpPageModel : IValidatableObject
     {
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }
@@ -31,6 +33,23 @@ namespace DFC.App.Help.Models.Cosmos
         public DateTime? LastPublished { get; set; }
 
         public string[] Urls { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var result = new List<ValidationResult>();
+
+            if (!string.IsNullOrWhiteSpace(Name) && Name.ToLower() != Name)
+            {
+                result.Add(new ValidationResult("The field name must be in lowercase", new string[] { nameof(Name) }));
+            }
+
+            if (Urls.Any(x => x.ToLower() != x))
+            {
+                result.Add(new ValidationResult("The field url must only contains values that are in lowercase ", new string[] { nameof(Urls) }));
+            }
+
+            return result;
+        }
     }
 }
 
