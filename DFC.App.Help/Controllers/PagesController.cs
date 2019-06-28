@@ -171,6 +171,17 @@ namespace DFC.App.Help.Controllers
                 vm.Title = helpPageModel.Title;
                 vm.Contents = new HtmlString(helpPageModel.Content);
             }
+            else
+            {
+                var alternateHelpPageModel = await GetAlyernativeHelpPageAsync(article);
+
+                if (alternateHelpPageModel != null)
+                {
+                    var alternateUrl = $"{Request.Scheme}://{Request.Host}/{PagesController.HelpPathRoot}/{alternateHelpPageModel.Name}";
+
+                    return RedirectPermanentPreserveMethod(alternateUrl);
+                }
+            }
 
             return NegotiateContentResult(vm);
         }
@@ -189,6 +200,15 @@ namespace DFC.App.Help.Controllers
             string name = (!string.IsNullOrWhiteSpace(article) ? article : IndexArticleName);
 
             var helpPageModel = await _helpPageService.GetByNameAsync(name);
+
+            return helpPageModel;
+        }
+
+        private async Task<HelpPageModel> GetAlyernativeHelpPageAsync(string article)
+        {
+            string name = (!string.IsNullOrWhiteSpace(article) ? article : IndexArticleName);
+
+            var helpPageModel = await _helpPageService.GetByAlternativeNameAsync(name);
 
             return helpPageModel;
         }

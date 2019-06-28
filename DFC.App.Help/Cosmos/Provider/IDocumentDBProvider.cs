@@ -11,6 +11,8 @@ namespace DFC.App.Help.Cosmos.Provider
     {
         Task<HelpPageModel> GetHelpPageByNameAsync(string name);
 
+        Task<HelpPageModel> GetHelpPageByAlternativeNameAsync(string name);
+
         Task<HelpPageModel> GetHelpPageByIdAsync(Guid documentId);
 
         Task<List<HelpPageModel>> GetAllHelpPageAsync();

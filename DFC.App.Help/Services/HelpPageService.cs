@@ -37,6 +37,13 @@ namespace DFC.App.Help.Services
             return result;
         }
 
+        public async Task<HelpPageModel> GetByAlternativeNameAsync(string name)
+        {
+            var result = await _documentDbProvider.GetHelpPageByAlternativeNameAsync(name);
+
+            return result;
+        }
+
         public async Task<HelpPageModel> CreateAsync(HelpPageModel helpPageModel)
         {
             var response = await _documentDbProvider.CreateHelpPageAsync(helpPageModel);

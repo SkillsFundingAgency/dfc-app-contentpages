@@ -13,6 +13,8 @@ namespace DFC.App.Help.Services
 
         Task<HelpPageModel> GetByNameAsync(string name);
 
+        Task<HelpPageModel> GetByAlternativeNameAsync(string name);
+
         Task<HelpPageModel> CreateAsync(HelpPageModel helpPageModel);
 
         Task<HelpPageModel> ReplaceAsync(HelpPageModel helpPageModel);
