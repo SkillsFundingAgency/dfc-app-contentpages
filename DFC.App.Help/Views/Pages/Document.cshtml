@@ -77,13 +77,20 @@
                 </dd>
             }
 
-            Urls:
-            <ol>                
-                @foreach (var url in Model.Urls)
-                {
-                    <li><a href="#">@url</a></li>
-                }
-            </ol>
+            @if (Model.Urls?.Count() > 0)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Urls)
+                </dt>
+                <dd class="col-sm-10">
+                    <ol>
+                        @foreach (var url in Model.Urls)
+                        {
+                            <li><a href="/pages/@url">@url</a></li>
+                        }
+                    </ol>
+                </dd>
+            }
         </dl>
     </div>
     <div>
