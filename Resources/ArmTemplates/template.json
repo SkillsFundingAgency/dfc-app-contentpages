@@ -33,7 +33,7 @@
             "type": "string"
         },
         "cosmosAccessKey": {
-            "type": "string"
+            "type": "securestring"
         },
         "cosmosDatabaseName": {
             "type": "string"
