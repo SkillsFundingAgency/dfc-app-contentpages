@@ -12,12 +12,10 @@ namespace DFC.App.Help.Models.Cosmos
         public Guid DocumentId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string CanonicalName { get; set; }
 
-        public string Title { get; set; }
-
-        [Display(Name = "Page Title")]
-        public string PageTitle { get; set; }
+        [Display(Name = "Breadcrumb Title")]
+        public string BreadcrumbTitle { get; set; }
 
         [Display(Name = "Include In SiteMap")]
         public bool IncludeInSitemap { get; set; }
@@ -29,23 +27,20 @@ namespace DFC.App.Help.Models.Cosmos
         [Display(Name = "Last Reviewed")]
         public DateTime LastReviewed { get; set; }
 
-        [Display(Name = "Last Published")]
-        public DateTime? LastPublished { get; set; }
-
-        public string[] Urls { get; set; }
+        public string[] AlternativeNames { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var result = new List<ValidationResult>();
 
-            if (!string.IsNullOrWhiteSpace(Name) && Name.ToLower() != Name)
+            if (!string.IsNullOrWhiteSpace(CanonicalName) && CanonicalName.ToLower() != CanonicalName)
             {
-                result.Add(new ValidationResult("The field name must be in lowercase", new string[] { nameof(Name) }));
+                result.Add(new ValidationResult($"The field {nameof(CanonicalName)} must be in lowercase.", new string[] { nameof(CanonicalName) }));
             }
 
-            if (Urls.Any(x => x.ToLower() != x))
+            if (AlternativeNames.Any(x => x.ToLower() != x))
             {
-                result.Add(new ValidationResult("The field url must only contains values that are in lowercase ", new string[] { nameof(Urls) }));
+                result.Add(new ValidationResult($"The field {nameof(AlternativeNames)} must only contains values that are in lowercase.", new string[] { nameof(AlternativeNames) }));
             }
 
             return result;

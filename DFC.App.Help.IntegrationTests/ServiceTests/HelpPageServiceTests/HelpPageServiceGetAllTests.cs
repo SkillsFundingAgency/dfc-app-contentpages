@@ -20,12 +20,12 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_GetList";
             var helpPageModels = new List<HelpPageModel>() {
                 new HelpPageModel() {
-                    Name = name + "_1",
+                    CanonicalName = name + "_1",
                     DocumentId=Guid.NewGuid()
                 },
                 new HelpPageModel()
                 {
-                    Name = name + "_2",
+                    CanonicalName = name + "_2",
                     DocumentId=Guid.NewGuid()
                 }
             };
@@ -40,8 +40,8 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             results.Should().NotBeNull();
             results.Count.Should().BeGreaterOrEqualTo(helpPageModels.Count);
             results.Should().Contain(x => helpPageModels.Any(y => y.DocumentId == x.DocumentId));
-            results[0].Name.Should().NotBeNull();
-            results[1].Name.Should().NotBeNull();
+            results[0].CanonicalName.Should().NotBeNull();
+            results[1].CanonicalName.Should().NotBeNull();
         }
     }
 }

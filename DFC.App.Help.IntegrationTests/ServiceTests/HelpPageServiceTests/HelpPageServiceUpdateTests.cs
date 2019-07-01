@@ -19,15 +19,15 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_Update";
             var helpPageModel = new HelpPageModel()
             {
-                Name = name + "_" + Guid.NewGuid().ToString(),
+                CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid()
             };
             var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
 
             var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel);
 
-            createdHelpPageModel.Name = createdHelpPageModel.Name.ToUpper();
-            createdHelpPageModel.Title = createdHelpPageModel.Name;
+            createdHelpPageModel.CanonicalName = createdHelpPageModel.CanonicalName.ToUpper();
+            createdHelpPageModel.BreadcrumbTitle = createdHelpPageModel.CanonicalName;
 
             // act
             var result = await helpPageService.ReplaceAsync(createdHelpPageModel);
@@ -35,8 +35,8 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             // assert
             result.Should().NotBeNull();
             result.DocumentId.Should().Be(createdHelpPageModel.DocumentId);
-            result.Name.Should().Be(createdHelpPageModel.Name);
-            result.Title.Should().Be(createdHelpPageModel.Title);
+            result.CanonicalName.Should().Be(createdHelpPageModel.CanonicalName);
+            result.BreadcrumbTitle.Should().Be(createdHelpPageModel.BreadcrumbTitle);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             var helpPageModel = new HelpPageModel()
             {
                 DocumentId = Guid.NewGuid(),
-                Name = name + "_" + Guid.NewGuid().ToString()
+                CanonicalName = name + "_" + Guid.NewGuid().ToString()
             };
             var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
 

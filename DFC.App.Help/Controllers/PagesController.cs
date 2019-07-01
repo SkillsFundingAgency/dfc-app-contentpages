@@ -32,11 +32,11 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModels != null)
             {
-                vm.Documents = (from a in helpPageModels.OrderBy(o => o.Name)
+                vm.Documents = (from a in helpPageModels.OrderBy(o => o.CanonicalName)
                                 select new IndexDocumentViewModel()
                                 {
-                                    Name = a.Name,
-                                    Title = a.Title
+                                    Name = a.CanonicalName,
+                                    Title = a.BreadcrumbTitle
                                 }
                 );
             }
@@ -57,15 +57,14 @@ namespace DFC.App.Help.Controllers
                     Breadcrumb = BuildBreadcrumb(helpPageModel),
 
                     DocumentId = helpPageModel.DocumentId,
-                    Name = helpPageModel.Name,
-                    Title = helpPageModel.Title,
+                    Name = helpPageModel.CanonicalName,
+                    Title = helpPageModel.BreadcrumbTitle,
                     IncludeInSitemap = helpPageModel.IncludeInSitemap,
                     Description = helpPageModel.MetaTags?.Description,
                     Keywords = helpPageModel.MetaTags?.Keywords,
                     Content = new HtmlString(helpPageModel.Content),
                     LastReviewed = helpPageModel.LastReviewed,
-                    LastPublished = helpPageModel.LastPublished,
-                    Urls = helpPageModel.Urls
+                    Urls = helpPageModel.AlternativeNames
                 };
 
                 return NegotiateContentResult(vm);
@@ -83,7 +82,7 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                vm.Title = helpPageModel.Title;
+                vm.Title = helpPageModel.BreadcrumbTitle;
                 vm.Description = helpPageModel.MetaTags?.Description;
                 vm.Keywords = helpPageModel.MetaTags?.Keywords;
             }
@@ -131,7 +130,7 @@ namespace DFC.App.Help.Controllers
 
                 var createdResponse = await _helpPageService.CreateAsync(helpPageModel);
 
-                return new CreatedAtActionResult(nameof(Document), "Pages", new { article = createdResponse.Name }, createdResponse);
+                return new CreatedAtActionResult(nameof(Document), "Pages", new { article = createdResponse.CanonicalName }, createdResponse);
             }
             else
             {
@@ -168,7 +167,7 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                vm.Title = helpPageModel.Title;
+                vm.Title = helpPageModel.BreadcrumbTitle;
                 vm.Contents = new HtmlString(helpPageModel.Content);
             }
             else
@@ -177,7 +176,7 @@ namespace DFC.App.Help.Controllers
 
                 if (alternateHelpPageModel != null)
                 {
-                    var alternateUrl = $"{Request.Scheme}://{Request.Host}/{PagesController.HelpPathRoot}/{alternateHelpPageModel.Name}";
+                    var alternateUrl = $"{Request.Scheme}://{Request.Host}/{PagesController.HelpPathRoot}/{alternateHelpPageModel.CanonicalName}";
 
                     return RedirectPermanent(alternateUrl);
                 }
@@ -231,12 +230,12 @@ namespace DFC.App.Help.Controllers
                 }
             };
 
-            if (helpPageModel != null && string.Compare(helpPageModel.Name, IndexArticleName, true) != 0)
+            if (helpPageModel != null && string.Compare(helpPageModel.CanonicalName, IndexArticleName, true) != 0)
             {
                 var articlePathViewModel = new BreadcrumbPathViewModel()
                 {
-                    Route = $"/{HelpPathRoot}/{helpPageModel.Name}",
-                    Title = helpPageModel.Title
+                    Route = $"/{HelpPathRoot}/{helpPageModel.CanonicalName}",
+                    Title = helpPageModel.BreadcrumbTitle
                 };
 
                 vm.Paths.Add(articlePathViewModel);
