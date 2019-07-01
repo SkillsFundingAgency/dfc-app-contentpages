@@ -28,30 +28,16 @@ namespace DFC.App.Help.Cosmos.Client
 
         private static DocumentClient InitialiseDocumentClient()
         {
-            if (string.IsNullOrWhiteSpace(CosmosDbConnection.ConnectionString))
+            if (string.IsNullOrWhiteSpace(CosmosDbConnection.AccessKey))
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("AccessKey");
+            }
+            if (string.IsNullOrWhiteSpace(CosmosDbConnection.EndpointUrl))
+            {
+                throw new ArgumentNullException("EndpointUrl");
             }
 
-            var endPoint = CosmosDbConnection.ConnectionString.Split(new[] { "AccountEndpoint=" }, StringSplitOptions.None)[1]
-                .Split(';')[0]
-                .Trim();
-
-            if (string.IsNullOrWhiteSpace(endPoint))
-            {
-                throw new ArgumentNullException();
-            }
-
-            var key = CosmosDbConnection.ConnectionString.Split(new[] { "AccountKey=" }, StringSplitOptions.None)[1]
-                .Split(';')[0]
-                .Trim();
-
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                throw new ArgumentNullException();
-            }
-
-            return new DocumentClient(new Uri(endPoint), key);
+            return new DocumentClient(new Uri(CosmosDbConnection.EndpointUrl), CosmosDbConnection.AccessKey);
         }
 
         private static async Task CreateDatabaseIfNotExistsAsync()
