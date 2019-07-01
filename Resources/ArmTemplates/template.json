@@ -150,7 +150,7 @@
                             {
                                 "name": "Configuration__CosmosDbConnections__HelpPages__AccessKey",
                                 "value": "[parameters('cosmosAccessKey')]"
-                            }
+                            },
                             {
                                 "name": "Configuration__CosmosDbConnections__HelpPages__DatabaseId",
                                 "value": "[parameters('cosmosDatabaseName')]"
