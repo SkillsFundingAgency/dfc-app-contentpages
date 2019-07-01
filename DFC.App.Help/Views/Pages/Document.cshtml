@@ -2,9 +2,9 @@
 
 <html>
 <head>
-    @if (!string.IsNullOrWhiteSpace(Model.Title))
+    @if (!string.IsNullOrWhiteSpace(Model.BreadcrumbTitle))
     {
-        ViewData["Title"] = Model.Title;
+        ViewData["Title"] = Model.BreadcrumbTitle;
 
         <title>@ViewData["Title"]</title>
     }
@@ -32,17 +32,17 @@
             </dd>
 
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.CanonicalName)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Name)
+                @Html.DisplayFor(model => model.CanonicalName)
             </dd>
 
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.BreadcrumbTitle)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Title)
+                @Html.DisplayFor(model => model.BreadcrumbTitle)
             </dd>
 
             <dt class="col-sm-2">
@@ -67,26 +67,16 @@
                 @Html.DisplayFor(model => model.LastReviewed)
             </dd>
 
-            @if (Model.LastPublished.HasValue)
+            @if (Model.AlternativeNames?.Count() > 0)
             {
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.LastPublished)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.LastPublished)
-                </dd>
-            }
-
-            @if (Model.Urls?.Count() > 0)
-            {
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Urls)
+                    @Html.DisplayNameFor(model => model.AlternativeNames)
                 </dt>
                 <dd class="col-sm-10">
                     <ol>
-                        @foreach (var url in Model.Urls)
+                        @foreach (var alternativeName in Model.AlternativeNames)
                         {
-                            <li><a href="/pages/@url">@url</a></li>
+                            <li><a href="/pages/@alternativeName">@alternativeName</a></li>
                         }
                     </ol>
                 </dd>

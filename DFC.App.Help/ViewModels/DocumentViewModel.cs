@@ -8,14 +8,19 @@ namespace DFC.App.Help.ViewModels
     {
         public BreadcrumbViewModel Breadcrumb { get; set; }
 
+        [Display(Name = "Document Id")]
         public Guid? DocumentId { get; set; }
 
-        public string Name { get; set; }
+        [Display(Name = "Canonical Name")]
+        public string CanonicalName { get; set; }
 
-        public string Title { get; set; }
+        [Display(Name = "Breadcrumb Title")]
+        public string BreadcrumbTitle { get; set; }
 
         [Display(Name = "Include In SiteMap")]
         public bool IncludeInSitemap { get; set; }
+
+        public string Title { get; set; }
 
         public string Description { get; set; }
 
@@ -26,9 +31,7 @@ namespace DFC.App.Help.ViewModels
         [Display(Name = "Last Reviewed")]
         public DateTime LastReviewed { get; set; }
 
-        [Display(Name = "Last Published")]
-        public DateTime? LastPublished { get; set; }
-
-        public string[] Urls { get; set; }
+        [Display(Name = "Alternative Names")]
+        public string[] AlternativeNames { get; set; }
     }
 }

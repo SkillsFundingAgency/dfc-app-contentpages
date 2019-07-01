@@ -2,8 +2,8 @@
 
 namespace DFC.App.Help.ViewModels
 {
-    public class BodyViewModel : BaseViewModel
+    public class BodyViewModel 
     {
-        public HtmlString Contents { get; set; } = new HtmlString("Unknown Help content");
+        public HtmlString Content { get; set; } = new HtmlString("Unknown Help content");
     }
 }
