@@ -19,7 +19,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_Delete";
             var helpPageModel = new HelpPageModel()
             {
-                Name = name + "_" + Guid.NewGuid().ToString()
+                CanonicalName = name + "_" + Guid.NewGuid().ToString()
             };
             var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
 

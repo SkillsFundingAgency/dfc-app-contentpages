@@ -18,7 +18,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_GetById";
             var helpPageModel = new HelpPageModel()
             {
-                Name = name + "_" + Guid.NewGuid().ToString(),
+                CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid()
             };
             var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
@@ -31,7 +31,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             // assert
             result.DocumentId.Should().Be(helpPageModel.DocumentId);
             result.Should().NotBeNull();
-            result.Name.Should().Be(helpPageModel.Name);
+            result.CanonicalName.Should().Be(helpPageModel.CanonicalName);
         }
 
         [Test]

@@ -25,7 +25,7 @@ namespace DFC.App.Help.Cosmos.Provider
             var collectionUri = DocumentDBHelper.CreateDocumentCollectionUri();
 
             var query = client.CreateDocumentQuery<HelpPageModel>(collectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
-                              .Where(so => so.Name == name.ToLower())
+                              .Where(so => so.CanonicalName == name.ToLower())
                               .AsDocumentQuery();
 
             if (query == null)
@@ -50,7 +50,7 @@ namespace DFC.App.Help.Cosmos.Provider
             var collectionUri = DocumentDBHelper.CreateDocumentCollectionUri();
 
             var query = client.CreateDocumentQuery<HelpPageModel>(collectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
-                              .Where(so => so.Urls.Contains(name.ToLower()))
+                              .Where(so => so.AlternativeNames.Contains(name.ToLower()))
                               .AsDocumentQuery();
 
             if (query == null)

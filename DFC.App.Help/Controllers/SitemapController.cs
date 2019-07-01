@@ -40,11 +40,11 @@ namespace DFC.App.Help.Controllers
 
                 if (helpPageModels?.Count > 0)
                 {
-                    foreach (var helpPageModel in helpPageModels.Where(w => w.IncludeInSitemap).OrderBy(o => o.Name))
+                    foreach (var helpPageModel in helpPageModels.Where(w => w.IncludeInSitemap).OrderBy(o => o.CanonicalName))
                     {
                         sitemap.Add(new SitemapLocation()
                         {
-                            Url = $"{sitemapUrlPrefix}/{helpPageModel.Name}",
+                            Url = $"{sitemapUrlPrefix}/{helpPageModel.CanonicalName}",
                             Priority = 1
                         });
                     }
