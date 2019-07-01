@@ -6,7 +6,7 @@
             @foreach (var document in Model.Documents)
             {
                 <li>
-                    <a href="/pages/@document.Name">@document.Title</a>
+                    <a href="/pages/@document.CanonicalName">@document.CanonicalName</a>
                 </li>
             }
         </ul>

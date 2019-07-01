@@ -18,7 +18,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_GetByName";
             var helpPageModel = new HelpPageModel()
             {
-                Name = name + "_" + Guid.NewGuid().ToString(),
+                CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid()
             };
             var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
@@ -26,11 +26,11 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             await helpPageService.CreateAsync(helpPageModel);
 
             // act
-            var result = await helpPageService.GetByNameAsync(helpPageModel.Name);
+            var result = await helpPageService.GetByNameAsync(helpPageModel.CanonicalName);
 
             // assert
             result.DocumentId.Should().Be(helpPageModel.DocumentId);
-            result.Name.Should().Be(helpPageModel.Name);
+            result.CanonicalName.Should().Be(helpPageModel.CanonicalName);
         }
 
         [Test]

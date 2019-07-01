@@ -9,7 +9,7 @@ namespace DFC.App.Help.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected IActionResult NegotiateContentResult(object viewModel)
+        protected IActionResult NegotiateContentResult(object viewModel, object dataModel = null)
         {
             if (Request.Headers.Keys.Contains(HeaderNames.Accept))
             {
@@ -21,7 +21,7 @@ namespace DFC.App.Help.Controllers
 
                     if (items.Contains(MediaTypeNames.Application.Json))
                     {
-                        return Ok(viewModel);
+                        return Ok(dataModel ?? viewModel);
                     }
 
                     if (items.Contains(MediaTypeNames.Text.Html) || items.Contains("*/*"))

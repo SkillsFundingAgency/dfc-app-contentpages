@@ -1,10 +1,6 @@
 ﻿@model BodyViewModel
 
-@{
-    ViewData["Title"] = Model.Title;
-}
-
-@if (Model.Contents != null)
+@if (Model.Content != null)
 {
-    @Html.Raw(Model.Contents)
+    @Html.Raw(Model.Content)
 }
