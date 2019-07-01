@@ -175,7 +175,7 @@ namespace DFC.App.Help.Controllers
 
                 if (alternateHelpPageModel != null)
                 {
-                    var alternateUrl = $"{Request.Scheme}://{Request.Host}/{this.ControllerContext.ActionDescriptor.ControllerName}/{alternateHelpPageModel.CanonicalName}";
+                    var alternateUrl = $"{Request.Scheme}://{Request.Host}/{HelpPathRoot}/{alternateHelpPageModel.CanonicalName}";
 
                     return RedirectPermanent(alternateUrl);
                 }
