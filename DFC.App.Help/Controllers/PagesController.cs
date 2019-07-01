@@ -81,7 +81,7 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                vm.CanonicalName = helpPageModel.CanonicalName;
+                vm.CanonicalUrl = $"{Request.Scheme}://{Request.Host}/{HelpPathRoot}/{helpPageModel.CanonicalName}"; 
                 vm.Title = helpPageModel.BreadcrumbTitle;
                 vm.Description = helpPageModel.MetaTags?.Description;
                 vm.Keywords = helpPageModel.MetaTags?.Keywords;
