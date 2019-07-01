@@ -10,6 +10,21 @@
         },
         "SharedAppServicePlanResourceGroup": {
             "value": "dfc-dev-compui-shared-rg"
+        },
+        "cosmosEndpointUrl": {
+            "value": "https://dfc-foo-bar-cdb.documents.azure.com:443/"
+        },
+        "cosmosAccessKey": {
+            "value": "this-is-not-a-real-key=="
+        },
+        "cosmosDatabaseName": {
+            "value": "dfc-foobar"
+        },
+        "cosmosCollectionHelpPages": {
+            "value": "helppages"
+        },
+        "cosmosCollectionHelpPagesPartitionKey": {
+            "value": "/myPartitionKey"
         }
     }
 }
