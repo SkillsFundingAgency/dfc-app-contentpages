@@ -38,9 +38,12 @@ namespace DFC.App.Help.Models.Cosmos
                 result.Add(new ValidationResult($"The field {nameof(CanonicalName)} must be in lowercase.", new string[] { nameof(CanonicalName) }));
             }
 
-            if (AlternativeNames.Any(x => x.ToLower() != x))
+            if (AlternativeNames?.Count() > 0)
             {
-                result.Add(new ValidationResult($"The field {nameof(AlternativeNames)} must only contains values that are in lowercase.", new string[] { nameof(AlternativeNames) }));
+                if (AlternativeNames.Any(x => x.ToLower() != x))
+                {
+                    result.Add(new ValidationResult($"The field {nameof(AlternativeNames)} must only contains values that are in lowercase.", new string[] { nameof(AlternativeNames) }));
+                }
             }
 
             return result;

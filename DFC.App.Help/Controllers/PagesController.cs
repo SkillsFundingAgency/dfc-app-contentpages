@@ -35,8 +35,7 @@ namespace DFC.App.Help.Controllers
                 vm.Documents = (from a in helpPageModels.OrderBy(o => o.CanonicalName)
                                 select new IndexDocumentViewModel()
                                 {
-                                    Name = a.CanonicalName,
-                                    Title = a.BreadcrumbTitle
+                                    CanonicalName = a.CanonicalName
                                 }
                 );
             }
@@ -57,14 +56,14 @@ namespace DFC.App.Help.Controllers
                     Breadcrumb = BuildBreadcrumb(helpPageModel),
 
                     DocumentId = helpPageModel.DocumentId,
-                    Name = helpPageModel.CanonicalName,
+                    CanonicalName = helpPageModel.CanonicalName,
                     Title = helpPageModel.BreadcrumbTitle,
                     IncludeInSitemap = helpPageModel.IncludeInSitemap,
                     Description = helpPageModel.MetaTags?.Description,
                     Keywords = helpPageModel.MetaTags?.Keywords,
                     Content = new HtmlString(helpPageModel.Content),
                     LastReviewed = helpPageModel.LastReviewed,
-                    Urls = helpPageModel.AlternativeNames
+                    AlternativeNames = helpPageModel.AlternativeNames
                 };
 
                 return NegotiateContentResult(vm);
@@ -82,6 +81,7 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
+                vm.CanonicalName = helpPageModel.CanonicalName;
                 vm.Title = helpPageModel.BreadcrumbTitle;
                 vm.Description = helpPageModel.MetaTags?.Description;
                 vm.Keywords = helpPageModel.MetaTags?.Keywords;
@@ -167,8 +167,7 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                vm.Title = helpPageModel.BreadcrumbTitle;
-                vm.Contents = new HtmlString(helpPageModel.Content);
+                vm.Content = new HtmlString(helpPageModel.Content);
             }
             else
             {

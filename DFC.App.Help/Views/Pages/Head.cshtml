@@ -7,9 +7,9 @@
     <title>@ViewData["Title"]</title>
 }
 
-@if (!string.IsNullOrWhiteSpace(Model.CanonicalUrl))
+@if (!string.IsNullOrWhiteSpace(Model.CanonicalName))
 {
-    <link rel="canonical" href="@Model.CanonicalUrl">
+    <link rel="canonical" href="@Model.CanonicalName">
 }
 
 @if (!string.IsNullOrWhiteSpace(Model.Description))
