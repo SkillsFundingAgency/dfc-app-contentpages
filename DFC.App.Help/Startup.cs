@@ -32,7 +32,7 @@ namespace DFC.App.Help
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            DocumentDBClient.CosmosDbConnection = Configuration.GetSection("Configurations:CosmosDbConnections:HelpPages").Get<Models.Cosmos.CosmosDbConnection>();
+            DocumentDBClient.CosmosDbConnection = Configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<Models.Cosmos.CosmosDbConnection>();
             DocumentDBHelper.CosmosDbConnection = DocumentDBClient.CosmosDbConnection;
 
             services.AddHttpContextAccessor();

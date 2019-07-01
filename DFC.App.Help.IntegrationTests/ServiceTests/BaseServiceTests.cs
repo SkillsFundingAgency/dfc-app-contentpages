@@ -26,7 +26,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
             services.AddSingleton<Cosmos.Provider.IDocumentDBProvider, Cosmos.Provider.DocumentDBProvider>();
             services.AddScoped<Services.IHelpPageService, Services.HelpPageService>();
 
-            var cosmosDbConnection = configuration.GetSection("Configurations:CosmosDbConnections:HelpPages").Get<Help.Models.Cosmos.CosmosDbConnection>();
+            var cosmosDbConnection = configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<Help.Models.Cosmos.CosmosDbConnection>();
 
             _serviceProvider = services.BuildServiceProvider();
 
