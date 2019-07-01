@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using DFC.App.Help.Models.Cosmos;
 using DFC.App.Help.Services;
@@ -171,7 +170,7 @@ namespace DFC.App.Help.Controllers
             }
             else
             {
-                var alternateHelpPageModel = await GetAlyernativeHelpPageAsync(article);
+                var alternateHelpPageModel = await GetAlternativeHelpPageAsync(article);
 
                 if (alternateHelpPageModel != null)
                 {
@@ -202,7 +201,7 @@ namespace DFC.App.Help.Controllers
             return helpPageModel;
         }
 
-        private async Task<HelpPageModel> GetAlyernativeHelpPageAsync(string article)
+        private async Task<HelpPageModel> GetAlternativeHelpPageAsync(string article)
         {
             string name = (!string.IsNullOrWhiteSpace(article) ? article : IndexArticleName);
 
