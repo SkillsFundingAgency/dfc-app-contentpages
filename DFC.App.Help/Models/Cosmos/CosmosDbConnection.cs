@@ -6,9 +6,14 @@
     public class CosmosDbConnection
     {
         /// <summary>
-        /// Cosmos DB - Connection string
+        /// Cosmos DB - Access Key
         /// </summary>
-        public string ConnectionString { get; set; }
+        public string AccessKey { get; set; }
+
+        /// <summary>
+        /// Cosmos DB - Endpoint Url
+        /// </summary>
+        public string EndpointUrl { get; set; }
 
         /// <summary>
         /// Cosmos DB - Database Id

@@ -15,7 +15,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageService_GetByName_ReturnsSuccess_WhenHelpPageExists()
         {
             // arrange
-            const string name = ValidNameValue + "_GetByName";
+            var name = ValidNameValue + "_GetByName".ToLower();
             var helpPageModel = new HelpPageModel()
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),

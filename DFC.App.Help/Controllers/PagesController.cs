@@ -35,7 +35,8 @@ namespace DFC.App.Help.Controllers
                 vm.Documents = (from a in helpPageModels.OrderBy(o => o.CanonicalName)
                                 select new IndexDocumentViewModel()
                                 {
-                                    CanonicalName = a.CanonicalName
+                                    Name = a.CanonicalName,
+                                    Title = a.BreadcrumbTitle
                                 }
                 );
             }
@@ -56,21 +57,51 @@ namespace DFC.App.Help.Controllers
                     Breadcrumb = BuildBreadcrumb(helpPageModel),
 
                     DocumentId = helpPageModel.DocumentId,
-                    CanonicalName = helpPageModel.CanonicalName,
-                    BreadcrumbTitle = helpPageModel.BreadcrumbTitle,
+                    Name = helpPageModel.CanonicalName,
+                    Title = helpPageModel.BreadcrumbTitle,
                     IncludeInSitemap = helpPageModel.IncludeInSitemap,
-                    Title = helpPageModel.MetaTags?.Title,
                     Description = helpPageModel.MetaTags?.Description,
                     Keywords = helpPageModel.MetaTags?.Keywords,
                     Content = new HtmlString(helpPageModel.Content),
                     LastReviewed = helpPageModel.LastReviewed,
-                    AlternativeNames = helpPageModel.AlternativeNames
+                    Urls = helpPageModel.AlternativeNames
                 };
 
-                return NegotiateContentResult(vm, helpPageModel);
+                return NegotiateContentResult(vm);
             }
 
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("pages/{article}/htmlhead")]
+        public async Task<IActionResult> Head(string article)
+        {
+            var vm = new HeadViewModel();
+            var helpPageModel = await GetHelpPageAsync(article);
+
+            if (helpPageModel != null)
+            {
+                vm.Title = helpPageModel.BreadcrumbTitle;
+                vm.Description = helpPageModel.MetaTags?.Description;
+                vm.Keywords = helpPageModel.MetaTags?.Keywords;
+            }
+
+            return NegotiateContentResult(vm);
+        }
+
+        [HttpDelete]
+        [Route("pages/{documentId}")]
+        public async Task<IActionResult> HelpDelete(Guid documentId)
+        {
+            var doc = await _helpPageService.GetByIdAsync(documentId);
+            if (doc == null)
+            {
+                return NotFound();
+            }
+
+            await _helpPageService.DeleteAsync(documentId);
+            return Ok();
         }
 
         [HttpPut]
@@ -109,38 +140,6 @@ namespace DFC.App.Help.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("pages/{documentId}")]
-        public async Task<IActionResult> HelpDelete(Guid documentId)
-        {
-            var doc = await _helpPageService.GetByIdAsync(documentId);
-            if (doc == null)
-            {
-                return NotFound();
-            }
-
-            await _helpPageService.DeleteAsync(documentId);
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("pages/{article}/htmlhead")]
-        public async Task<IActionResult> Head(string article)
-        {
-            var vm = new HeadViewModel();
-            var helpPageModel = await GetHelpPageAsync(article);
-
-            if (helpPageModel != null)
-            {
-                vm.Title = helpPageModel.MetaTags?.Title;
-                vm.CanonicalUrl= $"{Request.Scheme}://{Request.Host}/{PagesController.HelpPathRoot}/{helpPageModel.CanonicalName}";
-                vm.Description = helpPageModel.MetaTags?.Description;
-                vm.Keywords = helpPageModel.MetaTags?.Keywords;
-            }
-
-            return NegotiateContentResult(vm);
-        }
-
         [HttpGet]
         [Route("pages/{article}/breadcrumb")]
         [Produces("text/html", "application/json")]
@@ -168,11 +167,12 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                vm.Content = new HtmlString(helpPageModel.Content);
+                vm.Title = helpPageModel.BreadcrumbTitle;
+                vm.Contents = new HtmlString(helpPageModel.Content);
             }
             else
             {
-                var alternateHelpPageModel = await GetAlternativeHelpPageAsync(article);
+                var alternateHelpPageModel = await GetAlyernativeHelpPageAsync(article);
 
                 if (alternateHelpPageModel != null)
                 {
@@ -203,7 +203,7 @@ namespace DFC.App.Help.Controllers
             return helpPageModel;
         }
 
-        private async Task<HelpPageModel> GetAlternativeHelpPageAsync(string article)
+        private async Task<HelpPageModel> GetAlyernativeHelpPageAsync(string article)
         {
             string name = (!string.IsNullOrWhiteSpace(article) ? article : IndexArticleName);
 
