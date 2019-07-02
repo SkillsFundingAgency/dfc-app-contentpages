@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
+using DFC.App.Help.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace DFC.App.Help.Models.Cosmos
 {
-    public class HelpPageModel : IValidatableObject
+    public class HelpPageModel
     {
+        [Guid]
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }
 
         [Required]
+        [LowerCase]
+        [UrlPath]
         public string CanonicalName { get; set; }
 
         [Display(Name = "Breadcrumb Title")]
@@ -27,27 +29,9 @@ namespace DFC.App.Help.Models.Cosmos
         [Display(Name = "Last Reviewed")]
         public DateTime LastReviewed { get; set; }
 
+        [UrlPath]
+        [LowerCase]
         public string[] AlternativeNames { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var result = new List<ValidationResult>();
-
-            if (!string.IsNullOrWhiteSpace(CanonicalName) && CanonicalName.ToLower() != CanonicalName)
-            {
-                result.Add(new ValidationResult($"The field {nameof(CanonicalName)} must be in lowercase.", new string[] { nameof(CanonicalName) }));
-            }
-
-            if (AlternativeNames?.Count() > 0)
-            {
-                if (AlternativeNames.Any(x => x.ToLower() != x))
-                {
-                    result.Add(new ValidationResult($"The field {nameof(AlternativeNames)} must only contains values that are in lowercase.", new string[] { nameof(AlternativeNames) }));
-                }
-            }
-
-            return result;
-        }
     }
 }
 
