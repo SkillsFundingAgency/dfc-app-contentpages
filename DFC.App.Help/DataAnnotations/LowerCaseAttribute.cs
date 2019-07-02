@@ -12,7 +12,13 @@ namespace DFC.App.Help.DataAnnotations
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                return ValidationResult.Success;
+            }
+
             var result = false;
+
             switch (value)
             {
                 case IEnumerable<string> list:

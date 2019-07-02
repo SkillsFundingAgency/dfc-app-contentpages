@@ -11,12 +11,17 @@ namespace DFC.App.Help.DataAnnotations
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                return ValidationResult.Success;
+            }
+
             var validChars = "abcdefghijklmnopqrstuvwxyz01234567890_-";
             var result = false;
             switch (value)
             {
                 case IEnumerable<string> list:
-                    result = list.All(x => x.All(y => validChars.Contains(y)));
+                    result = list.All(x => x.Length > 0 && x.All(y => validChars.Contains(y)));
                     break;
                 default:
                     result = value.ToString().All(x => validChars.Contains(x));
