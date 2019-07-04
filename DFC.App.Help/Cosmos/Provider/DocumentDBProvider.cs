@@ -13,6 +13,31 @@ namespace DFC.App.Help.Cosmos.Provider
 {
     public class DocumentDBProvider : IDocumentDBProvider
     {
+        public async Task<bool> PingAsync()
+        {
+            var client = DocumentDBClient.CreateDocumentClient();
+
+            if (client == null)
+            {
+                return false;
+            }
+
+            var collectionUri = DocumentDBHelper.CreateDocumentCollectionUri();
+
+            var query = client.CreateDocumentQuery<HelpPageModel>(collectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
+                              .AsDocumentQuery();
+
+            if (query == null)
+            {
+                return false;
+            }
+
+            var helpPageModels = await query.ExecuteNextAsync<HelpPageModel>();
+            var firstHelpPageModel = helpPageModels.FirstOrDefault();
+
+            return (firstHelpPageModel != null);
+        }
+
         public async Task<HelpPageModel> GetHelpPageByNameAsync(string name)
         {
             var client = DocumentDBClient.CreateDocumentClient();

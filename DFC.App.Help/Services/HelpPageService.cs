@@ -16,6 +16,13 @@ namespace DFC.App.Help.Services
             _documentDbProvider = documentDbProvider;
         }
 
+        public async Task<bool> PingAsync()
+        {
+            var results = await _documentDbProvider.PingAsync();
+
+            return results;
+        }
+
         public async Task<List<HelpPageModel>> GetListAsync()
         {
             var results = await _documentDbProvider.GetAllHelpPageAsync();

@@ -9,6 +9,8 @@ namespace DFC.App.Help.Cosmos.Provider
 {
     public interface IDocumentDBProvider
     {
+        Task<bool> PingAsync();
+
         Task<HelpPageModel> GetHelpPageByNameAsync(string name);
 
         Task<HelpPageModel> GetHelpPageByAlternativeNameAsync(string name);
