@@ -7,6 +7,8 @@ namespace DFC.App.Help.Services
 {
     public interface IHelpPageService
     {
+        Task<bool> PingAsync();
+
         Task<List<HelpPageModel>> GetListAsync();
 
         Task<HelpPageModel> GetByIdAsync(Guid documentId);
