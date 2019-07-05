@@ -106,7 +106,7 @@ namespace DFC.App.Help.Controllers
 
         [HttpPut]
         [HttpPost]
-        [Route("pages/help")]
+        [Route("pages")]
         public async Task<IActionResult> HelpCreateOrUpdate([FromBody]HelpPageModel helpPageModel)
         {
             if (helpPageModel == null)
