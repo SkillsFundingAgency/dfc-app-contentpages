@@ -56,7 +56,8 @@ namespace DFC.App.Help.Controllers
 
                     DocumentId = helpPageModel.DocumentId,
                     CanonicalName = helpPageModel.CanonicalName,
-                    Title = helpPageModel.BreadcrumbTitle,
+                    BreadcrumbTitle = helpPageModel.BreadcrumbTitle,
+                    Title = helpPageModel.MetaTags?.Title,
                     IncludeInSitemap = helpPageModel.IncludeInSitemap,
                     Description = helpPageModel.MetaTags?.Description,
                     Keywords = helpPageModel.MetaTags?.Keywords,
