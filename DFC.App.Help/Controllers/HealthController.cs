@@ -75,6 +75,7 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
+        [Route("health/ping")]
         public IActionResult Ping()
         {
             _logger.LogInformation($"{nameof(Ping)} has been called");

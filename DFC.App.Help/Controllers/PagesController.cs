@@ -123,11 +123,6 @@ namespace DFC.App.Help.Controllers
 
             if (existingHelpPageModel == null)
             {
-                if (helpPageModel.DocumentId == Guid.Empty)
-                {
-                    helpPageModel.DocumentId = Guid.NewGuid();
-                }
-
                 var createdResponse = await _helpPageService.CreateAsync(helpPageModel);
 
                 return new CreatedAtActionResult(nameof(Document), "Pages", new { article = createdResponse.CanonicalName }, createdResponse);
@@ -142,7 +137,6 @@ namespace DFC.App.Help.Controllers
 
         [HttpGet]
         [Route("pages/{article}/breadcrumb")]
-        [Produces("text/html", "application/json")]
         public async Task<IActionResult> Breadcrumb(string article)
         {
             var helpPageModel = await GetHelpPageAsync(article);
