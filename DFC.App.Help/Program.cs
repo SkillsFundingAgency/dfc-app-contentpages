@@ -13,7 +13,19 @@ namespace DFC.App.Help
                 .UseApplicationInsights()
                  .ConfigureLogging((webHostBuilderContext, loggingBuilder) =>
                  {
-                     loggingBuilder.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
+                     var appInsightsInstrumentationKey = webHostBuilderContext.Configuration["ApplicationInsights:InstrumentationKey"];
+
+                     //We cannot capture errors until we set the key, so we want to set this early on so we can catch errors in startup.cs/program.cs
+                     loggingBuilder.AddApplicationInsights(appInsightsInstrumentationKey);
+
+                     // Adding the filter below to ensure logs of all severity from Program.cs is sent to ApplicationInsights.
+                     loggingBuilder.AddFilter<ApplicationInsightsLoggerProvider>(typeof(Program).FullName, LogLevel.Trace);
+
+                     // Adding the filter below to ensure logs of all severity from Startup.cs is sent to ApplicationInsights.
+                     loggingBuilder.AddFilter<ApplicationInsightsLoggerProvider>(typeof(Startup).FullName, LogLevel.Trace);
+
+                     //This filter is for app insights only
+                     loggingBuilder.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Information);
                  })
                 .UseStartup<Startup>()
                 .Build();
