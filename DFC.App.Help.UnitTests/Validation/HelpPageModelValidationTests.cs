@@ -3,6 +3,7 @@ using DFC.App.Help.Controllers;
 using DFC.App.Help.Models.Cosmos;
 using DFC.App.Help.Services;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -16,12 +17,15 @@ namespace DFC.App.Help.UnitTests.Validation
     {
         private PagesController _controller;
         private Mock<IHelpPageService> _helpPageService;
+        private Mock<ILogger<PagesController>> _logger;
 
         [SetUp]
         public void SetUp()
         {
             _helpPageService = new Mock<IHelpPageService>();
-            _controller = new PagesController(_helpPageService.Object);
+            _logger = new Mock<ILogger<PagesController>>();
+
+            _controller = new PagesController(_helpPageService.Object, _logger.Object);
         }
 
         [TestCase(null)]

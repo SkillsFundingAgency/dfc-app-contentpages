@@ -7,6 +7,7 @@ using DFC.App.Help.Services;
 using DFC.App.Help.ViewModels;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace DFC.App.Help.Controllers
 {
@@ -16,10 +17,12 @@ namespace DFC.App.Help.Controllers
         private const string IndexArticleName = "index";
 
         private readonly IHelpPageService _helpPageService;
+        private readonly ILogger<PagesController> _logger;
 
-        public PagesController(IHelpPageService helpPageService)
+        public PagesController(IHelpPageService helpPageService, ILogger<PagesController> logger)
         {
             _helpPageService = helpPageService;
+            _logger = logger;
         }
 
         [HttpGet]
