@@ -10,19 +10,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DFC.App.Help
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<Startup> _logger;
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
-            Configuration = configuration;
+            _configuration = configuration;
+            _logger = logger;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
@@ -32,7 +34,7 @@ namespace DFC.App.Help
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            DocumentDBClient.CosmosDbConnection = Configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<Models.Cosmos.CosmosDbConnection>();
+            DocumentDBClient.CosmosDbConnection = _configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<Models.Cosmos.CosmosDbConnection>();
             DocumentDBHelper.CosmosDbConnection = DocumentDBClient.CosmosDbConnection;
 
             services.AddHttpContextAccessor();
