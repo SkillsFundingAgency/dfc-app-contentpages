@@ -10,7 +10,6 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.4.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.48" />
   </ItemGroup>
@@ -18,6 +17,13 @@
 
   <ItemGroup>
     <Folder Include="Views\Home\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\DFC.App.Help.Data\DFC.App.Help.Data.csproj" />
+    <ProjectReference Include="..\DFC.App.Help.PageService\DFC.App.Help.PageService.csproj" />
+    <ProjectReference Include="..\DFC.App.Help.Repository.CosmosDb\DFC.App.Help.Repository.CosmosDb.csproj" />
   </ItemGroup>
 
 

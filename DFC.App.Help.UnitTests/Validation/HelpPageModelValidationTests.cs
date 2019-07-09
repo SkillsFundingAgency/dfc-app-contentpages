@@ -1,36 +1,24 @@
-﻿using DFC.App.Help.Common;
-using DFC.App.Help.Controllers;
-using DFC.App.Help.Models.Cosmos;
-using DFC.App.Help.Services;
-using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using DFC.App.Help.Data;
+using DFC.App.Help.Data.Common;
+using FluentAssertions;
+using NUnit.Framework;
 
 namespace DFC.App.Help.UnitTests.Validation
 {
     [TestFixture]
     public class HelpPageModelValidationTests
     {
-        private PagesController _controller;
-        private Mock<IHelpPageService> _helpPageService;
-        private Mock<ILogger<PagesController>> _logger;
-
         [SetUp]
         public void SetUp()
         {
-            _helpPageService = new Mock<IHelpPageService>();
-            _logger = new Mock<ILogger<PagesController>>();
-
-            _controller = new PagesController(_helpPageService.Object, _logger.Object);
         }
 
         [TestCase(null)]
         [TestCase(Constants.GuidEmpty)]
-        public void CanCheck_IfDocumentIdIsInvalid(Guid documentId)
+        public void CanCheckIfDocumentIdIsInvalid(Guid documentId)
         {
             var model = CreateModel(documentId, "canonicalname1", "content1", new List<string>());
 
@@ -47,7 +35,7 @@ namespace DFC.App.Help.UnitTests.Validation
         [TestCase("xyz123")]
         [TestCase("abc_def")]
         [TestCase("abc-def")]
-        public void CanCheck_IfCanonicalNameIsValid(string canonicalName)
+        public void CanCheckIfCanonicalNameIsValid(string canonicalName)
         {
             var model = CreateModel(Guid.NewGuid(), canonicalName, "content", new List<string>());
 
@@ -62,7 +50,7 @@ namespace DFC.App.Help.UnitTests.Validation
         [TestCase("xyz123")]
         [TestCase("abc_def")]
         [TestCase("abc-def")]
-        public void CanCheck_IfAlternativeNameIsValid(string alternativeName)
+        public void CanCheckIfAlternativeNameIsValid(string alternativeName)
         {
             var model = CreateModel(Guid.NewGuid(), "canonicalname1", "content1", new List<string>() { alternativeName });
 
@@ -73,12 +61,13 @@ namespace DFC.App.Help.UnitTests.Validation
 
         private HelpPageModel CreateModel(Guid documentId, string canonicalName, string content, List<string> alternativeNames)
         {
-            var model = new HelpPageModel();
-
-            model.DocumentId = documentId;
-            model.CanonicalName = canonicalName;
-            model.Content = content;
-            model.AlternativeNames = alternativeNames.ToArray();
+            var model = new HelpPageModel
+            {
+                DocumentId = documentId,
+                CanonicalName = canonicalName,
+                Content = content,
+                AlternativeNames = alternativeNames.ToArray()
+            };
 
             return model;
         }

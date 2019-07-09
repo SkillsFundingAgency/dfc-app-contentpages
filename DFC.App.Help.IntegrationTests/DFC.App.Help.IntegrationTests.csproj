@@ -24,10 +24,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DFC.App.Help.Data\DFC.App.Help.Data.csproj" />
     <ProjectReference Include="..\DFC.App.Help\DFC.App.Help.csproj" />
   </ItemGroup>
 

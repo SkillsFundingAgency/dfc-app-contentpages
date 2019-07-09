@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using DFC.App.Help.Common;
+using DFC.App.Help.Data.Common;
 
-namespace DFC.App.Help.DataAnnotations
+namespace DFC.App.Help.Data.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class GuidAttribute : ValidationAttribute

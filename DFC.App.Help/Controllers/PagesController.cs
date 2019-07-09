@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DFC.App.Help.Models.Cosmos;
-using DFC.App.Help.Services;
+using DFC.App.Help.Data;
+using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.ViewModels;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DFC.App.Help.Controllers
 {
@@ -17,12 +16,10 @@ namespace DFC.App.Help.Controllers
         private const string IndexArticleName = "index";
 
         private readonly IHelpPageService _helpPageService;
-        private readonly ILogger<PagesController> _logger;
 
-        public PagesController(IHelpPageService helpPageService, ILogger<PagesController> logger)
+        public PagesController(IHelpPageService helpPageService)
         {
             _helpPageService = helpPageService;
-            _logger = logger;
         }
 
         [HttpGet]
@@ -30,7 +27,7 @@ namespace DFC.App.Help.Controllers
         public async Task<IActionResult> Index()
         {
             var vm = new IndexViewModel();
-            var helpPageModels = await _helpPageService.GetListAsync();
+            var helpPageModels = await _helpPageService.GetAllAsync();
 
             if (helpPageModels != null)
             {

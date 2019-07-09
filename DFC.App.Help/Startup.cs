@@ -1,28 +1,25 @@
-﻿using DFC.App.Help.Cosmos.Client;
-using DFC.App.Help.Cosmos.Helper;
-using DFC.App.Help.Cosmos.Provider;
+﻿using DFC.App.Help.Data;
+using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.Filters;
 using DFC.App.Help.Framework;
-using DFC.App.Help.Services;
+using DFC.App.Help.PageService;
+using DFC.App.Help.Repository.CosmosDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace DFC.App.Help
 {
     public class Startup
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogger<Startup> _logger;
 
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _logger = logger;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -34,12 +31,12 @@ namespace DFC.App.Help
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            DocumentDBClient.CosmosDbConnection = _configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<Models.Cosmos.CosmosDbConnection>();
-            DocumentDBHelper.CosmosDbConnection = DocumentDBClient.CosmosDbConnection;
+            var cosmosDbConnection = _configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<CosmosDbConnection>();
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
-            services.AddSingleton<IDocumentDBProvider, DocumentDBProvider>();
+            services.AddSingleton<CosmosDbConnection>(cosmosDbConnection);
+            services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
 
             services.AddMvc(config =>

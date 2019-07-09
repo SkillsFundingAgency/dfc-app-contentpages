@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DFC.App.Help.Models.Cosmos;
+using DFC.App.Help.Data;
 
-namespace DFC.App.Help.Services
+namespace DFC.App.Help.Data.Contracts
 {
     public interface IHelpPageService
     {
         Task<bool> PingAsync();
 
-        Task<List<HelpPageModel>> GetListAsync();
+        Task<IEnumerable<HelpPageModel>> GetAllAsync();
 
         Task<HelpPageModel> GetByIdAsync(Guid documentId);
 
-        Task<HelpPageModel> GetByNameAsync(string name);
+        Task<HelpPageModel> GetByNameAsync(string canonicalName);
 
-        Task<HelpPageModel> GetByAlternativeNameAsync(string name);
+        Task<HelpPageModel> GetByAlternativeNameAsync(string alternativeName);
 
         Task<HelpPageModel> CreateAsync(HelpPageModel helpPageModel);
 

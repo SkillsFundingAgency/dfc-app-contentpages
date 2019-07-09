@@ -1,4 +1,4 @@
-﻿namespace DFC.App.Help.Common
+﻿namespace DFC.App.Help.Data.Common
 {
     public class Constants
     {

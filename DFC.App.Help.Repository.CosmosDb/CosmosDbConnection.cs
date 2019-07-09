@@ -1,4 +1,4 @@
-﻿namespace DFC.App.Help.Models.Cosmos
+﻿namespace DFC.App.Help.Repository.CosmosDb
 {
     /// <summary>
     /// Used to supply Cosmos DB connection values from app settings

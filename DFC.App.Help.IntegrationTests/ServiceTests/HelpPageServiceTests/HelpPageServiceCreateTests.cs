@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using DFC.App.Help.Models.Cosmos;
+using DFC.App.Help.Data;
+using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
     {
         [Test]
         [Category("HelpPageService.Create")]
-        public async Task HelpPageService_Create_ReturnsSuccess_WhenHelpPageCreated()
+        public async Task HelpPageServiceCreateReturnsSuccessWhenHelpPageCreated()
         {
             // arrange
             const string name = ValidNameValue + "_Create";
@@ -21,7 +22,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid()
             };
-            var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
+            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
 
             // act
             await helpPageService.CreateAsync(helpPageModel);

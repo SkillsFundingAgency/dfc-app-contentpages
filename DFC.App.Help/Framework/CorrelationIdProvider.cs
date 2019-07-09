@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using DFC.App.Help.Common;
+using DFC.App.Help.Data.Common;
 using Microsoft.AspNetCore.Http;
 
 namespace DFC.App.Help.Framework

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DFC.App.Help.Models.Cosmos;
+using DFC.App.Help.Data;
+using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
     {
         [Test]
         [Category("HelpPageService.GetAllList")]
-        public async Task HelpPageService_GetAllList_ReturnsSuccess_WhenHelpPagesExist()
+        public async Task HelpPageServiceGetAllListReturnsSuccessWhenHelpPagesExist()
         {
             // arrange
             const string name = ValidNameValue + "_GetList";
@@ -29,19 +30,20 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                     DocumentId=Guid.NewGuid()
                 }
             };
-            var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
+            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
 
             helpPageModels.ForEach(async f => _ = await helpPageService.CreateAsync(f));
 
             // act
-            var results = await helpPageService.GetListAsync();
+            var results = await helpPageService.GetAllAsync();
+            var resultsList = results.ToList();
 
             // assert
-            results.Should().NotBeNull();
-            results.Count.Should().BeGreaterOrEqualTo(helpPageModels.Count);
-            results.Should().Contain(x => helpPageModels.Any(y => y.DocumentId == x.DocumentId));
-            results[0].CanonicalName.Should().NotBeNull();
-            results[1].CanonicalName.Should().NotBeNull();
+            resultsList.Should().NotBeNull();
+            resultsList.Count.Should().BeGreaterOrEqualTo(helpPageModels.Count);
+            resultsList.Should().Contain(x => helpPageModels.Any(y => y.DocumentId == x.DocumentId));
+            resultsList[0].CanonicalName.Should().NotBeNull();
+            resultsList[1].CanonicalName.Should().NotBeNull();
         }
     }
 }

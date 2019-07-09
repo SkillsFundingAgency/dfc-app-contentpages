@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DFC.App.Help.Common
+﻿namespace DFC.App.Help.Data.Common
 {
     public class ValidationMessage
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mime;
 using DFC.App.Help.Models.Robots;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace DFC.App.Help.Controllers
 
                 _logger.LogInformation("Generated Robots.txt");
 
-                return Content(robot.Data, "text/plain");
+                return Content(robot.Data, MediaTypeNames.Text.Plain);
             }
             catch (Exception ex)
             {
@@ -39,7 +40,7 @@ namespace DFC.App.Help.Controllers
             }
 
             // fall through from errors
-            return Content(null, "text/plain");
+            return Content(null, MediaTypeNames.Text.Plain);
         }
 
         private Robot GenerateThisSiteRobot()

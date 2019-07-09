@@ -1,4 +1,4 @@
-﻿namespace DFC.App.Help.Models.Cosmos
+﻿namespace DFC.App.Help.Data
 {
     public class MetaTagsModel
     {
