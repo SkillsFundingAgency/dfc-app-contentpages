@@ -1,11 +1,12 @@
 ﻿using System.Linq;
-using DFC.App.Help.Data.Common;
 using Microsoft.AspNetCore.Http;
 
 namespace DFC.App.Help.Framework
 {
     public class CorrelationIdProvider : ICorrelationIdProvider
     {
+        private const string CorrelationId = "DssCorrelationId";
+
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CorrelationIdProvider(IHttpContextAccessor httpContextAccessor)
@@ -18,7 +19,7 @@ namespace DFC.App.Help.Framework
             var result = string.Empty;
             if (_httpContextAccessor.HttpContext != null)
             {
-                result = _httpContextAccessor.HttpContext.Request.Headers[Constants.CorrelationId].FirstOrDefault();
+                result = _httpContextAccessor.HttpContext.Request.Headers[CorrelationId].FirstOrDefault();
             }
             return result;
         }

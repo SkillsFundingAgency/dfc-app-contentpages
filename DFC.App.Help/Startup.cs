@@ -1,6 +1,6 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using DFC.App.Help.Data;
+using DFC.App.Help.Data.Common;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.Filters;
 using DFC.App.Help.Framework;
@@ -33,7 +33,7 @@ namespace DFC.App.Help
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var cosmosDbConnection = _configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<CosmosDbConnection>();
+            var cosmosDbConnection = _configuration.GetSection(Constants.CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();

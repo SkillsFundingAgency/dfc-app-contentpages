@@ -1,5 +1,6 @@
 ﻿using System;
 using DFC.App.Help.Data;
+using DFC.App.Help.Data.Common;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.PageService;
 using DFC.App.Help.Repository.CosmosDb;
@@ -27,7 +28,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
 
             services.AddSingleton<IConfiguration>(configuration);
 
-            var cosmosDbConnection = configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<CosmosDbConnection>();
+            var cosmosDbConnection = configuration.GetSection(Constants.CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
 
             services.AddSingleton<CosmosDbConnection>(cosmosDbConnection);
             services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();

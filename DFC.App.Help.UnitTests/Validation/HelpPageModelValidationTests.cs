@@ -11,13 +11,15 @@ namespace DFC.App.Help.UnitTests.Validation
     [TestFixture]
     public class HelpPageModelValidationTests
     {
+        private const string GuidEmpty = "00000000-0000-0000-0000-000000000000";
+
         [SetUp]
         public void SetUp()
         {
         }
 
         [TestCase(null)]
-        [TestCase(Constants.GuidEmpty)]
+        [TestCase(GuidEmpty)]
         public void CanCheckIfDocumentIdIsInvalid(Guid documentId)
         {
             var model = CreateModel(documentId, "canonicalname1", "content1", new List<string>());
