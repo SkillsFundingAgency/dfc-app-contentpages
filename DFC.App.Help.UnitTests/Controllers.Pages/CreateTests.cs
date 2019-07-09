@@ -16,13 +16,15 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
     {
         private PagesController _controller;
         private Mock<IHelpPageService> _helpPageService;
+        private Mock<AutoMapper.IMapper> _mapper;
 
         [SetUp]
         public void SetUp()
         {
             _helpPageService = new Mock<IHelpPageService>();
+            _mapper = new Mock<AutoMapper.IMapper>();
 
-            _controller = new PagesController(_helpPageService.Object);
+            _controller = new PagesController(_helpPageService.Object, _mapper.Object);
         }
 
         [Test]

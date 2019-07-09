@@ -17,7 +17,7 @@ namespace DFC.App.Help.Controllers
 
         private readonly IHelpPageService _helpPageService;
 
-        public PagesController(IHelpPageService helpPageService)
+        public PagesController(IHelpPageService helpPageService, AutoMapper.IMapper mapper) : base(mapper)
         {
             _helpPageService = helpPageService;
         }
@@ -26,20 +26,17 @@ namespace DFC.App.Help.Controllers
         [Route("pages")]
         public async Task<IActionResult> Index()
         {
-            var vm = new IndexViewModel();
+            var viewModel = new IndexViewModel();
             var helpPageModels = await _helpPageService.GetAllAsync();
 
             if (helpPageModels != null)
             {
-                vm.Documents = (from a in helpPageModels.OrderBy(o => o.CanonicalName)
-                                select new IndexDocumentViewModel()
-                                {
-                                    CanonicalName = a.CanonicalName
-                                }
+                viewModel.Documents = (from a in helpPageModels.OrderBy(o => o.CanonicalName)
+                                       select Mapper.Map<IndexDocumentViewModel>(a)
                 );
             }
 
-            return NegotiateContentResult(vm);
+            return NegotiateContentResult(viewModel);
         }
 
         [HttpGet]
@@ -50,58 +47,14 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                var vm = new DocumentViewModel
-                {
-                    Breadcrumb = BuildBreadcrumb(helpPageModel),
+                var viewModel = Mapper.Map<DocumentViewModel>(helpPageModel);
 
-                    DocumentId = helpPageModel.DocumentId,
-                    CanonicalName = helpPageModel.CanonicalName,
-                    BreadcrumbTitle = helpPageModel.BreadcrumbTitle,
-                    Title = helpPageModel.MetaTags?.Title,
-                    IncludeInSitemap = helpPageModel.IncludeInSitemap,
-                    Description = helpPageModel.MetaTags?.Description,
-                    Keywords = helpPageModel.MetaTags?.Keywords,
-                    Content = new HtmlString(helpPageModel.Content),
-                    LastReviewed = helpPageModel.LastReviewed,
-                    AlternativeNames = helpPageModel.AlternativeNames
-                };
+                viewModel.Breadcrumb = BuildBreadcrumb(helpPageModel);
 
-                return NegotiateContentResult(vm);
+                return NegotiateContentResult(viewModel);
             }
 
             return NoContent();
-        }
-
-        [HttpGet]
-        [Route("pages/{article}/htmlhead")]
-        public async Task<IActionResult> Head(string article)
-        {
-            var vm = new HeadViewModel();
-            var helpPageModel = await GetHelpPageAsync(article);
-
-            if (helpPageModel != null)
-            {
-                vm.CanonicalUrl = $"{Request.Scheme}://{Request.Host}/{HelpPathRoot}/{helpPageModel.CanonicalName}";
-                vm.Title = helpPageModel.BreadcrumbTitle;
-                vm.Description = helpPageModel.MetaTags?.Description;
-                vm.Keywords = helpPageModel.MetaTags?.Keywords;
-            }
-
-            return NegotiateContentResult(vm);
-        }
-
-        [HttpDelete]
-        [Route("pages/{documentId}")]
-        public async Task<IActionResult> HelpDelete(Guid documentId)
-        {
-            var doc = await _helpPageService.GetByIdAsync(documentId);
-            if (doc == null)
-            {
-                return NotFound();
-            }
-
-            await _helpPageService.DeleteAsync(documentId);
-            return Ok();
         }
 
         [HttpPut]
@@ -135,14 +88,44 @@ namespace DFC.App.Help.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("pages/{documentId}")]
+        public async Task<IActionResult> HelpDelete(Guid documentId)
+        {
+            var doc = await _helpPageService.GetByIdAsync(documentId);
+            if (doc == null)
+            {
+                return NotFound();
+            }
+
+            await _helpPageService.DeleteAsync(documentId);
+            return Ok();
+        }
+
         [HttpGet]
+        [Route("pages/{article}/htmlhead")]
+        public async Task<IActionResult> Head(string article)
+        {
+            var viewModel = new HeadViewModel();
+            var helpPageModel = await GetHelpPageAsync(article);
+
+            if (helpPageModel != null)
+            {
+                Mapper.Map(helpPageModel, viewModel);
+
+                viewModel.CanonicalUrl = $"{Request.Scheme}://{Request.Host}/{HelpPathRoot}/{helpPageModel.CanonicalName}";
+            }
+
+            return NegotiateContentResult(viewModel);
+        }
+
         [Route("pages/{article}/breadcrumb")]
         public async Task<IActionResult> Breadcrumb(string article)
         {
             var helpPageModel = await GetHelpPageAsync(article);
-            var vm = BuildBreadcrumb(helpPageModel);
+            var viewModel = BuildBreadcrumb(helpPageModel);
 
-            return NegotiateContentResult(vm);
+            return NegotiateContentResult(viewModel);
         }
 
         [HttpGet]
@@ -156,12 +139,12 @@ namespace DFC.App.Help.Controllers
         [Route("pages/{article}/contents")]
         public async Task<IActionResult> Body(string article)
         {
-            var vm = new BodyViewModel();
+            var viewModel = new BodyViewModel();
             var helpPageModel = await GetHelpPageAsync(article);
 
             if (helpPageModel != null)
             {
-                vm.Content = new HtmlString(helpPageModel.Content);
+                Mapper.Map(helpPageModel, viewModel);
             }
             else
             {
@@ -175,7 +158,7 @@ namespace DFC.App.Help.Controllers
                 }
             }
 
-            return NegotiateContentResult(vm);
+            return NegotiateContentResult(viewModel);
         }
 
         [HttpGet]
@@ -207,7 +190,7 @@ namespace DFC.App.Help.Controllers
 
         private BreadcrumbViewModel BuildBreadcrumb(HelpPageModel helpPageModel)
         {
-            var vm = new BreadcrumbViewModel
+            var viewModel = new BreadcrumbViewModel
             {
                 Paths = new List<BreadcrumbPathViewModel>() {
                     new BreadcrumbPathViewModel()
@@ -231,12 +214,12 @@ namespace DFC.App.Help.Controllers
                     Title = helpPageModel.BreadcrumbTitle
                 };
 
-                vm.Paths.Add(articlePathViewModel);
+                viewModel.Paths.Add(articlePathViewModel);
             }
 
-            vm.Paths.Last().AddHyperlink = false;
+            viewModel.Paths.Last().AddHyperlink = false;
 
-            return vm;
+            return viewModel;
         }
 
         #endregion

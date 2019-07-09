@@ -1,4 +1,6 @@
-﻿using DFC.App.Help.Data;
+﻿using System;
+using AutoMapper;
+using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.Filters;
 using DFC.App.Help.Framework;
@@ -39,6 +41,8 @@ namespace DFC.App.Help
             services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
 
+            services.AddAutoMapper(typeof(Startup).Assembly);
+
             services.AddMvc(config =>
                 {
                     config.Filters.Add<LoggingAsynchActionFilter>();
@@ -49,7 +53,7 @@ namespace DFC.App.Help
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IMapper mapper)
         {
             if (env.IsDevelopment())
             {
@@ -87,6 +91,8 @@ namespace DFC.App.Help
                     name: "default",
                     template: "{controller=Home}/{action=Error}");
             });
+
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
         }
     }
 }

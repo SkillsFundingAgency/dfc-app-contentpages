@@ -150,11 +150,11 @@ namespace DFC.App.Help.Repository.CosmosDb
             {
                 await _documentClient.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(_cosmosDbConnection.DatabaseId));
             }
-            catch (Microsoft.Azure.Documents.DocumentClientException e)
+            catch (DocumentClientException e)
             {
                 if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    await _documentClient.CreateDatabaseAsync(new Microsoft.Azure.Documents.Database { Id = _cosmosDbConnection.DatabaseId });
+                    await _documentClient.CreateDatabaseAsync(new Database { Id = _cosmosDbConnection.DatabaseId });
                 }
                 else
                 {
@@ -169,7 +169,7 @@ namespace DFC.App.Help.Repository.CosmosDb
             {
                 await _documentClient.ReadDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri(_cosmosDbConnection.DatabaseId, _cosmosDbConnection.CollectionId));
             }
-            catch (Microsoft.Azure.Documents.DocumentClientException e)
+            catch (DocumentClientException e)
             {
                 if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
@@ -181,7 +181,7 @@ namespace DFC.App.Help.Repository.CosmosDb
 
                     await _documentClient.CreateDocumentCollectionAsync(
                         UriFactory.CreateDatabaseUri(_cosmosDbConnection.DatabaseId),
-                        new Microsoft.Azure.Documents.DocumentCollection { Id = _cosmosDbConnection.CollectionId, PartitionKey = pkDef },
+                        new DocumentCollection { Id = _cosmosDbConnection.CollectionId, PartitionKey = pkDef },
                         new RequestOptions { OfferThroughput = 1000 });
                 }
                 else

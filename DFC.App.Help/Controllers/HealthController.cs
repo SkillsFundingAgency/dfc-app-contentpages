@@ -14,7 +14,7 @@ namespace DFC.App.Help.Controllers
         private readonly ILogger<HealthController> _logger;
         private readonly IHelpPageService _helpPageService;
 
-        public HealthController(ILogger<HealthController> logger, IHelpPageService helpPageService)
+        public HealthController(ILogger<HealthController> logger, IHelpPageService helpPageService, AutoMapper.IMapper mapper) : base(mapper)
         {
             _logger = logger;
             _helpPageService = helpPageService;
