@@ -28,7 +28,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
 
             services.AddSingleton<IConfiguration>(configuration);
 
-            var cosmosDbConnection = configuration.GetSection(Constants.CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
+            var cosmosDbConnection = configuration.GetSection(DFC.App.Help.Startup.CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
 
             services.AddSingleton<CosmosDbConnection>(cosmosDbConnection);
             services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();

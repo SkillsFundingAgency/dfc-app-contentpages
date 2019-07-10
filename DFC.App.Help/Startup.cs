@@ -17,6 +17,8 @@ namespace DFC.App.Help
 {
     public class Startup
     {
+        public const string CosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:HelpPages";
+
         private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration)
@@ -33,7 +35,7 @@ namespace DFC.App.Help
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var cosmosDbConnection = _configuration.GetSection(Constants.CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
+            var cosmosDbConnection = _configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
