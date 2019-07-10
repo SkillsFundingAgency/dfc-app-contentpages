@@ -13,7 +13,7 @@ namespace DFC.App.Help.Controllers
     public class PagesController : BaseController
     {
         public const string HelpPathRoot = "help";
-        private const string IndexArticleName = "index";
+        private const string DefaultArticleName = "help";
 
         private readonly IHelpPageService _helpPageService;
 
@@ -172,7 +172,7 @@ namespace DFC.App.Help.Controllers
 
         private async Task<HelpPageModel> GetHelpPageAsync(string article)
         {
-            string name = (!string.IsNullOrWhiteSpace(article) ? article : IndexArticleName);
+            string name = (!string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName);
 
             var helpPageModel = await _helpPageService.GetByNameAsync(name);
 
@@ -181,7 +181,7 @@ namespace DFC.App.Help.Controllers
 
         private async Task<HelpPageModel> GetAlternativeHelpPageAsync(string article)
         {
-            string name = (!string.IsNullOrWhiteSpace(article) ? article : IndexArticleName);
+            string name = (!string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName);
 
             var helpPageModel = await _helpPageService.GetByAlternativeNameAsync(name);
 
@@ -200,13 +200,13 @@ namespace DFC.App.Help.Controllers
                     },
                     new BreadcrumbPathViewModel()
                     {
-                        Route = $"/{HelpPathRoot}/{IndexArticleName}",
+                        Route = $"/{HelpPathRoot}/{DefaultArticleName}",
                         Title = "Help"
                     }
                 }
             };
 
-            if (helpPageModel != null && string.Compare(helpPageModel.CanonicalName, IndexArticleName, true) != 0)
+            if (helpPageModel != null && string.Compare(helpPageModel.CanonicalName, DefaultArticleName, true) != 0)
             {
                 var articlePathViewModel = new BreadcrumbPathViewModel()
                 {
