@@ -27,7 +27,7 @@ namespace DFC.App.Help.UnitTests.Validation
             var vr = Validate(model);
 
             vr.Should().NotBeEmpty();
-            vr.Should().Contain(x => x.ErrorMessage == string.Format(ValidationMessage.FieldEmptyGuid, nameof(model.DocumentId)));
+            vr.Should().Contain(x => x.ErrorMessage == string.Format(ValidationMessage.FieldInvalidGuid, nameof(model.DocumentId)));
             vr.Should().HaveCount(1);
         }
 

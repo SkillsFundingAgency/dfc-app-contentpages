@@ -9,10 +9,9 @@ namespace DFC.App.Help.Data.Attributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var result = Guid.Parse(value.ToString());
-            if (result == Guid.Empty)
+            if (!Guid.TryParse(value.ToString(), out var guid) || guid == Guid.Empty)
             {
-                return new ValidationResult(string.Format(ValidationMessage.FieldEmptyGuid, validationContext.DisplayName), new string[] { validationContext.MemberName });
+                return new ValidationResult(string.Format(ValidationMessage.FieldInvalidGuid, validationContext.DisplayName), new[] { validationContext.MemberName });
             }
 
             return ValidationResult.Success;

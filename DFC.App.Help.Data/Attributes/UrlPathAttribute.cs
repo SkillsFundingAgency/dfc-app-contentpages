@@ -29,7 +29,7 @@ namespace DFC.App.Help.Data.Attributes
             }
 
             return result ? ValidationResult.Success
-                : new ValidationResult(string.Format(ValidationMessage.FieldNotUrlPath, validationContext.DisplayName, validChars), new string[] { validationContext.MemberName });
+                : new ValidationResult(string.Format(ValidationMessage.FieldNotUrlPath, validationContext.DisplayName, validChars), new[] { validationContext.MemberName });
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class ValidationMessage
     {
-        public const string FieldEmptyGuid = "The field {0} cannot be an empty guid.";
+        public const string FieldInvalidGuid = "The field {0} has to be a valid GUID and cannot be an empty GUID.";
         public const string FieldNotLowercase = "The field {0} is not in lowercase.";
         public const string FieldNotUrlPath = "The field {0} does not contains valid characters for a url path. Valid characters are {1}";
     }

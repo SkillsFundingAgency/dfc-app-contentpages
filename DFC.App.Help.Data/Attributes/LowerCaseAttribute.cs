@@ -30,7 +30,7 @@ namespace DFC.App.Help.Data.Attributes
             }
 
             return result ? ValidationResult.Success
-                : new ValidationResult(string.Format(ValidationMessage.FieldNotLowercase, validationContext.DisplayName), new string[] { validationContext.MemberName });
+                : new ValidationResult(string.Format(ValidationMessage.FieldNotLowercase, validationContext.DisplayName), new[] { validationContext.MemberName });
         }
     }
 }
