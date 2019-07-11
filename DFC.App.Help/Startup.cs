@@ -49,7 +49,7 @@ namespace DFC.App.Help
                 {
                     config.Filters.Add<LoggingAsynchActionFilter>();
                     config.RespectBrowserAcceptHeader = true;
-                    //       config.ReturnHttpNotAcceptable = true;
+                    config.ReturnHttpNotAcceptable = true;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
