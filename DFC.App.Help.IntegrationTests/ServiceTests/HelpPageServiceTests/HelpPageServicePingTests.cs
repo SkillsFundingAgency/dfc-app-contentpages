@@ -1,6 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using DFC.App.Help.Models.Cosmos;
+﻿using System.Threading.Tasks;
+using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -12,10 +11,10 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
     {
         [Test]
         [Category("HelpPageService.Ping")]
-        public async Task HelpPageService_Ping_ReturnsSuccess()
+        public async Task HelpPageServicePingReturnsSuccess()
         {
             // arrange
-            var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
+            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
 
             // act
             var result = await helpPageService.PingAsync();

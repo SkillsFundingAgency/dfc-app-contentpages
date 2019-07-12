@@ -1,28 +1,29 @@
-﻿using DFC.App.Help.Cosmos.Client;
-using DFC.App.Help.Cosmos.Helper;
-using DFC.App.Help.Cosmos.Provider;
+﻿using AutoMapper;
+using DFC.App.Help.Data;
+using DFC.App.Help.Data.Common;
+using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.Filters;
 using DFC.App.Help.Framework;
-using DFC.App.Help.Services;
+using DFC.App.Help.PageService;
+using DFC.App.Help.Repository.CosmosDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace DFC.App.Help
 {
     public class Startup
     {
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<Startup> _logger;
+        public const string CosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:HelpPages";
 
-        public Startup(IConfiguration configuration, ILogger<Startup> logger)
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _logger = logger;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -34,25 +35,27 @@ namespace DFC.App.Help
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            DocumentDBClient.CosmosDbConnection = _configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<Models.Cosmos.CosmosDbConnection>();
-            DocumentDBHelper.CosmosDbConnection = DocumentDBClient.CosmosDbConnection;
+            var cosmosDbConnection = _configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
-            services.AddSingleton<IDocumentDBProvider, DocumentDBProvider>();
+            services.AddSingleton<CosmosDbConnection>(cosmosDbConnection);
+            services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
+
+            services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc(config =>
                 {
                     config.Filters.Add<LoggingAsynchActionFilter>();
                     config.RespectBrowserAcceptHeader = true;
-                    //       config.ReturnHttpNotAcceptable = true;
+                    config.ReturnHttpNotAcceptable = true;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IMapper mapper)
         {
             if (env.IsDevelopment())
             {
@@ -90,6 +93,8 @@ namespace DFC.App.Help
                     name: "default",
                     template: "{controller=Home}/{action=Error}");
             });
+
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
         }
     }
 }

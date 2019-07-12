@@ -1,18 +1,17 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using DFC.App.Help.Common;
+using DFC.App.Help.Data.Common;
 
-namespace DFC.App.Help.DataAnnotations
+namespace DFC.App.Help.Data.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class GuidAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var result = Guid.Parse(value.ToString());
-            if (result == Guid.Empty)
+            if (!Guid.TryParse(value.ToString(), out var guid) || guid == Guid.Empty)
             {
-                return new ValidationResult(string.Format(ValidationMessage.FieldEmptyGuid, validationContext.DisplayName), new string[] { validationContext.MemberName });
+                return new ValidationResult(string.Format(ValidationMessage.FieldInvalidGuid, validationContext.DisplayName), new[] { validationContext.MemberName });
             }
 
             return ValidationResult.Success;

@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using DFC.App.Help.Common;
+using DFC.App.Help.Data.Common;
 
-namespace DFC.App.Help.DataAnnotations
+namespace DFC.App.Help.Data.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class LowerCaseAttribute : ValidationAttribute
+    public class UrlPathAttribute : ValidationAttribute
     {
-
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value == null)
@@ -17,20 +16,20 @@ namespace DFC.App.Help.DataAnnotations
                 return ValidationResult.Success;
             }
 
+            var validChars = "abcdefghijklmnopqrstuvwxyz01234567890_-";
             var result = false;
-
             switch (value)
             {
                 case IEnumerable<string> list:
-                    result = list.All(s => s.Equals(s.ToLower()));
+                    result = list.All(x => x.Length > 0 && x.All(y => validChars.Contains(y)));
                     break;
                 default:
-                    result = value.ToString().Equals(value.ToString().ToLower());
+                    result = value.ToString().All(x => validChars.Contains(x));
                     break;
             }
 
             return result ? ValidationResult.Success
-                : new ValidationResult(string.Format(ValidationMessage.FieldNotLowercase, validationContext.DisplayName), new string[] { validationContext.MemberName });
+                : new ValidationResult(string.Format(ValidationMessage.FieldNotUrlPath, validationContext.DisplayName, validChars), new[] { validationContext.MemberName });
         }
     }
 }

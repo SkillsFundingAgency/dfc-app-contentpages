@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using DFC.App.Help.Models.Cosmos;
+using DFC.App.Help.Data;
+using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Azure.Documents;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
     {
         [Test]
         [Category("HelpPageService.Update")]
-        public async Task HelpPageService_Update_ReturnsSuccess_WhenHelpPageUpdated()
+        public async Task HelpPageServiceUpdateReturnsSuccessWhenHelpPageUpdated()
         {
             // arrange
             const string name = ValidNameValue + "_Update";
@@ -22,7 +23,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid()
             };
-            var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
+            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
 
             var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel);
 
@@ -41,7 +42,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
 
         [Test]
         [Category("HelpPageService.Update")]
-        public void HelpPageService_Update_ReturnsException_WhenHelpPageDoeNotExist()
+        public void HelpPageServiceUpdateReturnsExceptionWhenHelpPageDoeNotExist()
         {
             // arrange
             const string name = ValidNameValue + "_Update";
@@ -50,7 +51,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = name + "_" + Guid.NewGuid().ToString()
             };
-            var helpPageService = _serviceProvider.GetService<Services.IHelpPageService>();
+            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
 
             // act
             Assert.ThrowsAsync<DocumentClientException>(() => helpPageService.ReplaceAsync(helpPageModel));

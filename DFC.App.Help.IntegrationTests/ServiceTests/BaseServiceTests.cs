@@ -1,4 +1,9 @@
 ﻿using System;
+using DFC.App.Help.Data;
+using DFC.App.Help.Data.Common;
+using DFC.App.Help.Data.Contracts;
+using DFC.App.Help.PageService;
+using DFC.App.Help.Repository.CosmosDb;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -23,16 +28,13 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
 
             services.AddSingleton<IConfiguration>(configuration);
 
-            services.AddSingleton<Cosmos.Provider.IDocumentDBProvider, Cosmos.Provider.DocumentDBProvider>();
-            services.AddScoped<Services.IHelpPageService, Services.HelpPageService>();
+            var cosmosDbConnection = configuration.GetSection(Startup.CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
 
-            var cosmosDbConnection = configuration.GetSection("Configuration:CosmosDbConnections:HelpPages").Get<Help.Models.Cosmos.CosmosDbConnection>();
+            services.AddSingleton<CosmosDbConnection>(cosmosDbConnection);
+            services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
+            services.AddScoped<IHelpPageService, HelpPageService>();
 
             _serviceProvider = services.BuildServiceProvider();
-
-            // set the environment variables
-            Help.Cosmos.Client.DocumentDBClient.CosmosDbConnection = cosmosDbConnection;
-            Help.Cosmos.Helper.DocumentDBHelper.CosmosDbConnection = cosmosDbConnection;
         }
 
         [TearDown]

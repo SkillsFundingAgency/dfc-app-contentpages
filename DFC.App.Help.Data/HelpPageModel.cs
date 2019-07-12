@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using DFC.App.Help.DataAnnotations;
+using DFC.App.Help.Data.Attributes;
 using Newtonsoft.Json;
 
-namespace DFC.App.Help.Models.Cosmos
+namespace DFC.App.Help.Data
 {
-    public class HelpPageModel
+    public class HelpPageModel : IDataModel
     {
         [Guid]
         [JsonProperty(PropertyName = "id")]

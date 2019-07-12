@@ -1,16 +1,13 @@
-﻿using DFC.App.Help.Controllers;
-using DFC.App.Help.Models.Cosmos;
-using DFC.App.Help.Services;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
+using DFC.App.Help.Controllers;
+using DFC.App.Help.Data;
+using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DFC.App.Help.UnitTests.Controllers.Pages
 {
@@ -19,24 +16,26 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
     {
         private PagesController _controller;
         private Mock<IHelpPageService> _helpPageService;
-        private Mock<ILogger<PagesController>> _logger;
+        private Mock<AutoMapper.IMapper> _mapper;
 
         [SetUp]
         public void SetUp()
         {
             _helpPageService = new Mock<IHelpPageService>();
-            _logger = new Mock<ILogger<PagesController>>();
+            _mapper = new Mock<AutoMapper.IMapper>();
 
-            _controller = new PagesController(_helpPageService.Object, _logger.Object);
+            _controller = new PagesController(_helpPageService.Object, _mapper.Object);
         }
 
         [Test]
-        public async Task ShouldReturn_Created_IfItDoesntExists()
+        public async Task ShouldReturnCreatedIfItDoesntExists()
         {
-            var newHelpModelToCreate = new HelpPageModel();
-            newHelpModelToCreate.DocumentId = Guid.NewGuid();
-            newHelpModelToCreate.CanonicalName = "canonicalname1";
-            newHelpModelToCreate.Content = "content1";
+            var newHelpModelToCreate = new HelpPageModel
+            {
+                DocumentId = Guid.NewGuid(),
+                CanonicalName = "canonicalname1",
+                Content = "content1"
+            };
 
             _helpPageService.Setup(x => x.GetByIdAsync(newHelpModelToCreate.DocumentId)).ReturnsAsync(default(HelpPageModel));
 
@@ -52,12 +51,14 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
         }
 
         [Test]
-        public async Task ShouldReturn_OK_IfItExists()
+        public async Task ShouldReturnOkIfItExists()
         {
-            var helpModelToUpdate = new HelpPageModel();
-            helpModelToUpdate.DocumentId = Guid.NewGuid();
-            helpModelToUpdate.CanonicalName = "canonicalname1";
-            helpModelToUpdate.Content = "content1";
+            var helpModelToUpdate = new HelpPageModel
+            {
+                DocumentId = Guid.NewGuid(),
+                CanonicalName = "canonicalname1",
+                Content = "content1"
+            };
 
             _helpPageService.Setup(x => x.GetByIdAsync(helpModelToUpdate.DocumentId)).ReturnsAsync(helpModelToUpdate);
 

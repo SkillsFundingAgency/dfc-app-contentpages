@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.Models;
-using DFC.App.Help.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -36,9 +37,9 @@ namespace DFC.App.Help.Controllers
                     Priority = 1
                 });
 
-                var helpPageModels = await _helpPageService.GetListAsync();
+                var helpPageModels = await _helpPageService.GetAllAsync();
 
-                if (helpPageModels?.Count > 0)
+                if (helpPageModels?.Count() > 0)
                 {
                     foreach (var helpPageModel in helpPageModels.Where(w => w.IncludeInSitemap).OrderBy(o => o.CanonicalName))
                     {
@@ -55,7 +56,7 @@ namespace DFC.App.Help.Controllers
 
                 _logger.LogInformation("Generated Sitemap");
 
-                return Content(xmlString, "application/xml");
+                return Content(xmlString, MediaTypeNames.Application.Xml);
             }
             catch (Exception ex)
             {

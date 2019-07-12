@@ -9,6 +9,13 @@ namespace DFC.App.Help.Controllers
 {
     public abstract class BaseController : Controller
     {
+        protected readonly AutoMapper.IMapper Mapper;
+
+        public BaseController(AutoMapper.IMapper mapper)
+        {
+            Mapper = mapper;
+        }
+
         protected IActionResult NegotiateContentResult(object viewModel, object dataModel = null)
         {
             if (Request.Headers.Keys.Contains(HeaderNames.Accept))
