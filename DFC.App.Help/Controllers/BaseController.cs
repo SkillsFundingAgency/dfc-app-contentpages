@@ -9,11 +9,11 @@ namespace DFC.App.Help.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected readonly AutoMapper.IMapper Mapper;
+        protected readonly AutoMapper.IMapper _mapper;
 
         public BaseController(AutoMapper.IMapper mapper)
         {
-            Mapper = mapper;
+            _mapper = mapper;
         }
 
         protected IActionResult NegotiateContentResult(object viewModel, object dataModel = null)
