@@ -32,7 +32,7 @@ namespace DFC.App.Help.Controllers
             if (helpPageModels != null)
             {
                 viewModel.Documents = (from a in helpPageModels.OrderBy(o => o.CanonicalName)
-                                       select Mapper.Map<IndexDocumentViewModel>(a)
+                                       select _mapper.Map<IndexDocumentViewModel>(a)
                 );
             }
 
@@ -47,7 +47,7 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                var viewModel = Mapper.Map<DocumentViewModel>(helpPageModel);
+                var viewModel = _mapper.Map<DocumentViewModel>(helpPageModel);
 
                 viewModel.Breadcrumb = BuildBreadcrumb(helpPageModel);
 
@@ -111,7 +111,7 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                Mapper.Map(helpPageModel, viewModel);
+                _mapper.Map(helpPageModel, viewModel);
 
                 viewModel.CanonicalUrl = $"{Request.Scheme}://{Request.Host}/{HelpPathRoot}/{helpPageModel.CanonicalName}";
             }
@@ -144,7 +144,7 @@ namespace DFC.App.Help.Controllers
 
             if (helpPageModel != null)
             {
-                Mapper.Map(helpPageModel, viewModel);
+                _mapper.Map(helpPageModel, viewModel);
             }
             else
             {
