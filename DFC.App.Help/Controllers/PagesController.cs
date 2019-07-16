@@ -13,7 +13,7 @@ namespace DFC.App.Help.Controllers
     public class PagesController : BaseController
     {
         public const string HelpPathRoot = "help";
-        private const string DefaultArticleName = "help";
+        public const string DefaultArticleName = "help";
 
         private readonly IHelpPageService _helpPageService;
 
