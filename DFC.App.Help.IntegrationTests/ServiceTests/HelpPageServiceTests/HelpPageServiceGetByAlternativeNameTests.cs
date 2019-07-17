@@ -18,7 +18,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         {
             // arrange
             var name = ValidNameValue + "_GetByAlternativeName".ToLower();
-            var alternativeName = ValidAlternativeNameValue + "_GetByAlternativeName".ToLower();
+            var alternativeName = ValidAlternativeNameValue + "_" + Guid.NewGuid().ToString().ToLower();
             var helpPageModel = new HelpPageModel()
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
