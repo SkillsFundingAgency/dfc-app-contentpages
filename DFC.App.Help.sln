@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.Help.Data", "DFC.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.Help.PageService", "DFC.App.Help.PageService\DFC.App.Help.PageService.csproj", "{EDAB7C52-4495-43F7-B4A3-06F942D01C9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.Help.PageService.UnitTests", "DFC.App.Help.PageService.UnitTests\DFC.App.Help.PageService.UnitTests.csproj", "{F95E8230-F655-4529-8342-D6F57C394CCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.Help.PageService.UnitTests", "DFC.App.Help.PageService.UnitTests\DFC.App.Help.PageService.UnitTests.csproj", "{F95E8230-F655-4529-8342-D6F57C394CCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

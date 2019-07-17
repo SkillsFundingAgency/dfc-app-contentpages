@@ -27,7 +27,27 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
             var result = helpPageService.GetByIdAsync(documentId).Result;
 
             // assert
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappened();
+            A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
+            A.Equals(result, expectedResult);
+        }
+
+        [Fact]
+        public void HelpPageServiceGetByIdReturnsNullWhenMissingRepository()
+        {
+            // arrange
+            Guid documentId = Guid.NewGuid();
+            var repository = A.Fake<IRepository<HelpPageModel>>();
+            HelpPageModel expectedResult = null;
+
+            A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
+
+            var helpPageService = new HelpPageService(repository);
+
+            // act
+            var result = helpPageService.GetByIdAsync(documentId).Result;
+
+            // assert
+            A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
         }
     }
