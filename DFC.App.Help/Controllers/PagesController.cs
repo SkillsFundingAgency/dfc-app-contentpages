@@ -158,7 +158,7 @@ namespace DFC.App.Help.Controllers
                 {
                     var alternateUrl = $"{Request.Scheme}://{Request.Host}/{HelpPathRoot}/{alternateHelpPageModel.CanonicalName}";
 
-                    return RedirectPermanent(alternateUrl);
+                    return RedirectPermanentPreserveMethod(alternateUrl);
                 }
             }
 
