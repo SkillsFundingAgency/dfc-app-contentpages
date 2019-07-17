@@ -41,7 +41,7 @@ namespace DFC.App.Help.Controllers
 
                 if (helpPageModels?.Count() > 0)
                 {
-                    foreach (var helpPageModel in helpPageModels.Where(w => w.IncludeInSitemap).OrderBy(o => o.CanonicalName))
+                    foreach (var helpPageModel in helpPageModels.Where(w => w.IncludeInSitemap && string.Compare(w.CanonicalName, PagesController.DefaultArticleName, true) != 0).OrderBy(o => o.CanonicalName))
                     {
                         sitemap.Add(new SitemapLocation()
                         {

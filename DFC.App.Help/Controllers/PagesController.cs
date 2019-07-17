@@ -13,7 +13,7 @@ namespace DFC.App.Help.Controllers
     public class PagesController : BaseController
     {
         public const string HelpPathRoot = "help";
-        private const string DefaultArticleName = "help";
+        public const string DefaultArticleName = "help";
 
         private readonly IHelpPageService _helpPageService;
 
@@ -104,6 +104,7 @@ namespace DFC.App.Help.Controllers
 
         [HttpGet]
         [Route("pages/{article}/htmlhead")]
+        [Route("pages/htmlhead")]
         public async Task<IActionResult> Head(string article)
         {
             var viewModel = new HeadViewModel();
@@ -120,6 +121,7 @@ namespace DFC.App.Help.Controllers
         }
 
         [Route("pages/{article}/breadcrumb")]
+        [Route("pages/breadcrumb")]
         public async Task<IActionResult> Breadcrumb(string article)
         {
             var helpPageModel = await GetHelpPageAsync(article);
@@ -130,6 +132,7 @@ namespace DFC.App.Help.Controllers
 
         [HttpGet]
         [Route("pages/{article}/bodytop")]
+        [Route("pages/bodytop")]
         public IActionResult BodyTop(string article)
         {
             return NoContent();
@@ -137,6 +140,7 @@ namespace DFC.App.Help.Controllers
 
         [HttpGet]
         [Route("pages/{article}/contents")]
+        [Route("pages/contents")]
         public async Task<IActionResult> Body(string article)
         {
             var viewModel = new BodyViewModel();
@@ -154,7 +158,7 @@ namespace DFC.App.Help.Controllers
                 {
                     var alternateUrl = $"{Request.Scheme}://{Request.Host}/{HelpPathRoot}/{alternateHelpPageModel.CanonicalName}";
 
-                    return RedirectPermanent(alternateUrl);
+                    return RedirectPermanentPreserveMethod(alternateUrl);
                 }
             }
 
@@ -163,6 +167,7 @@ namespace DFC.App.Help.Controllers
 
         [HttpGet]
         [Route("pages/{article}/bodyfooter")]
+        [Route("pages/bodyfooter")]
         public IActionResult BodyFooter(string article)
         {
             return NoContent();
@@ -172,7 +177,7 @@ namespace DFC.App.Help.Controllers
 
         private async Task<HelpPageModel> GetHelpPageAsync(string article)
         {
-            string name = (!string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName);
+            string name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
 
             var helpPageModel = await _helpPageService.GetByNameAsync(name);
 
@@ -200,7 +205,7 @@ namespace DFC.App.Help.Controllers
                     },
                     new BreadcrumbPathViewModel()
                     {
-                        Route = $"/{HelpPathRoot}/{DefaultArticleName}",
+                        Route = $"/{HelpPathRoot}",
                         Title = "Help"
                     }
                 }
