@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Html;
+using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Html;
 
 namespace DFC.App.Help.ViewModels
 {

@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace DFC.App.Help.Framework
 {
@@ -7,20 +7,21 @@ namespace DFC.App.Help.Framework
     {
         private const string CorrelationId = "DssCorrelationId";
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public CorrelationIdProvider(IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccessor = httpContextAccessor;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public string Get()
         {
             var result = string.Empty;
-            if (_httpContextAccessor.HttpContext != null)
+            if (httpContextAccessor.HttpContext != null)
             {
-                result = _httpContextAccessor.HttpContext.Request.Headers[CorrelationId].FirstOrDefault();
+                result = httpContextAccessor.HttpContext.Request.Headers[CorrelationId].FirstOrDefault();
             }
+
             return result;
         }
     }

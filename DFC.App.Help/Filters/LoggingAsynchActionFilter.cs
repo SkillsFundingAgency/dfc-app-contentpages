@@ -1,34 +1,35 @@
-﻿using System.Threading.Tasks;
-using DFC.App.Help.Framework;
+﻿using DFC.App.Help.Framework;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.Filters
 {
     public class LoggingAsynchActionFilter : IAsyncActionFilter
     {
-        private readonly ICorrelationIdProvider _correlationIdProvider;
-        private readonly ILogger<LoggingAsynchActionFilter> _logger;
+        private readonly ICorrelationIdProvider correlationIdProvider;
+        private readonly ILogger<LoggingAsynchActionFilter> logger;
 
         public LoggingAsynchActionFilter(ICorrelationIdProvider correlationIdProvider, ILogger<LoggingAsynchActionFilter> logger)
         {
-            _correlationIdProvider = correlationIdProvider;
-            _logger = logger;
+            this.correlationIdProvider = correlationIdProvider;
+            this.logger = logger;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var correlationId = _correlationIdProvider.Get();
+            var correlationId = correlationIdProvider.Get();
 
-            _logger.LogInformation($"CorrelationId:{correlationId} Executing {context.ActionDescriptor.DisplayName}");
-            var executed = await next();
+            logger.LogInformation($"CorrelationId:{correlationId} Executing {context.ActionDescriptor.DisplayName}");
+
+            var executed = await next().ConfigureAwait(false);
+
             if (executed.Exception != null)
             {
-                _logger.LogError(executed.Exception, $"CorrelationId:{correlationId} Executed with error {executed.Exception}");
+                logger.LogError(executed.Exception, $"CorrelationId:{correlationId} Executed with error {executed.Exception}");
             }
-            _logger.LogInformation($"CorrelationId:{correlationId} Executed successfully {context.ActionDescriptor.DisplayName}");
+
+            logger.LogInformation($"CorrelationId:{correlationId} Executed successfully {context.ActionDescriptor.DisplayName}");
         }
     }
-
 }
-

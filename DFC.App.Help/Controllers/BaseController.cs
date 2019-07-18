@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 
 namespace DFC.App.Help.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected readonly AutoMapper.IMapper _mapper;
+        protected readonly AutoMapper.IMapper mapper;
 
         public BaseController(AutoMapper.IMapper mapper)
         {
-            _mapper = mapper;
+            this.mapper = mapper;
         }
 
         protected IActionResult NegotiateContentResult(object viewModel, object dataModel = null)

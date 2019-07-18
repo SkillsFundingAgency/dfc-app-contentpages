@@ -30,7 +30,6 @@ namespace DFC.App.Help.AutoMapperProfiles
 
             CreateMap<HelpPageModel, IndexDocumentViewModel>()
                 ;
-
         }
     }
 }

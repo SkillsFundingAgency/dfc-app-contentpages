@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DFC.App.Help.Data;
+﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.Controllers
 {
@@ -14,11 +14,11 @@ namespace DFC.App.Help.Controllers
         public const string HelpPathRoot = "help";
         public const string DefaultArticleName = "help";
 
-        private readonly IHelpPageService _helpPageService;
+        private readonly IHelpPageService helpPageService;
 
         public PagesController(IHelpPageService helpPageService, AutoMapper.IMapper mapper) : base(mapper)
         {
-            _helpPageService = helpPageService;
+            this.helpPageService = helpPageService;
         }
 
         [HttpGet]
@@ -26,13 +26,12 @@ namespace DFC.App.Help.Controllers
         public async Task<IActionResult> Index()
         {
             var viewModel = new IndexViewModel();
-            var helpPageModels = await _helpPageService.GetAllAsync();
+            var helpPageModels = await helpPageService.GetAllAsync().ConfigureAwait(false);
 
             if (helpPageModels != null)
             {
                 viewModel.Documents = (from a in helpPageModels.OrderBy(o => o.CanonicalName)
-                                       select _mapper.Map<IndexDocumentViewModel>(a)
-                );
+                                       select mapper.Map<IndexDocumentViewModel>(a)).ToList();
             }
 
             return NegotiateContentResult(viewModel);
@@ -42,11 +41,11 @@ namespace DFC.App.Help.Controllers
         [Route("pages/{article}")]
         public async Task<IActionResult> Document(string article)
         {
-            var helpPageModel = await GetHelpPageAsync(article);
+            var helpPageModel = await GetHelpPageAsync(article).ConfigureAwait(false);
 
             if (helpPageModel != null)
             {
-                var viewModel = _mapper.Map<DocumentViewModel>(helpPageModel);
+                var viewModel = mapper.Map<DocumentViewModel>(helpPageModel);
 
                 viewModel.Breadcrumb = BuildBreadcrumb(helpPageModel);
 
@@ -71,17 +70,17 @@ namespace DFC.App.Help.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingHelpPageModel = await _helpPageService.GetByIdAsync(helpPageModel.DocumentId);
+            var existingHelpPageModel = await helpPageService.GetByIdAsync(helpPageModel.DocumentId).ConfigureAwait(false);
 
             if (existingHelpPageModel == null)
             {
-                var createdResponse = await _helpPageService.CreateAsync(helpPageModel);
+                var createdResponse = await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
                 return new CreatedAtActionResult(nameof(Document), "Pages", new { article = createdResponse.CanonicalName }, createdResponse);
             }
             else
             {
-                var updatedResponse = await _helpPageService.ReplaceAsync(helpPageModel);
+                var updatedResponse = await helpPageService.ReplaceAsync(helpPageModel).ConfigureAwait(false);
 
                 return new OkObjectResult(updatedResponse);
             }
@@ -91,13 +90,14 @@ namespace DFC.App.Help.Controllers
         [Route("pages/{documentId}")]
         public async Task<IActionResult> HelpDelete(Guid documentId)
         {
-            var doc = await _helpPageService.GetByIdAsync(documentId);
+            var doc = await helpPageService.GetByIdAsync(documentId).ConfigureAwait(false);
+
             if (doc == null)
             {
                 return NotFound();
             }
 
-            await _helpPageService.DeleteAsync(documentId);
+            await helpPageService.DeleteAsync(documentId).ConfigureAwait(false);
             return Ok();
         }
 
@@ -107,11 +107,11 @@ namespace DFC.App.Help.Controllers
         public async Task<IActionResult> Head(string article)
         {
             var viewModel = new HeadViewModel();
-            var helpPageModel = await GetHelpPageAsync(article);
+            var helpPageModel = await GetHelpPageAsync(article).ConfigureAwait(false);
 
             if (helpPageModel != null)
             {
-                _mapper.Map(helpPageModel, viewModel);
+                mapper.Map(helpPageModel, viewModel);
 
                 viewModel.CanonicalUrl = $"{Request.Scheme}://{Request.Host}/{HelpPathRoot}/{helpPageModel.CanonicalName}";
             }
@@ -123,7 +123,7 @@ namespace DFC.App.Help.Controllers
         [Route("pages/breadcrumb")]
         public async Task<IActionResult> Breadcrumb(string article)
         {
-            var helpPageModel = await GetHelpPageAsync(article);
+            var helpPageModel = await GetHelpPageAsync(article).ConfigureAwait(false);
             var viewModel = BuildBreadcrumb(helpPageModel);
 
             return NegotiateContentResult(viewModel);
@@ -143,15 +143,15 @@ namespace DFC.App.Help.Controllers
         public async Task<IActionResult> Body(string article)
         {
             var viewModel = new BodyViewModel();
-            var helpPageModel = await GetHelpPageAsync(article);
+            var helpPageModel = await GetHelpPageAsync(article).ConfigureAwait(false);
 
             if (helpPageModel != null)
             {
-                _mapper.Map(helpPageModel, viewModel);
+                mapper.Map(helpPageModel, viewModel);
             }
             else
             {
-                var alternateHelpPageModel = await GetAlternativeHelpPageAsync(article);
+                var alternateHelpPageModel = await GetAlternativeHelpPageAsync(article).ConfigureAwait(false);
 
                 if (alternateHelpPageModel != null)
                 {
@@ -178,16 +178,16 @@ namespace DFC.App.Help.Controllers
         {
             string name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
 
-            var helpPageModel = await _helpPageService.GetByNameAsync(name);
+            var helpPageModel = await helpPageService.GetByNameAsync(name).ConfigureAwait(false);
 
             return helpPageModel;
         }
 
         private async Task<HelpPageModel> GetAlternativeHelpPageAsync(string article)
         {
-            string name = (!string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName);
+            string name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
 
-            var helpPageModel = await _helpPageService.GetByAlternativeNameAsync(name);
+            var helpPageModel = await helpPageService.GetByAlternativeNameAsync(name).ConfigureAwait(false);
 
             return helpPageModel;
         }
@@ -196,26 +196,27 @@ namespace DFC.App.Help.Controllers
         {
             var viewModel = new BreadcrumbViewModel
             {
-                Paths = new List<BreadcrumbPathViewModel>() {
+                Paths = new List<BreadcrumbPathViewModel>()
+                {
                     new BreadcrumbPathViewModel()
                     {
                         Route = "/",
-                        Title = "Home"
+                        Title = "Home",
                     },
                     new BreadcrumbPathViewModel()
                     {
                         Route = $"/{HelpPathRoot}",
-                        Title = "Help"
-                    }
-                }
+                        Title = "Help",
+                    },
+                },
             };
 
-            if (helpPageModel != null && string.Compare(helpPageModel.CanonicalName, DefaultArticleName, true) != 0)
+            if (helpPageModel != null && helpPageModel.CanonicalName.Equals(DefaultArticleName, StringComparison.OrdinalIgnoreCase))
             {
                 var articlePathViewModel = new BreadcrumbPathViewModel()
                 {
                     Route = $"/{HelpPathRoot}/{helpPageModel.CanonicalName}",
-                    Title = helpPageModel.BreadcrumbTitle
+                    Title = helpPageModel.BreadcrumbTitle,
                 };
 
                 viewModel.Paths.Add(articlePathViewModel);

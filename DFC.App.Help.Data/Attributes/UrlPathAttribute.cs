@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DFC.App.Help.Data.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using DFC.App.Help.Data.Common;
 
 namespace DFC.App.Help.Data.Attributes
 {

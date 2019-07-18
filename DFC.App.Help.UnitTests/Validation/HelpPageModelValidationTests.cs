@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using DFC.App.Help.Data;
+﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Common;
 using FluentAssertions;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.Help.UnitTests.Validation
 {
@@ -68,7 +68,7 @@ namespace DFC.App.Help.UnitTests.Validation
                 DocumentId = documentId,
                 CanonicalName = canonicalName,
                 Content = content,
-                AlternativeNames = alternativeNames.ToArray()
+                AlternativeNames = alternativeNames.ToArray(),
             };
 
             return model;

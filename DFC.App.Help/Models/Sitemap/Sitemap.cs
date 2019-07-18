@@ -25,6 +25,7 @@ namespace DFC.App.Help.Models
             {
                 SitemapLocation[] items = new SitemapLocation[map.Count];
                 map.CopyTo(items);
+
                 return items;
             }
             set
@@ -36,6 +37,7 @@ namespace DFC.App.Help.Models
 
                 SitemapLocation[] items = value;
                 map.Clear();
+
                 foreach (SitemapLocation item in items)
                 {
                     map.Add(item);
@@ -63,10 +65,8 @@ namespace DFC.App.Help.Models
 
         public void WriteSitemapToFile(string path)
         {
-
             using (FileStream fs = new FileStream(path, FileMode.Create))
             {
-
                 XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
                 ns.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
 

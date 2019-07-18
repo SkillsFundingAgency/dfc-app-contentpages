@@ -1,30 +1,30 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using DFC.App.Help.Controllers;
+﻿using DFC.App.Help.Controllers;
 using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.UnitTests.Controllers.Pages
 {
     [TestFixture]
     public class CreateTests
     {
-        private PagesController _controller;
-        private Mock<IHelpPageService> _helpPageService;
-        private Mock<AutoMapper.IMapper> _mapper;
+        private PagesController controller;
+        private Mock<IHelpPageService> helpPageService;
+        private Mock<AutoMapper.IMapper> mapper;
 
         [SetUp]
         public void SetUp()
         {
-            _helpPageService = new Mock<IHelpPageService>();
-            _mapper = new Mock<AutoMapper.IMapper>();
+            helpPageService = new Mock<IHelpPageService>();
+            mapper = new Mock<AutoMapper.IMapper>();
 
-            _controller = new PagesController(_helpPageService.Object, _mapper.Object);
+            controller = new PagesController(helpPageService.Object, mapper.Object);
         }
 
         [Test]
@@ -34,15 +34,15 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "canonicalname1",
-                Content = "content1"
+                Content = "content1",
             };
 
-            _helpPageService.Setup(x => x.GetByIdAsync(newHelpModelToCreate.DocumentId)).ReturnsAsync(default(HelpPageModel));
+            helpPageService.Setup(x => x.GetByIdAsync(newHelpModelToCreate.DocumentId)).ReturnsAsync(default(HelpPageModel));
 
             var createdHelpModel = new HelpPageModel();
-            _helpPageService.Setup(x => x.CreateAsync(newHelpModelToCreate)).ReturnsAsync(createdHelpModel);
+            helpPageService.Setup(x => x.CreateAsync(newHelpModelToCreate)).ReturnsAsync(createdHelpModel);
 
-            var actionResponse = await _controller.HelpCreateOrUpdate(newHelpModelToCreate);
+            var actionResponse = await controller.HelpCreateOrUpdate(newHelpModelToCreate).ConfigureAwait(false);
 
             var typedResponse = actionResponse as CreatedAtActionResult;
             typedResponse.ActionName.Should().Be("Document");
@@ -57,15 +57,15 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "canonicalname1",
-                Content = "content1"
+                Content = "content1",
             };
 
-            _helpPageService.Setup(x => x.GetByIdAsync(helpModelToUpdate.DocumentId)).ReturnsAsync(helpModelToUpdate);
+            helpPageService.Setup(x => x.GetByIdAsync(helpModelToUpdate.DocumentId)).ReturnsAsync(helpModelToUpdate);
 
             var replacedHelpModel = new HelpPageModel();
-            _helpPageService.Setup(x => x.GetByIdAsync(helpModelToUpdate.DocumentId)).ReturnsAsync(replacedHelpModel);
+            helpPageService.Setup(x => x.GetByIdAsync(helpModelToUpdate.DocumentId)).ReturnsAsync(replacedHelpModel);
 
-            var actionResponse = await _controller.HelpCreateOrUpdate(helpModelToUpdate);
+            var actionResponse = await controller.HelpCreateOrUpdate(helpModelToUpdate).ConfigureAwait(false);
 
             var typedResponse = actionResponse as OkObjectResult;
             typedResponse.StatusCode.Should().Be((int)HttpStatusCode.OK);

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using DFC.App.Help.Data;
+﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
@@ -20,14 +20,14 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             var helpPageModel = new HelpPageModel()
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
-                DocumentId = Guid.NewGuid()
+                DocumentId = Guid.NewGuid(),
             };
-            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
             // act
-            await helpPageService.CreateAsync(helpPageModel);
+            await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
-            var result = await helpPageService.GetByIdAsync(helpPageModel.DocumentId);
+            var result = await helpPageService.GetByIdAsync(helpPageModel.DocumentId).ConfigureAwait(false);
 
             // assert
             result.Should().NotBeNull();

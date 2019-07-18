@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using DFC.App.Help.Data;
+﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Azure.Documents;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
@@ -20,14 +20,14 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             const string name = ValidNameValue + "_Delete";
             var helpPageModel = new HelpPageModel()
             {
-                CanonicalName = name + "_" + Guid.NewGuid().ToString()
+                CanonicalName = name + "_" + Guid.NewGuid().ToString(),
             };
-            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
-            var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel);
+            var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
             // act
-            var result = await helpPageService.DeleteAsync(createdHelpPageModel.DocumentId);
+            var result = await helpPageService.DeleteAsync(createdHelpPageModel.DocumentId).ConfigureAwait(false);
 
             // assert
             result.Should().BeTrue();
@@ -38,13 +38,12 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public void HelpPageServiDeleteReturnsExceptionWhenHelpPageDoeNotExist()
         {
             // arrange
-            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
             // act
             Assert.ThrowsAsync<DocumentClientException>(() => helpPageService.DeleteAsync(Guid.NewGuid()));
 
             // assert
         }
-
     }
 }
