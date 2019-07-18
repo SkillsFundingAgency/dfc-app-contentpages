@@ -1,6 +1,5 @@
 ﻿using System;
 using DFC.App.Help.Data;
-using DFC.App.Help.Data.Common;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.PageService;
 using DFC.App.Help.Repository.CosmosDb;

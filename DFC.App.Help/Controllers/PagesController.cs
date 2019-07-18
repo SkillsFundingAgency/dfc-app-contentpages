@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.ViewModels;
-using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DFC.App.Help.Controllers

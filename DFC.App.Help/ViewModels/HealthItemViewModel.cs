@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DFC.App.Help.ViewModels
+﻿namespace DFC.App.Help.ViewModels
 {
     public class HealthItemViewModel
     {

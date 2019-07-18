@@ -1,6 +1,6 @@
 ﻿namespace DFC.App.Help.ViewModels
 {
-    public class HeadViewModel 
+    public class HeadViewModel
     {
         public string Title { get; set; }
         public string CanonicalUrl { get; set; }

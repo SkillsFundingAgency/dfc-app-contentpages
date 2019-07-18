@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoMapper;
 using DFC.App.Help.Data;
-using DFC.App.Help.Data.Common;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.Filters;
 using DFC.App.Help.Framework;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DFC.App.Help.Data;
 
 namespace DFC.App.Help.Data.Contracts
 {
