@@ -4,6 +4,8 @@ using DFC.App.Help.Data.Common;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.PageService;
 using DFC.App.Help.Repository.CosmosDb;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -29,8 +31,10 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
             services.AddSingleton<IConfiguration>(configuration);
 
             var cosmosDbConnection = configuration.GetSection(Startup.CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
+            var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
 
-            services.AddSingleton<CosmosDbConnection>(cosmosDbConnection);
+            services.AddSingleton(cosmosDbConnection);
+            services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
 

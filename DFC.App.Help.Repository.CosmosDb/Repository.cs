@@ -17,14 +17,14 @@ namespace DFC.App.Help.Repository.CosmosDb
         where T : IDataModel
     {
         private readonly CosmosDbConnection _cosmosDbConnection;
-        private readonly DocumentClient _documentClient;
+        private readonly IDocumentClient _documentClient;
 
         private Uri DocumentCollectionUri => UriFactory.CreateDocumentCollectionUri(_cosmosDbConnection.DatabaseId, _cosmosDbConnection.CollectionId);
 
-        public Repository(CosmosDbConnection cosmosDbConnection)
+        public Repository(CosmosDbConnection cosmosDbConnection, IDocumentClient documentClient)
         {
             _cosmosDbConnection = cosmosDbConnection;
-            _documentClient = new DocumentClient(new Uri(_cosmosDbConnection.EndpointUrl), _cosmosDbConnection.AccessKey);
+            _documentClient = documentClient;
 
             CreateDatabaseIfNotExistsAsync().Wait();
             CreateCollectionIfNotExistsAsync().Wait();
@@ -37,11 +37,6 @@ namespace DFC.App.Help.Repository.CosmosDb
 
         public async Task<bool> PingAsync()
         {
-            if (_documentClient == null)
-            {
-                return false;
-            }
-
             var query = _documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
                                        .AsDocumentQuery();
 
@@ -58,11 +53,6 @@ namespace DFC.App.Help.Repository.CosmosDb
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> where)
         {
-            if (_documentClient == null)
-            {
-                return default(T);
-            }
-
             var query = _documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
                                        .Where(where)
                                        .AsDocumentQuery();
@@ -84,11 +74,6 @@ namespace DFC.App.Help.Repository.CosmosDb
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            if (_documentClient == null)
-            {
-                return null;
-            }
-
             var query = _documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { EnableCrossPartitionQuery = true })
                                        .AsDocumentQuery();
 
@@ -106,11 +91,6 @@ namespace DFC.App.Help.Repository.CosmosDb
 
         public async Task<HttpStatusCode> CreateAsync(T model)
         {
-            if (_documentClient == null)
-            {
-                return HttpStatusCode.FailedDependency;
-            }
-
             var result = await _documentClient.CreateDocumentAsync(DocumentCollectionUri, model);
 
             return result.StatusCode;
@@ -118,11 +98,6 @@ namespace DFC.App.Help.Repository.CosmosDb
 
         public async Task<HttpStatusCode> UpdateAsync(Guid documentId, T model)
         {
-            if (_documentClient == null)
-            {
-                return HttpStatusCode.FailedDependency;
-            }
-
             var documentUri = CreateDocumentUri(documentId);
 
             var result = await _documentClient.ReplaceDocumentAsync(documentUri, model);
@@ -132,11 +107,6 @@ namespace DFC.App.Help.Repository.CosmosDb
 
         public async Task<HttpStatusCode> DeleteAsync(Guid documentId)
         {
-            if (_documentClient == null)
-            {
-                return HttpStatusCode.FailedDependency;
-            }
-
             var documentUri = CreateDocumentUri(documentId);
 
             var result = await _documentClient.DeleteDocumentAsync(documentUri, new RequestOptions() { PartitionKey = new PartitionKey(Undefined.Value) });
@@ -173,16 +143,16 @@ namespace DFC.App.Help.Repository.CosmosDb
             {
                 if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-
                     var pkDef = new PartitionKeyDefinition
                     {
                         Paths = new Collection<string>() { _cosmosDbConnection.PartitionKey }
                     };
 
                     await _documentClient.CreateDocumentCollectionAsync(
-                        UriFactory.CreateDatabaseUri(_cosmosDbConnection.DatabaseId),
-                        new DocumentCollection { Id = _cosmosDbConnection.CollectionId, PartitionKey = pkDef },
-                        new RequestOptions { OfferThroughput = 1000 });
+                                UriFactory.CreateDatabaseUri(_cosmosDbConnection.DatabaseId),
+                                new DocumentCollection { Id = _cosmosDbConnection.CollectionId, PartitionKey = pkDef },
+                                new RequestOptions { OfferThroughput = 1000 }
+                            );
                 }
                 else
                 {
@@ -190,6 +160,5 @@ namespace DFC.App.Help.Repository.CosmosDb
                 }
             }
         }
-
     }
 }
