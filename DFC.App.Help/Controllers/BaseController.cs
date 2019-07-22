@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;

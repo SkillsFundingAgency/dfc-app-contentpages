@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace DFC.App.Help.Data.Contracts
 {
-    public interface IRepository<T>
-        where T : IDataModel
+    public interface IRepository<T> where T : IDataModel
     {
         Task<bool> PingAsync();
 

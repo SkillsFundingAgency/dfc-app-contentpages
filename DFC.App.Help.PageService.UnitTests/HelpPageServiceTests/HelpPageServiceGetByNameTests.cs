@@ -1,52 +1,69 @@
-using System;
-using System.Linq.Expressions;
 using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FakeItEasy;
+using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 {
     public class HelpPageServiceGetByNameTests
     {
-        [Fact]
-        public void HelpPageServiceGetByNameReturnsSuccess()
+        private const string canonicalName = "name1";
+        private readonly IRepository<HelpPageModel> repository;
+        private readonly IDraftHelpPageService draftHelpPageService;
+        private readonly IHelpPageService helpPageService;
+
+        public HelpPageServiceGetByNameTests()
         {
-            // arrange
-            const string canonicalName = "name1";
-            var repository = A.Fake<IRepository<HelpPageModel>>();
-            var expectedResult = A.Fake<HelpPageModel>();
-
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
-
-            var helpPageService = new HelpPageService(repository);
-
-            // act
-            var result = helpPageService.GetByNameAsync(canonicalName).Result;
-
-            // assert
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            this.repository = A.Fake<IRepository<HelpPageModel>>();
+            this.draftHelpPageService = A.Fake<IDraftHelpPageService>();
+            this.helpPageService = new HelpPageService(repository, draftHelpPageService);
         }
 
         [Fact]
-        public void HelpPageServiceGetByNameReturnsNullWhenMissingRepository()
+        public async Task HelpPageServiceGetByNameReturnsSuccess()
         {
             // arrange
-            const string canonicalName = "name1";
-            var repository = A.Fake<IRepository<HelpPageModel>>();
-            HelpPageModel expectedResult = null;
-
+            var expectedResult = A.Fake<HelpPageModel>();
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
-            var helpPageService = new HelpPageService(repository);
-
             // act
-            var result = helpPageService.GetByNameAsync(canonicalName).Result;
+            var result = await helpPageService.GetByNameAsync(canonicalName).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public async Task HelpPageServiceGetByNameReturnsNullWhenMissingRepository()
+        {
+            // arrange
+            A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns((HelpPageModel)null);
+
+            // act
+            var result = await helpPageService.GetByNameAsync(canonicalName).ConfigureAwait(false);
+
+            // assert
+            A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task HelpPageServiceGetByNameCallsDraftServiceWhenIsDraftIsTrue()
+        {
+            // arrange
+            var fakeModel = new HelpPageModel { Content = "TestContent" };
+            A.CallTo(() => draftHelpPageService.GetByName(A<string>.Ignored)).Returns(fakeModel);
+
+            // act
+            var result = await helpPageService.GetByNameAsync(canonicalName, true).ConfigureAwait(false);
+
+            // assert
+            A.CallTo(() => draftHelpPageService.GetByName(canonicalName)).MustHaveHappenedOnceExactly();
+            Assert.Equal(result, fakeModel);
         }
     }
 }

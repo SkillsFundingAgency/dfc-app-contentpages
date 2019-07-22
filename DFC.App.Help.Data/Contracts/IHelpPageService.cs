@@ -12,7 +12,7 @@ namespace DFC.App.Help.Data.Contracts
 
         Task<HelpPageModel> GetByIdAsync(Guid documentId);
 
-        Task<HelpPageModel> GetByNameAsync(string canonicalName);
+        Task<HelpPageModel> GetByNameAsync(string canonicalName, bool isDraft = false);
 
         Task<HelpPageModel> GetByAlternativeNameAsync(string alternativeName);
 

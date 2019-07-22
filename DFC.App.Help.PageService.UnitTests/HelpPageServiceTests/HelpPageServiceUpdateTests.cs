@@ -21,7 +21,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
             A.CallTo(() => repository.UpdateAsync(helpPageModel.DocumentId, helpPageModel)).Returns(HttpStatusCode.OK);
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
-            var helpPageService = new HelpPageService(repository);
+            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
 
             // act
             var result = helpPageService.ReplaceAsync(helpPageModel).Result;
@@ -42,7 +42,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.UpdateAsync(helpPageModel.DocumentId, helpPageModel)).Returns(HttpStatusCode.BadRequest);
 
-            var helpPageService = new HelpPageService(repository);
+            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
 
             // act
             var result = helpPageService.ReplaceAsync(helpPageModel).Result;
@@ -63,7 +63,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.UpdateAsync(helpPageModel.DocumentId, helpPageModel)).Returns(HttpStatusCode.FailedDependency);
 
-            var helpPageService = new HelpPageService(repository);
+            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
 
             // act
             var result = helpPageService.ReplaceAsync(helpPageModel).Result;
