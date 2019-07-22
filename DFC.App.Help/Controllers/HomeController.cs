@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using DFC.App.Help.ViewModels;
+﻿using DFC.App.Help.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace DFC.App.Help.Controllers
 {

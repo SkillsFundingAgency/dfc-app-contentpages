@@ -1,7 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using DFC.App.Help.Data.Attributes;
+﻿using DFC.App.Help.Data.Attributes;
 using Newtonsoft.Json;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.Help.Data
 {

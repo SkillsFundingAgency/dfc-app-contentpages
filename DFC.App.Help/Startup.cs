@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DFC.App.Help.Data;
-using DFC.App.Help.Data.Common;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.Filters;
 using DFC.App.Help.Framework;
@@ -10,8 +9,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace DFC.App.Help
 {
@@ -19,11 +21,11 @@ namespace DFC.App.Help
     {
         public const string CosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:HelpPages";
 
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration configuration;
 
         public Startup(IConfiguration configuration)
         {
-            _configuration = configuration;
+            this.configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -35,11 +37,13 @@ namespace DFC.App.Help
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var cosmosDbConnection = _configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
+            var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
+            var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
             services.AddSingleton<CosmosDbConnection>(cosmosDbConnection);
+            services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
 
@@ -64,7 +68,6 @@ namespace DFC.App.Help
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -78,15 +81,13 @@ namespace DFC.App.Help
                 routes.MapRoute(
                     name: "Sitemap",
                     template: "Sitemap.xml",
-                    defaults: new { controller = "Sitemap", action = "Sitemap" }
-                );
+                    defaults: new { controller = "Sitemap", action = "Sitemap" });
 
                 // add the robots.txt route
                 routes.MapRoute(
                     name: "Robots",
                     template: "Robots.txt",
-                    defaults: new { controller = "Robot", action = "Robot" }
-                );
+                    defaults: new { controller = "Robot", action = "Robot" });
 
                 // add the default route
                 routes.MapRoute(

@@ -27,7 +27,7 @@ namespace DFC.App.Help
                      */
 
                      //This filter is for app insights only
-                     loggingBuilder.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
+                     loggingBuilder.AddFilter<ApplicationInsightsLoggerProvider>(string.Empty, LogLevel.Trace);
                  })
                 .UseStartup<Startup>()
                 .Build();

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using DFC.App.Help.Data;
+﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Azure.Documents;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
@@ -21,17 +21,17 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             var helpPageModel = new HelpPageModel()
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
-                DocumentId = Guid.NewGuid()
+                DocumentId = Guid.NewGuid(),
             };
-            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
-            var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel);
+            var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
             createdHelpPageModel.CanonicalName = createdHelpPageModel.CanonicalName.ToUpper();
             createdHelpPageModel.BreadcrumbTitle = createdHelpPageModel.CanonicalName;
 
             // act
-            var result = await helpPageService.ReplaceAsync(createdHelpPageModel);
+            var result = await helpPageService.ReplaceAsync(createdHelpPageModel).ConfigureAwait(false);
 
             // assert
             result.Should().NotBeNull();
@@ -49,15 +49,14 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             var helpPageModel = new HelpPageModel()
             {
                 DocumentId = Guid.NewGuid(),
-                CanonicalName = name + "_" + Guid.NewGuid().ToString()
+                CanonicalName = name + "_" + Guid.NewGuid().ToString(),
             };
-            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
             // act
             Assert.ThrowsAsync<DocumentClientException>(() => helpPageService.ReplaceAsync(helpPageModel));
 
             // assert
         }
-
     }
 }

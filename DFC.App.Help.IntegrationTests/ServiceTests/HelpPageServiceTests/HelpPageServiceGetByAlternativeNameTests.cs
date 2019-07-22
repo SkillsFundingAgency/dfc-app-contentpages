@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using DFC.App.Help.Data;
+﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
@@ -18,19 +18,19 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         {
             // arrange
             var name = ValidNameValue + "_GetByAlternativeName".ToLower();
-            var alternativeName = ValidAlternativeNameValue + "_GetByAlternativeName".ToLower();
+            var alternativeName = ValidAlternativeNameValue + "_" + Guid.NewGuid().ToString().ToLower();
             var helpPageModel = new HelpPageModel()
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid(),
                 AlternativeNames = new[] { alternativeName },
             };
-            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
-            await helpPageService.CreateAsync(helpPageModel);
+            await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
             // act
-            var result = await helpPageService.GetByAlternativeNameAsync(helpPageModel.AlternativeNames.First());
+            var result = await helpPageService.GetByAlternativeNameAsync(helpPageModel.AlternativeNames.First()).ConfigureAwait(false);
 
             // assert
             result.DocumentId.Should().Be(helpPageModel.DocumentId);
@@ -42,10 +42,10 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServiceGetByAlternativeNameReturnsNullWhenHelpPageDoesNotExist()
         {
             // arrange
-            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
             // act
-            var result = await helpPageService.GetByAlternativeNameAsync(Guid.NewGuid().ToString());
+            var result = await helpPageService.GetByAlternativeNameAsync(Guid.NewGuid().ToString()).ConfigureAwait(false);
 
             // assert
             result.Should().BeNull();

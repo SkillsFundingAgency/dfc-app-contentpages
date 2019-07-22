@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using DFC.App.Help.Data.Contracts;
+﻿using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.Controllers
 {
     public class HealthController : BaseController
     {
-        private readonly ILogger<HealthController> _logger;
-        private readonly IHelpPageService _helpPageService;
+        private readonly ILogger<HealthController> logger;
+        private readonly IHelpPageService helpPageService;
 
         public HealthController(ILogger<HealthController> logger, IHelpPageService helpPageService, AutoMapper.IMapper mapper) : base(mapper)
         {
-            _logger = logger;
-            _helpPageService = helpPageService;
+            this.logger = logger;
+            this.helpPageService = helpPageService;
         }
 
         [HttpGet]
@@ -28,30 +28,30 @@ namespace DFC.App.Help.Controllers
             string message;
             bool isHealthy = false;
 
-            _logger.LogInformation($"{nameof(Health)} has been called");
+            logger.LogInformation($"{nameof(Health)} has been called");
 
             try
             {
-                isHealthy = await _helpPageService.PingAsync();
+                isHealthy = await helpPageService.PingAsync().ConfigureAwait(false);
 
                 if (isHealthy)
                 {
                     message = $"{ResourceName} is available";
 
-                    _logger.LogInformation($"{nameof(Health)} responded with: {message}");
+                    logger.LogInformation($"{nameof(Health)} responded with: {message}");
                 }
                 else
                 {
                     message = $"Ping to {ResourceName} has failed";
 
-                    _logger.LogError($"{nameof(Health)}: {message}");
+                    logger.LogError($"{nameof(Health)}: {message}");
                 }
             }
             catch (Exception ex)
             {
                 message = $"{ResourceName} exception: {ex.Message}";
 
-                _logger.LogError(ex, $"{nameof(Health)}: {message}");
+                logger.LogError(ex, $"{nameof(Health)}: {message}");
             }
 
             var viewModel = new HealthViewModel()
@@ -61,9 +61,9 @@ namespace DFC.App.Help.Controllers
                     new HealthItemViewModel()
                     {
                         Service = ResourceName,
-                        Message = message
-                    }
-                }
+                        Message = message,
+                    },
+                },
             };
 
             if (isHealthy)
@@ -78,7 +78,7 @@ namespace DFC.App.Help.Controllers
         [Route("health/ping")]
         public IActionResult Ping()
         {
-            _logger.LogInformation($"{nameof(Ping)} has been called");
+            logger.LogInformation($"{nameof(Ping)} has been called");
 
             return Ok();
         }

@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using DFC.App.Help.Data.Contracts;
+﻿using DFC.App.Help.Data.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
@@ -14,10 +14,10 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServicePingReturnsSuccess()
         {
             // arrange
-            var helpPageService = _serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
             // act
-            var result = await helpPageService.PingAsync();
+            var result = await helpPageService.PingAsync().ConfigureAwait(false);
 
             // assert
             result.Should().Be(true);

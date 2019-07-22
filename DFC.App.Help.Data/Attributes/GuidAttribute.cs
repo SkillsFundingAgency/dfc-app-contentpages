@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DFC.App.Help.Data.Common;
+using System;
 using System.ComponentModel.DataAnnotations;
-using DFC.App.Help.Data.Common;
 
 namespace DFC.App.Help.Data.Attributes
 {
