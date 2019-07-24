@@ -4,6 +4,8 @@ namespace DFC.App.Help.Data.Contracts
 {
     public interface IDraftHelpPageService
     {
-        HelpPageModel GetByName(string canonicalName);
+        HelpPageModel GetDummyDataByName(string canonicalName);
+
+        Task<HelpPageModel> GetDataAsync(string canonicalName);
     }
 }

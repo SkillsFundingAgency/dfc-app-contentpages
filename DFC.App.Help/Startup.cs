@@ -40,14 +40,18 @@ namespace DFC.App.Help
 
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
             var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
+            var sitefinityApiConnection = configuration.GetSection("SitefinityApi").Get<SitefinityAPIConnectionSettings>();
 
             services.AddHttpContextAccessor();
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
             services.AddSingleton<CosmosDbConnection>(cosmosDbConnection);
+            services.AddSingleton<SitefinityAPIConnectionSettings>(sitefinityApiConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
             services.AddScoped<IDraftHelpPageService, DraftHelpPageService>();
+            services.AddScoped<IOdataContext, SitefinityODataContext>();
+            services.AddScoped<ITokenService, TokenService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
 

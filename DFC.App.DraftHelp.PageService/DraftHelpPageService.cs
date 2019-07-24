@@ -1,12 +1,26 @@
 ﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
 
 namespace DFC.App.DraftHelp.PageService
 {
     public class DraftHelpPageService : IDraftHelpPageService
     {
-        public HelpPageModel GetByName(string canonicalName)
+        private readonly IOdataContext odataContext;
+        private readonly SitefinityAPIConnectionSettings settings;
+        private readonly ILogger<DraftHelpPageService> logger;
+
+        public DraftHelpPageService(IOdataContext odataContext, ILogger<DraftHelpPageService> logger, SitefinityAPIConnectionSettings settings)
+        {
+            this.odataContext = odataContext;
+            this.logger = logger;
+            this.settings = settings;
+        }
+
+        public HelpPageModel GetDummyDataByName(string canonicalName)
         {
             string sampleData;
             switch (canonicalName)
@@ -33,6 +47,31 @@ namespace DFC.App.DraftHelp.PageService
             }
 
             return JsonConvert.DeserializeObject<HelpPageModel>(sampleData);
+        }
+
+        public async Task<HelpPageModel> GetDataAsync(string canonicalName)
+        {
+            using (var client = await odataContext.GetHttpClientAsync().ConfigureAwait(false))
+            {
+                var requestUri = new Uri($"{settings.SiteFinityApiUrlbase}/dfcapi/contentpreview/{canonicalName}");
+                logger.LogInformation($"Requested with url - '{requestUri}'.");
+
+                var resultMessage = await client.GetAsync(requestUri).ConfigureAwait(false);
+                if (resultMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    throw new UnauthorizedAccessException(resultMessage.ReasonPhrase);
+                }
+
+                var result = await client.GetStringAsync(requestUri).ConfigureAwait(false);
+
+                // TODO: Needs audit???
+                //if (shouldAudit)
+                //{
+                //    await auditService.AuditAsync($"{requestUri} | {result}");
+                //}
+
+                return JsonConvert.DeserializeObject<HelpPageModel>(result);
+            }
         }
     }
 }
