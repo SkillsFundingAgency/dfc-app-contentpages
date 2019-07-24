@@ -1,4 +1,5 @@
-﻿using DFC.App.Help.Data;
+﻿using DFC.App.DraftHelp.PageService;
+using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.PageService;
 using DFC.App.Help.Repository.CosmosDb;
@@ -36,6 +37,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
+            services.AddScoped<IDraftHelpPageService, DraftHelpPageService>();
 
             serviceProvider = services.BuildServiceProvider();
         }

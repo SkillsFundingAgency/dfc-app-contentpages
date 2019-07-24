@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DFC.App.DraftHelp.PageService;
 using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using DFC.App.Help.Filters;
@@ -46,6 +47,7 @@ namespace DFC.App.Help
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
+            services.AddScoped<IDraftHelpPageService, DraftHelpPageService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
 

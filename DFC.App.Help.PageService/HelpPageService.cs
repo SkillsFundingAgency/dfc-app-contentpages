@@ -10,77 +10,65 @@ namespace DFC.App.Help.PageService
 {
     public class HelpPageService : IHelpPageService
     {
-        private readonly IRepository<HelpPageModel> documentDbProvider;
+        private readonly IRepository<HelpPageModel> repository;
+        private readonly IDraftHelpPageService draftHelpPageService;
 
-        public HelpPageService(IRepository<HelpPageModel> documentDbProvider)
+        public HelpPageService(IRepository<HelpPageModel> repository, IDraftHelpPageService draftHelpPageService)
         {
-            this.documentDbProvider = documentDbProvider;
+            this.repository = repository;
+            this.draftHelpPageService = draftHelpPageService;
         }
 
         public async Task<bool> PingAsync()
         {
-            var results = await documentDbProvider.PingAsync().ConfigureAwait(false);
-
-            return results;
+            return await repository.PingAsync().ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<HelpPageModel>> GetAllAsync()
         {
-            var results = await documentDbProvider.GetAllAsync().ConfigureAwait(false);
-
-            return results;
+            return await repository.GetAllAsync().ConfigureAwait(false);
         }
 
         public async Task<HelpPageModel> GetByIdAsync(Guid documentId)
         {
-            var result = await documentDbProvider.GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
-
-            return result;
+            return await repository.GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
         }
 
-        public async Task<HelpPageModel> GetByNameAsync(string canonicalName)
+        public async Task<HelpPageModel> GetByNameAsync(string canonicalName, bool isDraft = false)
         {
-            var result = await documentDbProvider.GetAsync(d => d.CanonicalName == canonicalName.ToLower()).ConfigureAwait(false);
-
-            return result;
+            return isDraft
+                ? this.draftHelpPageService.GetByName(canonicalName)
+                : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLower()).ConfigureAwait(false);
         }
 
         public async Task<HelpPageModel> GetByAlternativeNameAsync(string alternativeName)
         {
-            var result = await documentDbProvider.GetAsync(d => d.AlternativeNames.Contains(alternativeName.ToLower())).ConfigureAwait(false);
-
-            return result;
+            return await repository.GetAsync(d => d.AlternativeNames.Contains(alternativeName.ToLower())).ConfigureAwait(false);
         }
 
         public async Task<HelpPageModel> CreateAsync(HelpPageModel helpPageModel)
         {
-            var result = await documentDbProvider.CreateAsync(helpPageModel).ConfigureAwait(false);
+            var result = await repository.CreateAsync(helpPageModel).ConfigureAwait(false);
 
-            if (result == HttpStatusCode.Created)
-            {
-                return await GetByIdAsync(helpPageModel.DocumentId).ConfigureAwait(false);
-            }
-
-            return null;
+            return result == HttpStatusCode.Created
+                ? await GetByIdAsync(helpPageModel.DocumentId).ConfigureAwait(false)
+                : null;
         }
 
         public async Task<HelpPageModel> ReplaceAsync(HelpPageModel helpPageModel)
         {
-            var result = await documentDbProvider.UpdateAsync(helpPageModel.DocumentId, helpPageModel).ConfigureAwait(false);
+            var result = await repository.UpdateAsync(helpPageModel.DocumentId, helpPageModel).ConfigureAwait(false);
 
-            if (result == HttpStatusCode.OK)
-            {
-                return await GetByIdAsync(helpPageModel.DocumentId).ConfigureAwait(false);
-            }
-
-            return null;
+            return result == HttpStatusCode.OK
+                ? await GetByIdAsync(helpPageModel.DocumentId).ConfigureAwait(false)
+                : null;
         }
 
         public async Task<bool> DeleteAsync(Guid documentId)
         {
-            var result = await documentDbProvider.DeleteAsync(documentId).ConfigureAwait(false);
+            var result = await repository.DeleteAsync(documentId).ConfigureAwait(false);
 
-            return result == HttpStatusCode.NoContent ? true : false;
+            return result == HttpStatusCode.NoContent;
         }
     }
 }

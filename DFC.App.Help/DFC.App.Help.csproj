@@ -10,6 +10,7 @@
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
+
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
@@ -36,6 +37,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\DFC.App.DraftHelp.PageService\DFC.App.DraftHelp.PageService.csproj" />
     <ProjectReference Include="..\DFC.App.Help.Data\DFC.App.Help.Data.csproj" />
     <ProjectReference Include="..\DFC.App.Help.PageService\DFC.App.Help.PageService.csproj" />
     <ProjectReference Include="..\DFC.App.Help.Repository.CosmosDb\DFC.App.Help.Repository.CosmosDb.csproj" />

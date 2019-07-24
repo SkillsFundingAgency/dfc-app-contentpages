@@ -26,49 +26,29 @@ namespace DFC.App.Help.Controllers
         {
             const string ResourceName = "Document store";
             string message;
-            bool isHealthy = false;
 
             logger.LogInformation($"{nameof(Health)} has been called");
 
             try
             {
-                isHealthy = await helpPageService.PingAsync().ConfigureAwait(false);
+                var isHealthy = await helpPageService.PingAsync().ConfigureAwait(false);
 
                 if (isHealthy)
                 {
                     message = $"{ResourceName} is available";
-
                     logger.LogInformation($"{nameof(Health)} responded with: {message}");
-                }
-                else
-                {
-                    message = $"Ping to {ResourceName} has failed";
 
-                    logger.LogError($"{nameof(Health)}: {message}");
+                    var viewModel = CreateHealthViewModel(ResourceName, message);
+                    return NegotiateContentResult(viewModel);
                 }
+
+                message = $"Ping to {ResourceName} has failed";
+                logger.LogError($"{nameof(Health)}: {message}");
             }
             catch (Exception ex)
             {
                 message = $"{ResourceName} exception: {ex.Message}";
-
                 logger.LogError(ex, $"{nameof(Health)}: {message}");
-            }
-
-            var viewModel = new HealthViewModel()
-            {
-                HealthItems = new List<HealthItemViewModel>()
-                {
-                    new HealthItemViewModel()
-                    {
-                        Service = ResourceName,
-                        Message = message,
-                    },
-                },
-            };
-
-            if (isHealthy)
-            {
-                return NegotiateContentResult(viewModel);
             }
 
             return StatusCode((int)HttpStatusCode.ServiceUnavailable);
@@ -81,6 +61,21 @@ namespace DFC.App.Help.Controllers
             logger.LogInformation($"{nameof(Ping)} has been called");
 
             return Ok();
+        }
+
+        private static HealthViewModel CreateHealthViewModel(string resourceName, string message)
+        {
+            return new HealthViewModel
+            {
+                HealthItems = new List<HealthItemViewModel>
+                {
+                    new HealthItemViewModel
+                    {
+                        Service = resourceName,
+                        Message = message,
+                    },
+                },
+            };
         }
     }
 }

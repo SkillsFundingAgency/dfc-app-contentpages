@@ -1,5 +1,6 @@
 ﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
+using DFC.App.Help.Extensions;
 using DFC.App.Help.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -104,6 +105,8 @@ namespace DFC.App.Help.Controllers
         [HttpGet]
         [Route("pages/{article}/htmlhead")]
         [Route("pages/htmlhead")]
+        [Route("draft/{article}/htmlhead")]
+        [Route("draft/htmlhead")]
         public async Task<IActionResult> Head(string article)
         {
             var viewModel = new HeadViewModel();
@@ -121,6 +124,8 @@ namespace DFC.App.Help.Controllers
 
         [Route("pages/{article}/breadcrumb")]
         [Route("pages/breadcrumb")]
+        [Route("draft/{article}/breadcrumb")]
+        [Route("draft/breadcrumb")]
         public async Task<IActionResult> Breadcrumb(string article)
         {
             var helpPageModel = await GetHelpPageAsync(article).ConfigureAwait(false);
@@ -132,6 +137,8 @@ namespace DFC.App.Help.Controllers
         [HttpGet]
         [Route("pages/{article}/bodytop")]
         [Route("pages/bodytop")]
+        [Route("draft/{article}/bodytop")]
+        [Route("draft/bodytop")]
         public IActionResult BodyTop(string article)
         {
             return NoContent();
@@ -140,6 +147,8 @@ namespace DFC.App.Help.Controllers
         [HttpGet]
         [Route("pages/{article}/contents")]
         [Route("pages/contents")]
+        [Route("draft/{article}/contents")]
+        [Route("draft/contents")]
         public async Task<IActionResult> Body(string article)
         {
             var viewModel = new BodyViewModel();
@@ -167,6 +176,8 @@ namespace DFC.App.Help.Controllers
         [HttpGet]
         [Route("pages/{article}/bodyfooter")]
         [Route("pages/bodyfooter")]
+        [Route("draft/{article}/bodyfooter")]
+        [Route("draft/bodyfooter")]
         public IActionResult BodyFooter(string article)
         {
             return NoContent();
@@ -176,23 +187,24 @@ namespace DFC.App.Help.Controllers
 
         private async Task<HelpPageModel> GetHelpPageAsync(string article)
         {
-            string name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
+            var isDraft = Request.IsDraftRequest();
+            var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
 
-            var helpPageModel = await helpPageService.GetByNameAsync(name).ConfigureAwait(false);
+            var helpPageModel = await helpPageService.GetByNameAsync(name, isDraft).ConfigureAwait(false);
 
             return helpPageModel;
         }
 
         private async Task<HelpPageModel> GetAlternativeHelpPageAsync(string article)
         {
-            string name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
+            var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
 
             var helpPageModel = await helpPageService.GetByAlternativeNameAsync(name).ConfigureAwait(false);
 
             return helpPageModel;
         }
 
-        private BreadcrumbViewModel BuildBreadcrumb(HelpPageModel helpPageModel)
+        private static BreadcrumbViewModel BuildBreadcrumb(HelpPageModel helpPageModel)
         {
             var viewModel = new BreadcrumbViewModel
             {
@@ -203,7 +215,7 @@ namespace DFC.App.Help.Controllers
                         Route = "/",
                         Title = "Home",
                     },
-                    new BreadcrumbPathViewModel()
+                    new BreadcrumbPathViewModel
                     {
                         Route = $"/{HelpPathRoot}",
                         Title = "Help",
@@ -211,9 +223,9 @@ namespace DFC.App.Help.Controllers
                 },
             };
 
-            if (helpPageModel != null && helpPageModel.CanonicalName.Equals(DefaultArticleName, StringComparison.OrdinalIgnoreCase))
+            if (helpPageModel?.CanonicalName != null && helpPageModel.CanonicalName.Equals(DefaultArticleName, StringComparison.OrdinalIgnoreCase))
             {
-                var articlePathViewModel = new BreadcrumbPathViewModel()
+                var articlePathViewModel = new BreadcrumbPathViewModel
                 {
                     Route = $"/{HelpPathRoot}/{helpPageModel.CanonicalName}",
                     Title = helpPageModel.BreadcrumbTitle,
@@ -227,7 +239,6 @@ namespace DFC.App.Help.Controllers
             return viewModel;
         }
 
-        #endregion
-
+        #endregion Define helper methods
     }
 }

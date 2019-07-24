@@ -31,23 +31,24 @@ namespace DFC.App.Help.Controllers
                 var sitemap = new Sitemap();
 
                 // add the defaults
-                sitemap.Add(new SitemapLocation()
+                sitemap.Add(new SitemapLocation
                 {
                     Url = sitemapUrlPrefix,
                     Priority = 1,
                 });
 
                 var helpPageModels = await helpPageService.GetAllAsync().ConfigureAwait(false);
+                var helpPageModelsList = helpPageModels.ToList();
 
-                if (helpPageModels?.Count() > 0)
+                if (helpPageModelsList.Any())
                 {
-                    var sitemapHelpPageModels = helpPageModels
+                    var sitemapHelpPageModels = helpPageModelsList
                          .Where(w => w.IncludeInSitemap && !w.CanonicalName.Equals(PagesController.DefaultArticleName, StringComparison.OrdinalIgnoreCase))
                          .OrderBy(o => o.CanonicalName);
 
                     foreach (var helpPageModel in sitemapHelpPageModels)
                     {
-                        sitemap.Add(new SitemapLocation()
+                        sitemap.Add(new SitemapLocation
                         {
                             Url = $"{sitemapUrlPrefix}/{helpPageModel.CanonicalName}",
                             Priority = 1,
@@ -56,7 +57,7 @@ namespace DFC.App.Help.Controllers
                 }
 
                 // extract the sitemap
-                string xmlString = sitemap.WriteSitemapToString();
+                var xmlString = sitemap.WriteSitemapToString();
 
                 logger.LogInformation("Generated Sitemap");
 
