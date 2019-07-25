@@ -37,8 +37,7 @@ namespace DFC.App.Help.PageService
         public async Task<HelpPageModel> GetByNameAsync(string canonicalName, bool isDraft = false)
         {
             return isDraft
-                //? this.draftHelpPageService.GetDummyDataByName(canonicalName)
-                ? await draftHelpPageService.GetDataAsync(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
+                ? await draftHelpPageService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
                 : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLower()).ConfigureAwait(false);
         }
 

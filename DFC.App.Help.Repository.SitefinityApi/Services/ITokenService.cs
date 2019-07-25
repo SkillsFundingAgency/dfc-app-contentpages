@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 
-namespace DFC.App.DraftHelp.PageService
+namespace DFC.App.Help.Repository.SitefinityApi.Services
 {
     public interface ITokenService
     {
         Task<string> GetAccessTokenAsync();
 
-        void SetAccessToken(string accessTokenSet);
+        void SetAccessToken(string accessToken);
     }
 }

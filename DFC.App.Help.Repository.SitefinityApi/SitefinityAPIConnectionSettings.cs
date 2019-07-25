@@ -2,8 +2,9 @@
 {
     public class SitefinityAPIConnectionSettings
     {
-        public string TokenEndpoint { get; set; }
-        public string SiteFinityApiUrlbase { get; set; }
+        public string AuthTokenEndpoint { get; set; }
+        public string SitefinityApiUrlBase { get; set; }
+        public string SitefinityApiDataEndpoint { get; set; }
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
         public string Username { get; set; }

@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace DFC.App.DraftHelp.PageService
+namespace DFC.App.Help.Repository.SitefinityApi.DataContext
 {
-    public interface IOdataContext
+    public interface ISitefinityODataContext
     {
         Task<HttpClient> GetHttpClientAsync();
     }
