@@ -4,6 +4,6 @@ namespace DFC.App.Help.Data.Contracts
 {
     public interface IDraftHelpPageService
     {
-        HelpPageModel GetByName(string canonicalName);
+        Task<HelpPageModel> GetSitefinityData(string canonicalName);
     }
 }

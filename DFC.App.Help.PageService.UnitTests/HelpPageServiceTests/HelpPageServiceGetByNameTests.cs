@@ -56,13 +56,13 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         {
             // arrange
             var fakeModel = new HelpPageModel { Content = "TestContent" };
-            A.CallTo(() => draftHelpPageService.GetByName(A<string>.Ignored)).Returns(fakeModel);
+            A.CallTo(() => draftHelpPageService.GetSitefinityData(A<string>.Ignored)).Returns(fakeModel);
 
             // act
             var result = await helpPageService.GetByNameAsync(canonicalName, true).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => draftHelpPageService.GetByName(canonicalName)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => draftHelpPageService.GetSitefinityData(canonicalName)).MustHaveHappenedOnceExactly();
             Assert.Equal(result, fakeModel);
         }
     }

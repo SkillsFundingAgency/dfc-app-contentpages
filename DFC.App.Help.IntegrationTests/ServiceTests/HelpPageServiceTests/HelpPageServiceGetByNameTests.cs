@@ -1,6 +1,5 @@
 ﻿using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
-using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
@@ -16,10 +15,9 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServiceGetByNameReturnsSuccessWhenHelpPageExists()
         {
             // arrange
-            var name = ValidNameValue + "_GetByName".ToLower();
-            var helpPageModel = new HelpPageModel()
+            var helpPageModel = new HelpPageModel
             {
-                CanonicalName = name + "_" + Guid.NewGuid().ToString(),
+                CanonicalName = $"{ValidNameValue}_getbyname_{Guid.NewGuid().ToString()}",
                 DocumentId = Guid.NewGuid(),
             };
             var helpPageService = serviceProvider.GetService<IHelpPageService>();
@@ -30,22 +28,36 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             var result = await helpPageService.GetByNameAsync(helpPageModel.CanonicalName).ConfigureAwait(false);
 
             // assert
-            result.DocumentId.Should().Be(helpPageModel.DocumentId);
-            result.CanonicalName.Should().Be(helpPageModel.CanonicalName);
+            Assert.True(result.DocumentId == helpPageModel.DocumentId
+                        && result.CanonicalName.Equals(helpPageModel.CanonicalName, StringComparison.InvariantCulture));
         }
 
         [Test]
         [Category("HelpPageService.GetByName")]
         public async Task HelpPageServiceGetByNameReturnsNullWhenHelpPageDoesNotExist()
         {
+            // Arrange
+            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+
+            // Act
+            var result = await helpPageService.GetByNameAsync(Guid.NewGuid().ToString()).ConfigureAwait(false);
+
+            //Assert
+            Assert.Null(result);
+        }
+
+        [Test]
+        [Category("HelpPageService.GetByName")]
+        public async Task HelpPageServiceGetByNameReturnsModelFromSitefinityWhenIsDraftIsTrue()
+        {
             // arrange
             var helpPageService = serviceProvider.GetService<IHelpPageService>();
 
             // act
-            var result = await helpPageService.GetByNameAsync(Guid.NewGuid().ToString()).ConfigureAwait(false);
+            var result = await helpPageService.GetByNameAsync("help", true).ConfigureAwait(false);
 
             // assert
-            result.Should().BeNull();
+            Assert.True(!string.IsNullOrEmpty(result.Content));
         }
     }
 }

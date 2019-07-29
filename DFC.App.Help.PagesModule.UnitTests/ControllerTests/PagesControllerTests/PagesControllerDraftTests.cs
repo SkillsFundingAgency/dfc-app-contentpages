@@ -27,10 +27,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
         [MemberData(nameof(DraftRouteData))]
         public async void PagesControllerCallsHelpPageServiceWithIsDraftTrueWhenUsingDraftRoute(string route, string article, string actionMethod)
         {
+            // Arrange
             var controller = BuildController(route);
 
+            // Act
             var result = await RunControllerAction(controller, article, actionMethod).ConfigureAwait(false);
 
+            // Assert
             Assert.IsType<OkObjectResult>(result);
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, true)).MustHaveHappenedOnceExactly();
             controller.Dispose();
@@ -40,10 +43,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
         [MemberData(nameof(NonDraftRouteData))]
         public async void PagesControllerCallsHelpPageServiceWithIsDraftFalseWhenUsingNonDraftRoute(string route, string article, string actionMethod)
         {
+            // Arrange
             var controller = BuildController(route);
 
+            // Act
             var result = await RunControllerAction(controller, article, actionMethod).ConfigureAwait(false);
 
+            // Assert
             Assert.IsType<OkObjectResult>(result);
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, false)).MustHaveHappenedOnceExactly();
             controller.Dispose();
