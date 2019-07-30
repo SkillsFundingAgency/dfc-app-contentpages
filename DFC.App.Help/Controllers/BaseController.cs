@@ -19,7 +19,7 @@ namespace DFC.App.Help.Controllers
         {
             if (Request.Headers.Keys.Contains(HeaderNames.Accept))
             {
-                var acceptHeaders = Request.Headers[HeaderNames.Accept].ToString().ToLower().Split(';');
+                var acceptHeaders = Request.Headers[HeaderNames.Accept].ToString().ToLowerInvariant().Split(';');
 
                 foreach (var acceptHeader in acceptHeaders)
                 {
