@@ -38,12 +38,12 @@ namespace DFC.App.Help.PageService
         {
             return isDraft
                 ? await draftHelpPageService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
-                : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLower()).ConfigureAwait(false);
+                : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
         public async Task<HelpPageModel> GetByAlternativeNameAsync(string alternativeName)
         {
-            return await repository.GetAsync(d => d.AlternativeNames.Contains(alternativeName.ToLower())).ConfigureAwait(false);
+            return await repository.GetAsync(d => d.AlternativeNames.Contains(alternativeName.ToLowerInvariant())).ConfigureAwait(false);
         }
 
         public async Task<HelpPageModel> CreateAsync(HelpPageModel helpPageModel)
