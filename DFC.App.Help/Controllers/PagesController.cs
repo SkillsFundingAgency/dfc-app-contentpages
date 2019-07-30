@@ -185,25 +185,6 @@ namespace DFC.App.Help.Controllers
 
         #region Define helper methods
 
-        private async Task<HelpPageModel> GetHelpPageAsync(string article)
-        {
-            var isDraft = Request.IsDraftRequest();
-            var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
-
-            var helpPageModel = await helpPageService.GetByNameAsync(name, isDraft).ConfigureAwait(false);
-
-            return helpPageModel;
-        }
-
-        private async Task<HelpPageModel> GetAlternativeHelpPageAsync(string article)
-        {
-            var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
-
-            var helpPageModel = await helpPageService.GetByAlternativeNameAsync(name).ConfigureAwait(false);
-
-            return helpPageModel;
-        }
-
         private static BreadcrumbViewModel BuildBreadcrumb(HelpPageModel helpPageModel)
         {
             var viewModel = new BreadcrumbViewModel
@@ -237,6 +218,25 @@ namespace DFC.App.Help.Controllers
             viewModel.Paths.Last().AddHyperlink = false;
 
             return viewModel;
+        }
+
+        private async Task<HelpPageModel> GetHelpPageAsync(string article)
+        {
+            var isDraft = Request.IsDraftRequest();
+            var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
+
+            var helpPageModel = await helpPageService.GetByNameAsync(name, isDraft).ConfigureAwait(false);
+
+            return helpPageModel;
+        }
+
+        private async Task<HelpPageModel> GetAlternativeHelpPageAsync(string article)
+        {
+            var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
+
+            var helpPageModel = await helpPageService.GetByAlternativeNameAsync(name).ConfigureAwait(false);
+
+            return helpPageModel;
         }
 
         #endregion Define helper methods

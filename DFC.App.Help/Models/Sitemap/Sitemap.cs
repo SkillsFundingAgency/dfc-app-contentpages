@@ -45,11 +45,6 @@ namespace DFC.App.Help.Models
             }
         }
 
-        public string GetSitemapXml()
-        {
-            return string.Empty;
-        }
-
         public int Add(SitemapLocation item)
         {
             return map.Add(item);

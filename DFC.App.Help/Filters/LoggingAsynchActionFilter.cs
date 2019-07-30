@@ -18,7 +18,7 @@ namespace DFC.App.Help.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var correlationId = correlationIdProvider.Get();
+            var correlationId = correlationIdProvider.GetId();
 
             logger.LogInformation($"CorrelationId:{correlationId} Executing {context.ActionDescriptor.DisplayName}");
 
