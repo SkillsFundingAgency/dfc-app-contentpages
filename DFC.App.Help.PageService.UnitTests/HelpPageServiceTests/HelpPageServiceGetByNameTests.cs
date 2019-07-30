@@ -11,13 +11,13 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
     public class HelpPageServiceGetByNameTests
     {
         private const string canonicalName = "name1";
-        private readonly IRepository<HelpPageModel> repository;
+        private readonly ICosmosRepository<HelpPageModel> repository;
         private readonly IDraftHelpPageService draftHelpPageService;
         private readonly IHelpPageService helpPageService;
 
         public HelpPageServiceGetByNameTests()
         {
-            this.repository = A.Fake<IRepository<HelpPageModel>>();
+            this.repository = A.Fake<ICosmosRepository<HelpPageModel>>();
             this.draftHelpPageService = A.Fake<IDraftHelpPageService>();
             this.helpPageService = new HelpPageService(repository, draftHelpPageService);
         }

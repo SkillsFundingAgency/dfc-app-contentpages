@@ -14,7 +14,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         public void HelpPageServiceUpdateReturnsSuccessWhenHelpPageReplaced()
         {
             // arrange
-            var repository = A.Fake<IRepository<HelpPageModel>>();
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
             var helpPageModel = A.Fake<HelpPageModel>();
             var expectedResult = A.Fake<HelpPageModel>();
 
@@ -36,7 +36,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         public void HelpPageServiceUpdateReturnsNullWhenHelpPageNotReplaced()
         {
             // arrange
-            var repository = A.Fake<IRepository<HelpPageModel>>();
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
             var helpPageModel = A.Fake<HelpPageModel>();
             var expectedResult = A.Dummy<HelpPageModel>();
 
@@ -57,7 +57,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         public void HelpPageServiceUpdateReturnsNullWhenMissingRepository()
         {
             // arrange
-            var repository = A.Dummy<IRepository<HelpPageModel>>();
+            var repository = A.Dummy<ICosmosRepository<HelpPageModel>>();
             var helpPageModel = A.Fake<HelpPageModel>();
             HelpPageModel expectedResult = null;
 

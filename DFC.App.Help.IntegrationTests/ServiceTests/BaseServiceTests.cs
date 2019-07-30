@@ -42,7 +42,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton(sitefinityApiConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
-            services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
+            services.AddSingleton<ICosmosRepository<HelpPageModel>, CosmosRepository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
             services.AddScoped<IDraftHelpPageService, DraftHelpPageService>();
             services.AddHttpClient<ISitefinityODataContext, SitefinityODataContext, HttpClientOptions>(configuration, nameof(HttpClientOptions));

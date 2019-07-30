@@ -10,10 +10,10 @@ namespace DFC.App.Help.PageService
 {
     public class HelpPageService : IHelpPageService
     {
-        private readonly IRepository<HelpPageModel> repository;
+        private readonly ICosmosRepository<HelpPageModel> repository;
         private readonly IDraftHelpPageService draftHelpPageService;
 
-        public HelpPageService(IRepository<HelpPageModel> repository, IDraftHelpPageService draftHelpPageService)
+        public HelpPageService(ICosmosRepository<HelpPageModel> repository, IDraftHelpPageService draftHelpPageService)
         {
             this.repository = repository;
             this.draftHelpPageService = draftHelpPageService;
