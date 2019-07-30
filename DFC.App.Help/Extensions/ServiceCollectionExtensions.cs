@@ -33,7 +33,7 @@ namespace DFC.App.Help.Extensions
                 {
                     return new HttpClientHandler()
                     {
-                        AllowAutoRedirect = false
+                        AllowAutoRedirect = false,
                     };
                 })
                 .Services;

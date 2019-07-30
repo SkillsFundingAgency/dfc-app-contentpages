@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 
 namespace DFC.App.Help.Extensions
 {

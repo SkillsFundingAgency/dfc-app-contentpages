@@ -46,6 +46,8 @@ namespace DFC.App.Help.Repository.SitefinityApi.Services
             return tokenResponse.AccessToken;
         }
 
+        public void SetAccessToken(string accessTokenSet) => this.accessToken = accessTokenSet;
+
         private async Task<TokenResponse> RequestToken(DiscoveryResponse disco)
         {
             return await httpClient.RequestPasswordTokenAsync(
@@ -64,7 +66,5 @@ namespace DFC.App.Help.Repository.SitefinityApi.Services
                 })
                 .ConfigureAwait(false);
         }
-
-        public void SetAccessToken(string accessTokenSet) => this.accessToken = accessTokenSet;
     }
 }

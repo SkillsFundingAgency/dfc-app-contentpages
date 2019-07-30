@@ -60,7 +60,6 @@ namespace DFC.App.DraftHelp.PageService
 
                 var result = await client.GetStringAsync(requestUri).ConfigureAwait(false);
                 return JsonConvert.DeserializeObject<HelpPageModel>(result);
-
             }
         }
     }
