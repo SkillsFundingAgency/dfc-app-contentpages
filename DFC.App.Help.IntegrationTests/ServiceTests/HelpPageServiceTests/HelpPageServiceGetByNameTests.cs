@@ -20,7 +20,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 CanonicalName = $"{ValidNameValue}_getbyname_{Guid.NewGuid().ToString()}",
                 DocumentId = Guid.NewGuid(),
             };
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
@@ -37,7 +37,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServiceGetByNameReturnsNullWhenHelpPageDoesNotExist()
         {
             // Arrange
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // Act
             var result = await helpPageService.GetByNameAsync(Guid.NewGuid().ToString()).ConfigureAwait(false);
@@ -51,7 +51,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServiceGetByNameReturnsModelFromSitefinityWhenIsDraftIsTrue()
         {
             // arrange
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // act
             var result = await helpPageService.GetByNameAsync("help", true).ConfigureAwait(false);

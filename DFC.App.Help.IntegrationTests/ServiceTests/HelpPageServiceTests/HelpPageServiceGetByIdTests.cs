@@ -22,7 +22,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid(),
             };
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
@@ -40,7 +40,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServiceGetByIdReturnsNullWhenHelpPageDoesNotExist()
         {
             // arrange
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // act
             var result = await helpPageService.GetByIdAsync(Guid.NewGuid()).ConfigureAwait(false);

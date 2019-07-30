@@ -54,7 +54,7 @@ namespace DFC.App.Help.Repository.CosmosDb
 
             if (query == null)
             {
-                return default(T);
+                return default;
             }
 
             var models = await query.ExecuteNextAsync<T>().ConfigureAwait(false);

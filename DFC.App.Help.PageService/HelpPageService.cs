@@ -36,6 +36,11 @@ namespace DFC.App.Help.PageService
 
         public async Task<HelpPageModel> GetByNameAsync(string canonicalName, bool isDraft = false)
         {
+            if (string.IsNullOrWhiteSpace(canonicalName))
+            {
+                throw new ArgumentNullException(nameof(canonicalName));
+            }
+
             return isDraft
                 ? await draftHelpPageService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
                 : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
@@ -48,6 +53,11 @@ namespace DFC.App.Help.PageService
 
         public async Task<HelpPageModel> CreateAsync(HelpPageModel helpPageModel)
         {
+            if (helpPageModel == null)
+            {
+                throw new ArgumentNullException(nameof(helpPageModel));
+            }
+
             var result = await repository.CreateAsync(helpPageModel).ConfigureAwait(false);
 
             return result == HttpStatusCode.Created
@@ -57,6 +67,11 @@ namespace DFC.App.Help.PageService
 
         public async Task<HelpPageModel> ReplaceAsync(HelpPageModel helpPageModel)
         {
+            if (helpPageModel == null)
+            {
+                throw new ArgumentNullException(nameof(helpPageModel));
+            }
+
             var result = await repository.UpdateAsync(helpPageModel.DocumentId, helpPageModel).ConfigureAwait(false);
 
             return result == HttpStatusCode.OK

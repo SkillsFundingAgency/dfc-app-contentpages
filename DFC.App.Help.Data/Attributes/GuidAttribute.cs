@@ -9,6 +9,16 @@ namespace DFC.App.Help.Data.Attributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (validationContext == null)
+            {
+                throw new ArgumentNullException(nameof(validationContext));
+            }
+
             if (!Guid.TryParse(value.ToString(), out var guid) || guid == Guid.Empty)
             {
                 return new ValidationResult(string.Format(ValidationMessage.FieldInvalidGuid, validationContext.DisplayName), new[] { validationContext.MemberName });

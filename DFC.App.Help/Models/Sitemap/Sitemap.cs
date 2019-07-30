@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
@@ -28,6 +29,7 @@ namespace DFC.App.Help.Models
 
                 return items;
             }
+
             set
             {
                 if (value == null)
@@ -52,6 +54,11 @@ namespace DFC.App.Help.Models
 
         public void AddRange(IEnumerable<SitemapLocation> locs)
         {
+            if (locs == null)
+            {
+                throw new ArgumentNullException(nameof(locs));
+            }
+
             foreach (var i in locs)
             {
                 map.Add(i);

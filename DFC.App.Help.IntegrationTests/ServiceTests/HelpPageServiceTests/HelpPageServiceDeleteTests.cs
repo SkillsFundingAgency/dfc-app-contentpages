@@ -22,7 +22,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
             };
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
@@ -38,7 +38,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public void HelpPageServiDeleteReturnsExceptionWhenHelpPageDoeNotExist()
         {
             // arrange
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // act
             Assert.ThrowsAsync<DocumentClientException>(() => helpPageService.DeleteAsync(Guid.NewGuid()));

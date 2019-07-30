@@ -19,7 +19,9 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
     [TestFixture]
     public abstract class BaseServiceTests
     {
-        protected IServiceProvider serviceProvider;
+        private IServiceProvider serviceProvider;
+
+        public IServiceProvider ServiceProvider => serviceProvider;
 
         #region Tests initialisations and cleanup
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 
 namespace DFC.App.Help.Data.Attributes
@@ -16,15 +17,20 @@ namespace DFC.App.Help.Data.Attributes
                 return ValidationResult.Success;
             }
 
+            if (validationContext == null)
+            {
+                throw new ArgumentNullException(nameof(validationContext));
+            }
+
             var result = false;
 
             switch (value)
             {
                 case IEnumerable<string> list:
-                    result = list.All(s => s.Equals(s.ToLower()));
+                    result = list.All(s => s.Equals(s.ToLower(CultureInfo.CurrentCulture), StringComparison.InvariantCultureIgnoreCase));
                     break;
                 default:
-                    result = value.ToString().Equals(value.ToString().ToLower());
+                    result = value.ToString().Equals(value.ToString().ToLower(CultureInfo.CurrentCulture), StringComparison.InvariantCultureIgnoreCase);
                     break;
             }
 
