@@ -1,6 +1,7 @@
 using DFC.App.Help.Data;
 using DFC.App.Help.ViewModels;
 using FakeItEasy;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
@@ -31,6 +32,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<HeadViewModel>(viewResult.ViewData.Model);
 
+            model.CanonicalUrl.Should().NotBeNullOrWhiteSpace();
+
             controller.Dispose();
         }
 
@@ -56,6 +59,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<HeadViewModel>(jsonResult.Value);
 
+            model.CanonicalUrl.Should().NotBeNullOrWhiteSpace();
+
             controller.Dispose();
         }
 
@@ -65,21 +70,21 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
         {
             // Arrange
             const string article = "an-article-name";
-            var expectedResult = A.Fake<HelpPageModel>();
+            HelpPageModel expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).Returns(A.Fake<HeadViewModel>());
 
             // Act
             var result = await controller.Head(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<HeadViewModel>(viewResult.ViewData.Model);
+
+            model.CanonicalUrl.Should().BeNull();
 
             controller.Dispose();
         }
@@ -90,21 +95,21 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
         {
             // Arrange
             const string article = "an-article-name";
-            var expectedResult = A.Fake<HelpPageModel>();
+            HelpPageModel expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).Returns(A.Fake<HeadViewModel>());
 
             // Act
             var result = await controller.Head(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<HeadViewModel>(jsonResult.Value);
+
+            model.CanonicalUrl.Should().BeNull();
 
             controller.Dispose();
         }
