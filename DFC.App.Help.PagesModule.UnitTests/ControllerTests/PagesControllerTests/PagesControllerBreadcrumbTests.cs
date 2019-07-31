@@ -1,3 +1,4 @@
+using DFC.App.Help.Controllers;
 using DFC.App.Help.Data;
 using DFC.App.Help.ViewModels;
 using FakeItEasy;
@@ -18,6 +19,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             const string article = "an-article-name";
             var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
@@ -43,6 +46,62 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             const string article = "an-article-name";
             var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
+
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.Breadcrumb(article).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var jsonResult = Assert.IsType<OkObjectResult>(result);
+            var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(jsonResult.Value);
+
+            model.Paths.Count.Should().BeGreaterThan(0);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [MemberData(nameof(HtmlMediaTypes))]
+        public async void PagesControllerBreadcrumbHtmlReturnsSuccessForDefaultArticleName(string mediaTypeName)
+        {
+            // Arrange
+            const string article = PagesController.DefaultArticleName;
+            var expectedResult = A.Fake<HelpPageModel>();
+            var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
+
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.Breadcrumb(article).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(viewResult.ViewData.Model);
+
+            model.Paths.Count.Should().BeGreaterThan(0);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [MemberData(nameof(JsonMediaTypes))]
+        public async void PagesControllerBreadcrumbJsonReturnsSuccessForDefaultArticleName(string mediaTypeName)
+        {
+            // Arrange
+            const string article = PagesController.DefaultArticleName;
+            var expectedResult = A.Fake<HelpPageModel>();
+            var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
@@ -118,6 +177,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             const string article = "an-article-name";
             var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 

@@ -1,3 +1,4 @@
+using DFC.App.Help.Controllers;
 using DFC.App.Help.Data;
 using DFC.App.Help.ViewModels;
 using FakeItEasy;
@@ -18,6 +19,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             const string article = "an-article-name";
             var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
             A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<BodyViewModel>.Ignored)).Returns(A.Fake<BodyViewModel>());
@@ -43,6 +46,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             const string article = "an-article-name";
             var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
             A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<BodyViewModel>.Ignored)).Returns(A.Fake<BodyViewModel>());
@@ -94,6 +99,62 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
         {
             // Arrange
             const string article = "an-article-name";
+            HelpPageModel expectedResult = null;
+            var expectedAlternativeResult = A.Fake<HelpPageModel>();
+            var controller = BuildPagesController(mediaTypeName);
+
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => fakeHelpPageService.GetByAlternativeNameAsync(A<string>.Ignored)).Returns(expectedAlternativeResult);
+
+            // Act
+            var result = await controller.Body(article).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeHelpPageService.GetByAlternativeNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var statusResult = Assert.IsType<RedirectResult>(result);
+
+            statusResult.Url.Should().NotBeNullOrWhiteSpace();
+            A.Equals(true, statusResult.Permanent);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [MemberData(nameof(JsonMediaTypes))]
+        public async void PagesControllerBodyJsonReturnsRedirectWhenAlternateArticleExistsForDefaultArticleName(string mediaTypeName)
+        {
+            // Arrange
+            const string article = null;
+            HelpPageModel expectedResult = null;
+            var expectedAlternativeResult = A.Fake<HelpPageModel>();
+            var controller = BuildPagesController(mediaTypeName);
+
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => fakeHelpPageService.GetByAlternativeNameAsync(A<string>.Ignored)).Returns(expectedAlternativeResult);
+
+            // Act
+            var result = await controller.Body(article).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeHelpPageService.GetByAlternativeNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var statusResult = Assert.IsType<RedirectResult>(result);
+
+            statusResult.Url.Should().NotBeNullOrWhiteSpace();
+            A.Equals(true, statusResult.Permanent);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [MemberData(nameof(HtmlMediaTypes))]
+        public async void PagesControllerBodyHtmlReturnsRedirectWhenAlternateArticleExistsForDefaultArticleName(string mediaTypeName)
+        {
+            // Arrange
+            const string article = null;
             HelpPageModel expectedResult = null;
             var expectedAlternativeResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
@@ -176,6 +237,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             const string article = "an-article-name";
             var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
             A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<BodyViewModel>.Ignored)).Returns(A.Fake<BodyViewModel>());

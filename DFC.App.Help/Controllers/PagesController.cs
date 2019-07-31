@@ -207,7 +207,7 @@ namespace DFC.App.Help.Controllers
                 },
             };
 
-            if (helpPageModel?.CanonicalName != null && helpPageModel.CanonicalName.Equals(DefaultArticleName, StringComparison.OrdinalIgnoreCase))
+            if (helpPageModel?.CanonicalName != null && !helpPageModel.CanonicalName.Equals(DefaultArticleName, StringComparison.OrdinalIgnoreCase))
             {
                 var articlePathViewModel = new BreadcrumbPathViewModel
                 {
