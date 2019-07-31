@@ -93,14 +93,15 @@ namespace DFC.App.Help.Controllers
         [Route("pages/{documentId}")]
         public async Task<IActionResult> HelpDelete(Guid documentId)
         {
-            var doc = await helpPageService.GetByIdAsync(documentId).ConfigureAwait(false);
+            var helpPageModel = await helpPageService.GetByIdAsync(documentId).ConfigureAwait(false);
 
-            if (doc == null)
+            if (helpPageModel == null)
             {
                 return NotFound();
             }
 
             await helpPageService.DeleteAsync(documentId).ConfigureAwait(false);
+
             return Ok();
         }
 
