@@ -54,7 +54,7 @@ namespace DFC.App.Help.Repository.CosmosDb
 
             if (query == null)
             {
-                return default;
+                return default(T);
             }
 
             var models = await query.ExecuteNextAsync<T>().ConfigureAwait(false);
@@ -64,7 +64,7 @@ namespace DFC.App.Help.Repository.CosmosDb
                 return models.FirstOrDefault();
             }
 
-            return default;
+            return default(T);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
