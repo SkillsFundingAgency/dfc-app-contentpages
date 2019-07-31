@@ -17,7 +17,7 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void HelpPageServiceGetAllListHtmlReturnsSuccess(string mediaTypeName)
+        public async void PagesControllerIndexHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const int resultsCount = 2;
@@ -44,7 +44,7 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void HelpPageServiceGetAllListJsonReturnsSuccess(string mediaTypeName)
+        public async void PagesControllerIndexJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const int resultsCount = 2;
@@ -71,7 +71,7 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void HelpPageServiceGetAllListHtmlReturnsSuccessWhenNoData(string mediaTypeName)
+        public async void PagesControllerIndexHtmlReturnsSuccessWhenNoData(string mediaTypeName)
         {
             // Arrange
             const int resultsCount = 0;
@@ -98,7 +98,7 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void HelpPageServiceGetAllListJsonReturnsSuccessWhenNoData(string mediaTypeName)
+        public async void PagesControllerIndexJsonReturnsSuccessWhenNoData(string mediaTypeName)
         {
             // Arrange
             const int resultsCount = 0;
@@ -124,8 +124,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
         }
 
         [Theory]
-        [InlineData(MediaTypeNames.Text.Plain)]
-        public async void HelpPageServiceGetAllListReturnsNotAcceptable(string mediaTypeName)
+        [MemberData(nameof(InvalidMediaTypes))]
+        public async void PagesControllerIndexReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             const int resultsCount = 0;

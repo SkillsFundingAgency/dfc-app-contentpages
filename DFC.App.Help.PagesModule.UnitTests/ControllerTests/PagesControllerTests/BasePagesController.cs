@@ -26,6 +26,11 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             new string[] { MediaTypeNames.Text.Html },
         };
 
+        public static IEnumerable<object[]> InvalidMediaTypes => new List<object[]>
+        {
+            new string[] { MediaTypeNames.Text.Plain },
+        };
+
         public static IEnumerable<object[]> JsonMediaTypes => new List<object[]>
         {
             new string[] { MediaTypeNames.Application.Json },
