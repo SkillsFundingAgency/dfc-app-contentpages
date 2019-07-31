@@ -22,4 +22,10 @@
     <ProjectReference Include="..\DFC.App.Help\DFC.App.Help.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ControllerTests\HealthControllerTests\" />
+    <Folder Include="ControllerTests\SitemapControllerTests\" />
+    <Folder Include="ControllerTests\RobotControllerTests\" />
+  </ItemGroup>
+
 </Project>
