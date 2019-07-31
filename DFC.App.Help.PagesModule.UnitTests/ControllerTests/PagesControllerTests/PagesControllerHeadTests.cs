@@ -7,11 +7,11 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTests
 {
-    public class PagesControllerDocumentTests : BasePagesController
+    public class PagesControllerHeadTests : BasePagesController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void PagesControllerDocumentHtmlReturnsSuccess(string mediaTypeName)
+        public async void PagesControllerHeadHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
@@ -19,24 +19,24 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => fakeMapper.Map<DocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).Returns(A.Fake<HeadViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Head(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map<DocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<DocumentViewModel>(viewResult.ViewData.Model);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void PagesControllerDocumentJsonReturnsSuccess(string mediaTypeName)
+        public async void PagesControllerHeadJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
@@ -44,72 +44,74 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => fakeMapper.Map<DocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).Returns(A.Fake<HeadViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Head(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map<DocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<DocumentViewModel>(jsonResult.Value);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(jsonResult.Value);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void PagesControllerDocumentHtmlReturnsNoContentWhenNoData(string mediaTypeName)
+        public async void PagesControllerHeadHtmlReturnsSuccessWhenNoData(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
-            HelpPageModel expectedResult = null;
+            var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).Returns(A.Fake<HeadViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Head(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).MustHaveHappenedOnceExactly();
 
-            var statusResult = Assert.IsType<NoContentResult>(result);
-
-            A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void PagesControllerDocumentJsonReturnsNoContentWhenNoData(string mediaTypeName)
+        public async void PagesControllerHeadJsonReturnsSuccessWhenNoData(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
-            HelpPageModel expectedResult = null;
+            var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).Returns(A.Fake<HeadViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Head(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).MustHaveHappenedOnceExactly();
 
-            var statusResult = Assert.IsType<NoContentResult>(result);
-
-            A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);
+            var jsonResult = Assert.IsType<OkObjectResult>(result);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(jsonResult.Value);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public async void PagesControllerDocumentReturnsNotAcceptable(string mediaTypeName)
+        public async void PagesControllerHeadReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
@@ -117,14 +119,14 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => fakeMapper.Map<DocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).Returns(A.Fake<HeadViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Head(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map<DocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeMapper.Map(A<HelpPageModel>.Ignored, A<HeadViewModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
