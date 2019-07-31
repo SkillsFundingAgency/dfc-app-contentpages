@@ -22,8 +22,4 @@
     <ProjectReference Include="..\DFC.App.Help\DFC.App.Help.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ControllerTests\SitemapControllerTests\" />
-  </ItemGroup>
-
 </Project>
