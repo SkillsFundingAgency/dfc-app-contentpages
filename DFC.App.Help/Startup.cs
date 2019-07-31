@@ -51,7 +51,7 @@ namespace DFC.App.Help
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
-            services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
+            services.AddSingleton<ICosmosRepository<HelpPageModel>, CosmosRepository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
             services.AddScoped<IDraftHelpPageService, DraftHelpPageService>();
             services.AddAutoMapper(typeof(Startup).Assembly);

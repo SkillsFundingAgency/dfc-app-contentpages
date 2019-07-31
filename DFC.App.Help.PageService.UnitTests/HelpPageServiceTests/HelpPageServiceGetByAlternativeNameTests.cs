@@ -14,7 +14,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         {
             // arrange
             const string alternativeName = "name1";
-            var repository = A.Fake<IRepository<HelpPageModel>>();
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
             var expectedResult = A.Fake<HelpPageModel>();
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
@@ -34,7 +34,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         {
             // arrange
             const string alternativeName = "name1";
-            var repository = A.Dummy<IRepository<HelpPageModel>>();
+            var repository = A.Dummy<ICosmosRepository<HelpPageModel>>();
             HelpPageModel expectedResult = null;
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);

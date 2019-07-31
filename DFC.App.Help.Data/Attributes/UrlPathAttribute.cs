@@ -16,15 +16,20 @@ namespace DFC.App.Help.Data.Attributes
                 return ValidationResult.Success;
             }
 
+            if (validationContext == null)
+            {
+                throw new ArgumentNullException(nameof(validationContext));
+            }
+
             var validChars = "abcdefghijklmnopqrstuvwxyz01234567890_-";
             var result = false;
             switch (value)
             {
                 case IEnumerable<string> list:
-                    result = list.All(x => x.Length > 0 && x.All(y => validChars.Contains(y)));
+                    result = list.All(x => x.Length > 0 && x.All(y => validChars.Contains(y, StringComparison.OrdinalIgnoreCase)));
                     break;
                 default:
-                    result = value.ToString().All(x => validChars.Contains(x));
+                    result = value.ToString().All(x => validChars.Contains(x, StringComparison.OrdinalIgnoreCase));
                     break;
             }
 

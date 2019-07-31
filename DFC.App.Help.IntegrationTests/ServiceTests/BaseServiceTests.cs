@@ -19,7 +19,9 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
     [TestFixture]
     public abstract class BaseServiceTests
     {
-        protected IServiceProvider serviceProvider;
+        private IServiceProvider serviceProvider;
+
+        public IServiceProvider ServiceProvider => serviceProvider;
 
         #region Tests initialisations and cleanup
 
@@ -40,7 +42,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton(sitefinityApiConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
-            services.AddSingleton<IRepository<HelpPageModel>, Repository<HelpPageModel>>();
+            services.AddSingleton<ICosmosRepository<HelpPageModel>, CosmosRepository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
             services.AddScoped<IDraftHelpPageService, DraftHelpPageService>();
             services.AddHttpClient<ISitefinityODataContext, SitefinityODataContext, HttpClientOptions>(configuration, nameof(HttpClientOptions));

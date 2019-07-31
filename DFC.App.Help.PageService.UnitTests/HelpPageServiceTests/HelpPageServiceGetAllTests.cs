@@ -12,7 +12,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         public void HelpPageServiceGetAllListReturnsSuccess()
         {
             // arrange
-            var repository = A.Fake<IRepository<HelpPageModel>>();
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
             var expectedResults = A.CollectionOfFake<HelpPageModel>(2);
 
             A.CallTo(() => repository.GetAllAsync()).Returns(expectedResults);
@@ -31,7 +31,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         public void HelpPageServiceGetAllListReturnsNullWhenMissingRepository()
         {
             // arrange
-            var repository = A.Dummy<IRepository<HelpPageModel>>();
+            var repository = A.Dummy<ICosmosRepository<HelpPageModel>>();
             IEnumerable<HelpPageModel> expectedResults = null;
 
             A.CallTo(() => repository.GetAllAsync()).Returns(expectedResults);

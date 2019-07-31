@@ -14,7 +14,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         {
             // arrange
             Guid documentId = Guid.NewGuid();
-            var repository = A.Fake<IRepository<HelpPageModel>>();
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
             var expectedResult = A.Fake<HelpPageModel>();
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
@@ -34,7 +34,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         {
             // arrange
             Guid documentId = Guid.NewGuid();
-            var repository = A.Fake<IRepository<HelpPageModel>>();
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
             HelpPageModel expectedResult = null;
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);

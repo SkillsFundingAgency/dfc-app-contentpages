@@ -8,13 +8,13 @@ namespace DFC.App.Help.Models
     {
         public enum ChangeFrequencies
         {
-            always,
-            hourly,
-            daily,
-            weekly,
-            monthly,
-            yearly,
-            never,
+            Always,
+            Hourly,
+            Daily,
+            Weekly,
+            Monthly,
+            Yearly,
+            Never,
         }
 
         [XmlElement("loc")]

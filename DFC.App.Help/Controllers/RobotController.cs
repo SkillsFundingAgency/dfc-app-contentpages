@@ -28,7 +28,9 @@ namespace DFC.App.Help.Controllers
                 var robot = GenerateThisSiteRobot();
 
                 // add any dynamic robots data form the Shell app
-                //robot.Add("<<add any dynamic text or other here>>");
+                /*
+                 * robot.Add("<<add any dynamic text or other here>>");
+                 */
 
                 logger.LogInformation("Generated Robots.txt");
 
@@ -60,7 +62,9 @@ namespace DFC.App.Help.Controllers
             }
 
             // add any dynamic robots data form the Shell app
-            //robot.Add("<<add any dynamic text or other here>>");
+            /*
+             * robot.Add("<<add any dynamic text or other here>>");
+             */
 
             return robot;
         }

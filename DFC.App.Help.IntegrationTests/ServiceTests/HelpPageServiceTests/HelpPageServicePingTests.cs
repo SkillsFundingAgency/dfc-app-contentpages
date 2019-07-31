@@ -14,7 +14,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServicePingReturnsSuccess()
         {
             // arrange
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // act
             var result = await helpPageService.PingAsync().ConfigureAwait(false);

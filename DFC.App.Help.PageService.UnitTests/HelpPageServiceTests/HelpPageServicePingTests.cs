@@ -11,7 +11,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         public void HelpPageServicePingReturnsSuccess()
         {
             // arrange
-            var repository = A.Fake<IRepository<HelpPageModel>>();
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
             var expectedResult = true;
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
@@ -30,7 +30,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         public void HelpPageServicePingReturnsFalseWhenMissingRepository()
         {
             // arrange
-            var repository = A.Dummy<IRepository<HelpPageModel>>();
+            var repository = A.Dummy<ICosmosRepository<HelpPageModel>>();
             var expectedResult = false;
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
