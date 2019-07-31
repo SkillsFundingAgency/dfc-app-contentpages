@@ -18,8 +18,8 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServiceGetByAlternativeNameReturnsSuccessWhenHelpPageExists()
         {
             // arrange
-            var name = ValidNameValue + "_GetByAlternativeName".ToLower(CultureInfo.CurrentCulture);
-            var alternativeName = ValidAlternativeNameValue + "_" + Guid.NewGuid().ToString().ToLower(CultureInfo.CurrentCulture);
+            var name = ValidNameValue + "_GetByAlternativeName".ToLowerInvariant();
+            var alternativeName = ValidAlternativeNameValue + "_" + Guid.NewGuid().ToString().ToLowerInvariant();
             var helpPageModel = new HelpPageModel()
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),

@@ -26,10 +26,10 @@ namespace DFC.App.Help.Data.Attributes
             switch (value)
             {
                 case IEnumerable<string> list:
-                    result = list.All(x => x.Length > 0 && x.All(y => validChars.Contains(y, StringComparison.InvariantCultureIgnoreCase)));
+                    result = list.All(x => x.Length > 0 && x.All(y => validChars.Contains(y, StringComparison.OrdinalIgnoreCase)));
                     break;
                 default:
-                    result = value.ToString().All(x => validChars.Contains(x, StringComparison.InvariantCultureIgnoreCase));
+                    result = value.ToString().All(x => validChars.Contains(x, StringComparison.OrdinalIgnoreCase));
                     break;
             }
 

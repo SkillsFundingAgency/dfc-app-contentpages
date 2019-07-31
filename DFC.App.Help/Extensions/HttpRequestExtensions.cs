@@ -7,7 +7,7 @@ namespace DFC.App.Help.Extensions
     {
         public static bool IsDraftRequest(this HttpRequest request)
         {
-            return request != null && request.Path.Value.StartsWith("/draft", StringComparison.InvariantCultureIgnoreCase);
+            return request != null && request.Path.Value.StartsWith("/draft", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

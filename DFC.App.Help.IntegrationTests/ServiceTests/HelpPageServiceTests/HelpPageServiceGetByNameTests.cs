@@ -29,7 +29,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
 
             // assert
             Assert.True(result.DocumentId == helpPageModel.DocumentId
-                        && result.CanonicalName.Equals(helpPageModel.CanonicalName, StringComparison.InvariantCulture));
+                        && result.CanonicalName.Equals(helpPageModel.CanonicalName, StringComparison.OrdinalIgnoreCase));
         }
 
         [Test]
