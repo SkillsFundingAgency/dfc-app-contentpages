@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace DFC.App.Help.Repository.CosmosDb
 {
-    public class Repository<T> : IRepository<T>
+    public class CosmosRepository<T> : ICosmosRepository<T>
         where T : IDataModel
     {
         private readonly CosmosDbConnection cosmosDbConnection;
         private readonly IDocumentClient documentClient;
 
-        public Repository(CosmosDbConnection cosmosDbConnection, IDocumentClient documentClient)
+        public CosmosRepository(CosmosDbConnection cosmosDbConnection, IDocumentClient documentClient)
         {
             this.cosmosDbConnection = cosmosDbConnection;
             this.documentClient = documentClient;

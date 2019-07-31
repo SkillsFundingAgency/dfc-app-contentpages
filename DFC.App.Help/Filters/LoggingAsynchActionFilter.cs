@@ -1,6 +1,7 @@
 ﻿using DFC.App.Help.Framework;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace DFC.App.Help.Filters
@@ -18,7 +19,17 @@ namespace DFC.App.Help.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var correlationId = correlationIdProvider.Get();
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (next == null)
+            {
+                throw new ArgumentNullException(nameof(next));
+            }
+
+            var correlationId = correlationIdProvider.GetId();
 
             logger.LogInformation($"CorrelationId:{correlationId} Executing {context.ActionDescriptor.DisplayName}");
 

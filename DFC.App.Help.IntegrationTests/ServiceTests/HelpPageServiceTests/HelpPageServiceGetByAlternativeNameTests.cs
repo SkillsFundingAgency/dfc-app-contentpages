@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,15 +18,15 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServiceGetByAlternativeNameReturnsSuccessWhenHelpPageExists()
         {
             // arrange
-            var name = ValidNameValue + "_GetByAlternativeName".ToLower();
-            var alternativeName = ValidAlternativeNameValue + "_" + Guid.NewGuid().ToString().ToLower();
+            var name = ValidNameValue + "_GetByAlternativeName".ToLowerInvariant();
+            var alternativeName = ValidAlternativeNameValue + "_" + Guid.NewGuid().ToString().ToLowerInvariant();
             var helpPageModel = new HelpPageModel()
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid(),
                 AlternativeNames = new[] { alternativeName },
             };
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
@@ -42,7 +43,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
         public async Task HelpPageServiceGetByAlternativeNameReturnsNullWhenHelpPageDoesNotExist()
         {
             // arrange
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // act
             var result = await helpPageService.GetByAlternativeNameAsync(Guid.NewGuid().ToString()).ConfigureAwait(false);

@@ -5,6 +5,7 @@ using Microsoft.Azure.Documents;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
@@ -23,11 +24,11 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid(),
             };
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             var createdHelpPageModel = await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);
 
-            createdHelpPageModel.CanonicalName = createdHelpPageModel.CanonicalName.ToUpper();
+            createdHelpPageModel.CanonicalName = createdHelpPageModel.CanonicalName.ToUpper(CultureInfo.CurrentCulture);
             createdHelpPageModel.BreadcrumbTitle = createdHelpPageModel.CanonicalName;
 
             // act
@@ -51,7 +52,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
             };
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // act
             Assert.ThrowsAsync<DocumentClientException>(() => helpPageService.ReplaceAsync(helpPageModel));

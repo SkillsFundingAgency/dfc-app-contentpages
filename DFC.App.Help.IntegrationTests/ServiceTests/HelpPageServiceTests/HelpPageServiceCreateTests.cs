@@ -22,7 +22,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid(),
             };
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // act
             await helpPageService.CreateAsync(helpPageModel).ConfigureAwait(false);

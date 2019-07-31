@@ -14,7 +14,7 @@ namespace DFC.App.Help.Framework
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public string Get()
+        public string GetId()
         {
             var result = string.Empty;
             if (httpContextAccessor.HttpContext != null)

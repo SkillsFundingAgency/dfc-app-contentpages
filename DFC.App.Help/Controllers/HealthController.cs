@@ -1,4 +1,5 @@
 ﻿using DFC.App.Help.Data.Contracts;
+using DFC.App.Help.Extensions;
 using DFC.App.Help.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace DFC.App.Help.Controllers
 {
-    public class HealthController : BaseController
+    public class HealthController : Controller
     {
         private readonly ILogger<HealthController> logger;
         private readonly IHelpPageService helpPageService;
 
-        public HealthController(ILogger<HealthController> logger, IHelpPageService helpPageService, AutoMapper.IMapper mapper) : base(mapper)
+        public HealthController(ILogger<HealthController> logger, IHelpPageService helpPageService)
         {
             this.logger = logger;
             this.helpPageService = helpPageService;
@@ -39,7 +40,7 @@ namespace DFC.App.Help.Controllers
                     logger.LogInformation($"{nameof(Health)} responded with: {message}");
 
                     var viewModel = CreateHealthViewModel(ResourceName, message);
-                    return NegotiateContentResult(viewModel);
+                    return this.NegotiateContentResult(viewModel);
                 }
 
                 message = $"Ping to {ResourceName} has failed";

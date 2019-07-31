@@ -32,7 +32,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                     DocumentId = Guid.NewGuid(),
                 },
             };
-            var helpPageService = serviceProvider.GetService<IHelpPageService>();
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             helpPageModels.ForEach(async f => _ = await helpPageService.CreateAsync(f).ConfigureAwait(false));
 
