@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
+namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
     [TestFixture]
     public abstract class BaseHelpPageServiceTests : BaseServiceTests
