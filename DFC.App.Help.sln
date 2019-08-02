@@ -43,7 +43,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{BF2740FE-2D1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.Help.PageService.IntegrationTests", "DFC.App.Help.PageService.IntegrationTests\DFC.App.Help.PageService.IntegrationTests.csproj", "{6BB35EE7-7E2F-44DA-9BFA-4EBA65F21834}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.Help.IntegrationTests", "DFC.App.Help.IntegrationTests\DFC.App.Help.IntegrationTests.csproj", "{05E71982-D936-4E36-A2CE-67AF3CEE744F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.Help.IntegrationTests", "DFC.App.Help.IntegrationTests\DFC.App.Help.IntegrationTests.csproj", "{05E71982-D936-4E36-A2CE-67AF3CEE744F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{37E7F29B-2098-402F-A453-7C2DEA0F8AAF}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		DFC.Digital.CodeAnalysis.ruleset = DFC.Digital.CodeAnalysis.ruleset
+		LICENSE = LICENSE
+		README.md = README.md
+		stylecop.json = stylecop.json
+		UnitTests.CodeAnalysis.ruleset = UnitTests.CodeAnalysis.ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

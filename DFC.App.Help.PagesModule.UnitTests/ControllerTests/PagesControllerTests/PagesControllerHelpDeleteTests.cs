@@ -1,5 +1,4 @@
 using DFC.App.Help.Data;
-using DFC.App.Help.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,13 +18,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var expectedResult = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.HelpDelete(documentId).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
 
             var okResult = Assert.IsType<OkResult>(result);
 
@@ -39,17 +38,17 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
         public async void PagesControllerHelpDeleteReturnsNotFound(string mediaTypeName)
         {
             // Arrange
-            Guid documentId=Guid.NewGuid();
+            Guid documentId = Guid.NewGuid();
             HelpPageModel expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.HelpDelete(documentId).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<NotFoundResult>(result);
 

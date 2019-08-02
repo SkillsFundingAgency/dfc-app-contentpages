@@ -19,15 +19,15 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var createdHelpPageModel = A.Fake<HelpPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingHelpPageModel);
-            A.CallTo(() => fakeHelpPageService.CreateAsync(A<HelpPageModel>.Ignored)).Returns(createdHelpPageModel);
+            A.CallTo(() => FakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingHelpPageModel);
+            A.CallTo(() => FakeHelpPageService.CreateAsync(A<HelpPageModel>.Ignored)).Returns(createdHelpPageModel);
 
             // Act
             var result = await controller.HelpCreateOrUpdate(helpPageModel).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeHelpPageService.CreateAsync(A<HelpPageModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.CreateAsync(A<HelpPageModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var okResult = Assert.IsType<CreatedAtActionResult>(result);
 
@@ -46,15 +46,15 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             HelpPageModel updatedHelpPageModel = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingHelpPageModel);
-            A.CallTo(() => fakeHelpPageService.ReplaceAsync(A<HelpPageModel>.Ignored)).Returns(updatedHelpPageModel);
+            A.CallTo(() => FakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingHelpPageModel);
+            A.CallTo(() => FakeHelpPageService.ReplaceAsync(A<HelpPageModel>.Ignored)).Returns(updatedHelpPageModel);
 
             // Act
             var result = await controller.HelpCreateOrUpdate(helpPageModel).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeHelpPageService.ReplaceAsync(A<HelpPageModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.ReplaceAsync(A<HelpPageModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var okResult = Assert.IsType<OkObjectResult>(result);
 

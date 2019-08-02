@@ -1,4 +1,3 @@
-using DFC.App.Help.Data;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -20,7 +19,6 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var result = controller.BodyFooter(article);
 
             // Assert
-
             var statusResult = Assert.IsType<NoContentResult>(result);
 
             A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);

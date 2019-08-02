@@ -10,16 +10,16 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 {
     public class HelpPageServiceGetByNameTests
     {
-        private const string canonicalName = "name1";
+        private const string CanonicalName = "name1";
         private readonly ICosmosRepository<HelpPageModel> repository;
         private readonly IDraftHelpPageService draftHelpPageService;
         private readonly IHelpPageService helpPageService;
 
         public HelpPageServiceGetByNameTests()
         {
-            this.repository = A.Fake<ICosmosRepository<HelpPageModel>>();
-            this.draftHelpPageService = A.Fake<IDraftHelpPageService>();
-            this.helpPageService = new HelpPageService(repository, draftHelpPageService);
+            repository = A.Fake<ICosmosRepository<HelpPageModel>>();
+            draftHelpPageService = A.Fake<IDraftHelpPageService>();
+            helpPageService = new HelpPageService(repository, draftHelpPageService);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
             // act
-            var result = await helpPageService.GetByNameAsync(canonicalName).ConfigureAwait(false);
+            var result = await helpPageService.GetByNameAsync(CanonicalName).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
@@ -44,7 +44,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns((HelpPageModel)null);
 
             // act
-            var result = await helpPageService.GetByNameAsync(canonicalName).ConfigureAwait(false);
+            var result = await helpPageService.GetByNameAsync(CanonicalName).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
@@ -59,10 +59,10 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
             A.CallTo(() => draftHelpPageService.GetSitefinityData(A<string>.Ignored)).Returns(fakeModel);
 
             // act
-            var result = await helpPageService.GetByNameAsync(canonicalName, true).ConfigureAwait(false);
+            var result = await helpPageService.GetByNameAsync(CanonicalName, true).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => draftHelpPageService.GetSitefinityData(canonicalName)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => draftHelpPageService.GetSitefinityData(CanonicalName)).MustHaveHappenedOnceExactly();
             Assert.Equal(result, fakeModel);
         }
     }

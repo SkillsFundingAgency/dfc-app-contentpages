@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FakeItEasy;
+using System.Collections.Generic;
 using Xunit;
 
 namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests

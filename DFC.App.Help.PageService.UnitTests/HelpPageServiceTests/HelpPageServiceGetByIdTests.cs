@@ -1,8 +1,8 @@
-using System;
-using System.Linq.Expressions;
 using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FakeItEasy;
+using System;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests

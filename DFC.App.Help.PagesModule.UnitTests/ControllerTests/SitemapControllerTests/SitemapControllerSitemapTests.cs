@@ -19,15 +19,19 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.SitemapControllerTe
             var expectedResults = A.CollectionOfFake<HelpPageModel>(resultsCount);
             var controller = BuildSitemapController();
 
-            expectedResults.ToList().ForEach(f => { f.IncludeInSitemap = true; f.CanonicalName = "an-article"; });
+            expectedResults.ToList().ForEach(f =>
+            {
+                f.IncludeInSitemap = true;
+                f.CanonicalName = "an-article";
+            });
 
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).Returns(expectedResults);
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).Returns(expectedResults);
 
             // Act
             var result = await controller.Sitemap().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
 
             var contentResult = Assert.IsType<ContentResult>(result);
 

@@ -24,15 +24,15 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var expectedResults = A.CollectionOfFake<HelpPageModel>(resultsCount);
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).Returns(expectedResults);
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).Returns(expectedResults);
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
 
             // Act
             var result = await controller.Index().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IndexViewModel>(viewResult.ViewData.Model);
@@ -51,15 +51,15 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var expectedResults = A.CollectionOfFake<HelpPageModel>(resultsCount);
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).Returns(expectedResults);
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).Returns(expectedResults);
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
 
             // Act
             var result = await controller.Index().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<IndexViewModel>(jsonResult.Value);
@@ -78,15 +78,15 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             IEnumerable<HelpPageModel> expectedResults = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).Returns(expectedResults);
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).Returns(expectedResults);
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
 
             // Act
             var result = await controller.Index().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IndexViewModel>(viewResult.ViewData.Model);
@@ -105,15 +105,15 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             IEnumerable<HelpPageModel> expectedResults = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).Returns(expectedResults);
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).Returns(expectedResults);
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
 
             // Act
             var result = await controller.Index().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<IndexViewModel>(jsonResult.Value);
@@ -132,15 +132,15 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             IEnumerable<HelpPageModel> expectedResults = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).Returns(expectedResults);
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).Returns(expectedResults);
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
 
             // Act
             var result = await controller.Index().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
+            A.CallTo(() => FakeHelpPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<HelpPageModel>.Ignored)).MustHaveHappened(resultsCount, Times.Exactly);
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
