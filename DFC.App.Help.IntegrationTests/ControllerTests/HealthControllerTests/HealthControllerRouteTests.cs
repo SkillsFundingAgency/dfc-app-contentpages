@@ -44,7 +44,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.HealthControllerTests
 
         [Theory]
         [MemberData(nameof(HealthOkRouteData))]
-        public async Task GeHealthOkEndpointsReturnSuccessAndCorrectContentType(string url)
+        public async Task GeHealthOkEndpointsReturnSuccess(string url)
         {
             // Arrange
             var client = factory.CreateClient();

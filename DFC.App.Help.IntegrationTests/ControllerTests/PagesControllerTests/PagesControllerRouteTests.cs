@@ -1,7 +1,11 @@
-﻿using FluentAssertions;
+﻿using DFC.App.Help.Data;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Xunit;
@@ -125,7 +129,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(DraftNoContentRouteData))]
-        public async Task GetDraftNoContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        public async Task GetDraftEndpointsReturnSuccessNoContent(string url)
         {
             // Arrange
             var client = factory.CreateClient();
@@ -141,7 +145,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(NonDraftNoContentRouteData))]
-        public async Task GetHelpNoContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        public async Task GetHelpEndpointsReturnSuccessAndNoContent(string url)
         {
             // Arrange
             var client = factory.CreateClient();
@@ -153,6 +157,68 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
             // Assert
             response.EnsureSuccessStatusCode();
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task PostHelpEndpointsReturnCreated()
+        {
+            // Arrange
+            const string url = "/pages";
+            var helpPageModel = new HelpPageModel()
+            {
+                DocumentId = Guid.NewGuid(),
+                CanonicalName = Guid.NewGuid().ToString().ToLowerInvariant(),
+            };
+            var client = factory.CreateClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Act
+            var response = await client.PostAsync(url, helpPageModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+
+        [Fact]
+        public async Task PuttHelpEndpointsReturnOk()
+        {
+            // Arrange
+            const string url = "/pages";
+            var helpPageModel = new HelpPageModel()
+            {
+                DocumentId = Guid.NewGuid(),
+                CanonicalName = Guid.NewGuid().ToString().ToLowerInvariant(),
+            };
+            var client = factory.CreateClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            _ = await client.PostAsync(url, helpPageModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+
+            // Act
+            var response = await client.PutAsync(url, helpPageModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task DeleteHelpEndpointsReturnNotFound()
+        {
+            // Arrange
+            string url = $"/pages/{Guid.NewGuid()}";
+            var client = factory.CreateClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Act
+            var response = await client.DeleteAsync(url).ConfigureAwait(false);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
