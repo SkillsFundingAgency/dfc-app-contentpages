@@ -17,7 +17,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.RobotControllerTests
 
         public static IEnumerable<object[]> RobotRouteData => new List<object[]>
         {
-            new object[] {"/robot/robot" },
+            new object[] { "/robot/robot" },
         };
 
         [Theory]
