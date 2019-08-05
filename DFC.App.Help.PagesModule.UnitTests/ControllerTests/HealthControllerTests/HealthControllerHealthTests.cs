@@ -10,6 +10,7 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.HealthControllerTests
 {
+    [Trait("Category", "Health Controller Unit Tests")]
     public class HealthControllerHealthTests : BaseHealthController
     {
         [Fact]

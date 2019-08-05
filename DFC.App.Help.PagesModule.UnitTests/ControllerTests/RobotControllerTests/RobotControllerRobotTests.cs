@@ -5,6 +5,7 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.RobotControllerTests
 {
+    [Trait("Category", "Robot Controller Unit Tests")]
     public class RobotControllerRobotTests : BaseRobotController
     {
         [Fact]

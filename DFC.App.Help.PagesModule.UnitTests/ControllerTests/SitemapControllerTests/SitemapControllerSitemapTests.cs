@@ -9,6 +9,7 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.SitemapControllerTests
 {
+    [Trait("Category", "Sitemap Controller Unit Tests")]
     public class SitemapControllerSitemapTests : BaseSitemapController
     {
         [Fact]

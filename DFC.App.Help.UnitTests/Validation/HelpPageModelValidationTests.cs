@@ -10,6 +10,7 @@ using System.Globalization;
 namespace DFC.App.Help.UnitTests.Validation
 {
     [TestFixture]
+    [Category("HelpAppValidation.Tests")]
     public class HelpPageModelValidationTests
     {
         private const string GuidEmpty = "00000000-0000-0000-0000-000000000000";

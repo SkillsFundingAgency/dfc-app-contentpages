@@ -7,6 +7,7 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTests
 {
+    [Trait("Category", "Pages Controller Unit Tests")]
     public class PagesControllerDocumentTests : BasePagesController
     {
         [Theory]

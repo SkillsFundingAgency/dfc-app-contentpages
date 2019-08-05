@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace DFC.App.Help.UnitTests.Controllers.Pages
 {
     [TestFixture]
+    [Category("HelpAppCreate.Tests")]
     public class CreateTests
     {
         private PagesController controller;

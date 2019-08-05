@@ -7,6 +7,7 @@ using Xunit;
 
 namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 {
+    [Trait("Category", "Page Service Unit Tests")]
     public class HelpPageServiceGetByIdTests
     {
         [Fact]
