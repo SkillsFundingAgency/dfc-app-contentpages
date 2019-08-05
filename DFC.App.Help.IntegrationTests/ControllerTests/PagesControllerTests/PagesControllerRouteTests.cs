@@ -25,39 +25,39 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public static IEnumerable<object[]> DraftRouteData => new List<object[]>
         {
             new object[] { "/draft/htmlhead" },
-            new object[] { "/draft/help/htmlhead" },
+            new object[] { $"/draft/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/htmlhead" },
             new object[] { "/draft/breadcrumb" },
-            new object[] { "/draft/help/breadcrumb" },
+            new object[] { $"/draft/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/breadcrumb" },
             new object[] { "/draft/contents" },
-            new object[] { "/draft/help/contents" },
+            new object[] { $"/draft/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/contents" },
         };
 
         public static IEnumerable<object[]> NonDraftRouteData => new List<object[]>
         {
             new object[] { "/pages" },
-            new object[] { "/pages/help" },
+            new object[] { $"/pages/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}" },
             new object[] { "/pages/htmlhead" },
-            new object[] { "/pages/help/htmlhead" },
+            new object[] { $"/pages/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/htmlhead" },
             new object[] { "/pages/breadcrumb" },
-            new object[] { "/pages/help/breadcrumb" },
+            new object[] { $"/pages/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/breadcrumb" },
             new object[] { "/pages/contents" },
-            new object[] { "/pages/help/contents" },
+            new object[] { $"/pages/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/contents" },
         };
 
         public static IEnumerable<object[]> DraftNoContentRouteData => new List<object[]>
         {
             new object[] { "/draft/bodytop" },
-            new object[] { "/draft/help/bodytop" },
+            new object[] { $"/draft/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/bodytop" },
             new object[] { "/draft/bodyfooter" },
-            new object[] { "/draft/help/bodyfooter" },
+            new object[] { $"/draft/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/bodyfooter" },
         };
 
         public static IEnumerable<object[]> NonDraftNoContentRouteData => new List<object[]>
         {
             new object[] { "/pages/bodytop" },
-            new object[] { "/pages/help/bodytop" },
+            new object[] { $"/pages/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/bodytop" },
             new object[] { "/pages/bodyfooter" },
-            new object[] { "/pages/help/bodyfooter" },
+            new object[] { $"/pages/{DFC.App.Help.Controllers.PagesController.DefaultArticleName}/bodyfooter" },
         };
 
         [Theory]

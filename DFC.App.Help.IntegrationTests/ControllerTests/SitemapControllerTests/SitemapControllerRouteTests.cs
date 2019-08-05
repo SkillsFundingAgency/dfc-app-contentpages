@@ -19,7 +19,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.SitemapControllerTests
 
         public static IEnumerable<object[]> SitemapRouteData => new List<object[]>
         {
-            new object[] { "/Sitemap/Sitemap" },
+            new object[] { "/sitemap.xml" },
         };
 
         [Theory]
