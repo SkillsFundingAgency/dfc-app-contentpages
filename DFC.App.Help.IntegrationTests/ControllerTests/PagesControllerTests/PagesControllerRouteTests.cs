@@ -12,6 +12,7 @@ using Xunit;
 
 namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
 {
+    [Trait("Category", "Integration")]
     public class PagesControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.Help.Startup>>
     {
         private readonly CustomWebApplicationFactory<DFC.App.Help.Startup> factory;

@@ -7,6 +7,7 @@ using Xunit;
 
 namespace DFC.App.Help.IntegrationTests.ControllerTests.HomeControllerTests
 {
+    [Trait("Category", "Integration")]
     public class HomeControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.Help.Startup>>
     {
         private readonly CustomWebApplicationFactory<DFC.App.Help.Startup> factory;

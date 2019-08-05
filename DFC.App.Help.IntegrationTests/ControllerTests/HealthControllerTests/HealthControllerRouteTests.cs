@@ -8,6 +8,7 @@ using Xunit;
 
 namespace DFC.App.Help.IntegrationTests.ControllerTests.HealthControllerTests
 {
+    [Trait("Category", "Integration")]
     public class HealthControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.Help.Startup>>
     {
         private readonly CustomWebApplicationFactory<DFC.App.Help.Startup> factory;
