@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace DFC.App.Help.UnitTests.Validation
 {
@@ -27,7 +28,7 @@ namespace DFC.App.Help.UnitTests.Validation
             var vr = Validate(model);
 
             vr.Should().NotBeEmpty();
-            vr.Should().Contain(x => x.ErrorMessage == string.Format(ValidationMessage.FieldInvalidGuid, nameof(model.DocumentId)));
+            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldInvalidGuid, nameof(model.DocumentId)));
             vr.Should().HaveCount(1);
         }
 
@@ -67,6 +68,7 @@ namespace DFC.App.Help.UnitTests.Validation
             {
                 DocumentId = documentId,
                 CanonicalName = canonicalName,
+                LastReviewed = DateTime.UtcNow,
                 Content = content,
                 AlternativeNames = alternativeNames.ToArray(),
             };

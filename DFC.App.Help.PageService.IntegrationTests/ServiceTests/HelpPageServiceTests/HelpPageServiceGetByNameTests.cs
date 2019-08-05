@@ -19,6 +19,7 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
             {
                 CanonicalName = $"{ValidNameValue}_getbyname_{Guid.NewGuid().ToString()}",
                 DocumentId = Guid.NewGuid(),
+                LastReviewed = DateTime.UtcNow,
             };
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 

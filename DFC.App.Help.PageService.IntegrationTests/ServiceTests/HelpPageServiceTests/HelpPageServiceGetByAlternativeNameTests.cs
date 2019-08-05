@@ -23,6 +23,7 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid(),
+                LastReviewed = DateTime.UtcNow,
                 AlternativeNames = new[] { alternativeName },
             };
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();

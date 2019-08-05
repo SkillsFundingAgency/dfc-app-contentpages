@@ -1,6 +1,5 @@
 ﻿using DFC.App.Help.Data;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -13,11 +12,11 @@ using Xunit;
 
 namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
 {
-    public class PagesControllerRouteTests : IClassFixture<WebApplicationFactory<DFC.App.Help.Startup>>
+    public class PagesControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.Help.Startup>>
     {
-        private readonly WebApplicationFactory<DFC.App.Help.Startup> factory;
+        private readonly CustomWebApplicationFactory<DFC.App.Help.Startup> factory;
 
-        public PagesControllerRouteTests(WebApplicationFactory<DFC.App.Help.Startup> factory)
+        public PagesControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
         }
@@ -175,6 +174,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = Guid.NewGuid().ToString().ToLowerInvariant(),
+                LastReviewed = DateTime.UtcNow,
             };
             var client = factory.CreateClient();
 
@@ -197,6 +197,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = Guid.NewGuid().ToString().ToLowerInvariant(),
+                LastReviewed = DateTime.UtcNow,
             };
             var client = factory.CreateClient();
 

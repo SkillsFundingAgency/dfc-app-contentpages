@@ -25,11 +25,13 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
                 {
                     CanonicalName = name + "_1",
                     DocumentId = Guid.NewGuid(),
+                    LastReviewed = DateTime.UtcNow,
                 },
                 new HelpPageModel()
                 {
                     CanonicalName = name + "_2",
                     DocumentId = Guid.NewGuid(),
+                    LastReviewed = DateTime.UtcNow,
                 },
             };
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();

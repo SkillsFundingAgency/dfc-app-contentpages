@@ -7,11 +7,11 @@ using Xunit;
 
 namespace DFC.App.Help.IntegrationTests.ControllerTests.RobotControllerTests
 {
-    public class RobotControllerRouteTests : IClassFixture<WebApplicationFactory<DFC.App.Help.Startup>>
+    public class RobotControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.Help.Startup>>
     {
-        private readonly WebApplicationFactory<DFC.App.Help.Startup> factory;
+        private readonly CustomWebApplicationFactory<DFC.App.Help.Startup> factory;
 
-        public RobotControllerRouteTests(WebApplicationFactory<DFC.App.Help.Startup> factory)
+        public RobotControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
         }

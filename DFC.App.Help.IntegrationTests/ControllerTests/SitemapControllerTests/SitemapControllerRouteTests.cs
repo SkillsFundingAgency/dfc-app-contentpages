@@ -7,11 +7,11 @@ using Xunit;
 
 namespace DFC.App.Help.IntegrationTests.ControllerTests.SitemapControllerTests
 {
-    public class SitemapControllerRouteTests : IClassFixture<WebApplicationFactory<DFC.App.Help.Startup>>
+    public class SitemapControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.Help.Startup>>
     {
-        private readonly WebApplicationFactory<DFC.App.Help.Startup> factory;
+        private readonly CustomWebApplicationFactory<DFC.App.Help.Startup> factory;
 
-        public SitemapControllerRouteTests(WebApplicationFactory<DFC.App.Help.Startup> factory)
+        public SitemapControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
         }

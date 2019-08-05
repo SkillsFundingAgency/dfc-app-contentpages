@@ -34,6 +34,7 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "canonicalname1",
+                LastReviewed = DateTime.UtcNow,
                 Content = "content1",
             };
 
@@ -57,6 +58,7 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "canonicalname1",
+                LastReviewed = DateTime.UtcNow,
                 Content = "content1",
             };
 

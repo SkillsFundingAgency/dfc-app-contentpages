@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Text;
@@ -8,11 +7,11 @@ using Xunit;
 
 namespace DFC.App.Help.IntegrationTests.ControllerTests.HomeControllerTests
 {
-    public class HomeControllerRouteTests : IClassFixture<WebApplicationFactory<DFC.App.Help.Startup>>
+    public class HomeControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.Help.Startup>>
     {
-        private readonly WebApplicationFactory<DFC.App.Help.Startup> factory;
+        private readonly CustomWebApplicationFactory<DFC.App.Help.Startup> factory;
 
-        public HomeControllerRouteTests(WebApplicationFactory<DFC.App.Help.Startup> factory)
+        public HomeControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
         }

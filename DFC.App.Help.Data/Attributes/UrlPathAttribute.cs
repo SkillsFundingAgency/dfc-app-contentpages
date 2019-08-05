@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 
 namespace DFC.App.Help.Data.Attributes
@@ -34,7 +35,7 @@ namespace DFC.App.Help.Data.Attributes
             }
 
             return result ? ValidationResult.Success
-                : new ValidationResult(string.Format(ValidationMessage.FieldNotUrlPath, validationContext.DisplayName, validChars), new[] { validationContext.MemberName });
+                : new ValidationResult(string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotUrlPath, validationContext.DisplayName, validChars), new[] { validationContext.MemberName });
         }
     }
 }

@@ -8,11 +8,11 @@ using Xunit;
 
 namespace DFC.App.Help.IntegrationTests.ControllerTests.HealthControllerTests
 {
-    public class HealthControllerRouteTests : IClassFixture<WebApplicationFactory<DFC.App.Help.Startup>>
+    public class HealthControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.Help.Startup>>
     {
-        private readonly WebApplicationFactory<DFC.App.Help.Startup> factory;
+        private readonly CustomWebApplicationFactory<DFC.App.Help.Startup> factory;
 
-        public HealthControllerRouteTests(WebApplicationFactory<DFC.App.Help.Startup> factory)
+        public HealthControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
         }

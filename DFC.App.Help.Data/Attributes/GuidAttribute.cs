@@ -1,6 +1,7 @@
 ﻿using DFC.App.Help.Data.Common;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace DFC.App.Help.Data.Attributes
 {
@@ -21,7 +22,7 @@ namespace DFC.App.Help.Data.Attributes
 
             if (!Guid.TryParse(value.ToString(), out var guid) || guid == Guid.Empty)
             {
-                return new ValidationResult(string.Format(ValidationMessage.FieldInvalidGuid, validationContext.DisplayName), new[] { validationContext.MemberName });
+                return new ValidationResult(string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldInvalidGuid, validationContext.DisplayName), new[] { validationContext.MemberName });
             }
 
             return ValidationResult.Success;
