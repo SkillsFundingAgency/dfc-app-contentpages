@@ -40,6 +40,7 @@ namespace DFC.App.Help.Controllers
                     logger.LogInformation($"{nameof(Health)} responded with: {message}");
 
                     var viewModel = CreateHealthViewModel(ResourceName, message);
+
                     return this.NegotiateContentResult(viewModel);
                 }
 

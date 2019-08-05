@@ -12,12 +12,12 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTests
 {
-    public class PagesControllerDraftTests
+    public class PagesControllerRouteTests
     {
         private readonly IHelpPageService fakeHelpPageService;
         private readonly IMapper fakeMapper;
 
-        public PagesControllerDraftTests()
+        public PagesControllerRouteTests()
         {
             this.fakeHelpPageService = A.Fake<IHelpPageService>();
             this.fakeMapper = A.Fake<IMapper>();
