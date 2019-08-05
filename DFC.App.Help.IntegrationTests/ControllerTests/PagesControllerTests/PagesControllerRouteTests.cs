@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Mime;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -64,16 +65,17 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public async Task GeDraftHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
+            var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Text.Html));
 
             // Act
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal($"{MediaTypeNames.Text.Html}; charset=utf-8", response.Content.Headers.ContentType.ToString());
+            Assert.Equal($"{MediaTypeNames.Text.Html}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
         }
 
         [Theory]
@@ -81,16 +83,17 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public async Task GetDraftJsonContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
+            var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
             // Act
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal($"{MediaTypeNames.Application.Json}; charset=utf-8", response.Content.Headers.ContentType.ToString());
+            Assert.Equal($"{MediaTypeNames.Application.Json}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
         }
 
         [Theory]
@@ -98,16 +101,17 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public async Task GetHelpHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
+            var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Text.Html));
 
             // Act
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal($"{MediaTypeNames.Text.Html}; charset=utf-8", response.Content.Headers.ContentType.ToString());
+            Assert.Equal($"{MediaTypeNames.Text.Html}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
         }
 
         [Theory]
@@ -115,16 +119,17 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public async Task GetHelpJsonContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
+            var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
             // Act
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal($"{MediaTypeNames.Application.Json}; charset=utf-8", response.Content.Headers.ContentType.ToString());
+            Assert.Equal($"{MediaTypeNames.Application.Json}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
         }
 
         [Theory]
@@ -132,11 +137,12 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public async Task GetDraftEndpointsReturnSuccessNoContent(string url)
         {
             // Arrange
+            var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Act
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -148,11 +154,12 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public async Task GetHelpEndpointsReturnSuccessAndNoContent(string url)
         {
             // Arrange
+            var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Act
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(uri).ConfigureAwait(false);
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -209,13 +216,13 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public async Task DeleteHelpEndpointsReturnNotFound()
         {
             // Arrange
-            string url = $"/pages/{Guid.NewGuid()}";
+            var uri = new Uri($"/pages/{Guid.NewGuid()}", UriKind.Relative);
             var client = factory.CreateClient();
 
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Act
-            var response = await client.DeleteAsync(url).ConfigureAwait(false);
+            var response = await client.DeleteAsync(uri).ConfigureAwait(false);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
