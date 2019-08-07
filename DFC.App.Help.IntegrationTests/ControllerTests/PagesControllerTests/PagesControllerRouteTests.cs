@@ -20,6 +20,8 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
         public PagesControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
+
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
         }
 
         public static IEnumerable<object[]> DraftRouteData => new List<object[]>
@@ -62,7 +64,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(DraftRouteData))]
-        public async Task GeDraftHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        public async Task GetDraftHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);

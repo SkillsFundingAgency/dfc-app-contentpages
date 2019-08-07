@@ -15,6 +15,8 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.RobotControllerTests
         public RobotControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
+
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
         }
 
         public static IEnumerable<object[]> RobotRouteData => new List<object[]>
@@ -24,7 +26,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.RobotControllerTests
 
         [Theory]
         [MemberData(nameof(RobotRouteData))]
-        public async Task GeRobotTextContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        public async Task GetRobotTextContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);

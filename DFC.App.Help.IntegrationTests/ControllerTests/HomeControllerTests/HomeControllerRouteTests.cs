@@ -15,6 +15,8 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.HomeControllerTests
         public HomeControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
+
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
         }
 
         public static IEnumerable<object[]> HomeContentRouteData => new List<object[]>
@@ -26,7 +28,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.HomeControllerTests
 
         [Theory]
         [MemberData(nameof(HomeContentRouteData))]
-        public async Task GeHomeHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        public async Task GetHomeHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);

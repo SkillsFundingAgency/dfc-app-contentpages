@@ -16,6 +16,8 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.HealthControllerTests
         public HealthControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
+
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
         }
 
         public static IEnumerable<object[]> HealthContentRouteData => new List<object[]>
@@ -30,7 +32,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.HealthControllerTests
 
         [Theory]
         [MemberData(nameof(HealthContentRouteData))]
-        public async Task GeHealthHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        public async Task GetHealthHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
@@ -48,7 +50,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.HealthControllerTests
 
         [Theory]
         [MemberData(nameof(HealthOkRouteData))]
-        public async Task GeHealthOkEndpointsReturnSuccess(string url)
+        public async Task GetHealthOkEndpointsReturnSuccess(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);

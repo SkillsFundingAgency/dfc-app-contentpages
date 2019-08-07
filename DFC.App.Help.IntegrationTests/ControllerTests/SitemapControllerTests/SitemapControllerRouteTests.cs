@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using DFC.App.Help.Data;
+using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Formatting;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Xunit;
@@ -15,6 +17,8 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.SitemapControllerTests
         public SitemapControllerRouteTests(CustomWebApplicationFactory<DFC.App.Help.Startup> factory)
         {
             this.factory = factory;
+
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
         }
 
         public static IEnumerable<object[]> SitemapRouteData => new List<object[]>
@@ -24,7 +28,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.SitemapControllerTests
 
         [Theory]
         [MemberData(nameof(SitemapRouteData))]
-        public async Task GeSitemapXmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        public async Task GetSitemapXmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
