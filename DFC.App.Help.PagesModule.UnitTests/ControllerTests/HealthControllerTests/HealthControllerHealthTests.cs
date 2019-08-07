@@ -10,6 +10,7 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.HealthControllerTests
 {
+    [Trait("Category", "Health Controller Unit Tests")]
     public class HealthControllerHealthTests : BaseHealthController
     {
         [Fact]
@@ -19,13 +20,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.HealthControllerTes
             bool expectedResult = true;
             var controller = BuildHealthController();
 
-            A.CallTo(() => fakeHelpPageService.PingAsync()).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.PingAsync()).Returns(expectedResult);
 
             // Act
             var result = await controller.Health().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.PingAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.PingAsync()).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<HealthViewModel>(jsonResult.Value);
@@ -44,13 +45,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.HealthControllerTes
             bool expectedResult = false;
             var controller = BuildHealthController();
 
-            A.CallTo(() => fakeHelpPageService.PingAsync()).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.PingAsync()).Returns(expectedResult);
 
             // Act
             var result = await controller.Health().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.PingAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.PingAsync()).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
@@ -65,13 +66,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.HealthControllerTes
             // Arrange
             var controller = BuildHealthController();
 
-            A.CallTo(() => fakeHelpPageService.PingAsync()).Throws<Exception>();
+            A.CallTo(() => FakeHelpPageService.PingAsync()).Throws<Exception>();
 
             // Act
             var result = await controller.Health().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.PingAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.PingAsync()).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 

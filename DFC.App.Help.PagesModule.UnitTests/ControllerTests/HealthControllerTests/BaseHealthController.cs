@@ -11,14 +11,15 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.HealthControllerTes
 {
     public class BaseHealthController
     {
-        protected readonly IHelpPageService fakeHelpPageService;
-        protected readonly ILogger<HealthController> fakeLogger;
-
         public BaseHealthController()
         {
-            fakeHelpPageService = A.Fake<IHelpPageService>();
-            fakeLogger = A.Fake<ILogger<HealthController>>();
+            FakeHelpPageService = A.Fake<IHelpPageService>();
+            FakeLogger = A.Fake<ILogger<HealthController>>();
         }
+
+        protected IHelpPageService FakeHelpPageService { get; }
+
+        protected ILogger<HealthController> FakeLogger { get; }
 
         protected HealthController BuildHealthController()
         {
@@ -26,12 +27,12 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.HealthControllerTes
 
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            var controller = new HealthController(fakeLogger, fakeHelpPageService)
+            var controller = new HealthController(FakeLogger, FakeHelpPageService)
             {
                 ControllerContext = new ControllerContext()
                 {
                     HttpContext = httpContext,
-                }
+                },
             };
 
             return controller;

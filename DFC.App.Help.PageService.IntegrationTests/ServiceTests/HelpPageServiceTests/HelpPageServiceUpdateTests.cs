@@ -8,7 +8,7 @@ using System;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
+namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
     [TestFixture]
     public class HelpPageServiceUpdateTests : BaseHelpPageServiceTests
@@ -23,6 +23,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid(),
+                LastReviewed = DateTime.UtcNow,
             };
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
@@ -51,6 +52,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
+                LastReviewed = DateTime.UtcNow,
             };
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 

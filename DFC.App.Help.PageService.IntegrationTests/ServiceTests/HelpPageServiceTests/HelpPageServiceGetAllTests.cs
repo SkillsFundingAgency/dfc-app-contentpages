@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
+namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
     [TestFixture]
     public class HelpPageServiceGetAllTests : BaseHelpPageServiceTests
@@ -25,11 +25,13 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
                 {
                     CanonicalName = name + "_1",
                     DocumentId = Guid.NewGuid(),
+                    LastReviewed = DateTime.UtcNow,
                 },
                 new HelpPageModel()
                 {
                     CanonicalName = name + "_2",
                     DocumentId = Guid.NewGuid(),
+                    LastReviewed = DateTime.UtcNow,
                 },
             };
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();

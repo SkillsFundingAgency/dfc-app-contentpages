@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
 
-namespace DFC.App.Help.IntegrationTests.ServiceTests
+namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests
 {
     [TestFixture]
     public abstract class BaseServiceTests

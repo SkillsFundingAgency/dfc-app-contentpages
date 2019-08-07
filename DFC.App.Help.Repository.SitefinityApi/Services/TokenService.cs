@@ -24,7 +24,7 @@ namespace DFC.App.Help.Repository.SitefinityApi.Services
 
         public async Task<string> GetAccessTokenAsync()
         {
-            if (!string.IsNullOrEmpty(this.accessToken))
+            if (!string.IsNullOrEmpty(accessToken))
             {
                 return accessToken;
             }
@@ -46,7 +46,7 @@ namespace DFC.App.Help.Repository.SitefinityApi.Services
             return tokenResponse.AccessToken;
         }
 
-        public void SetAccessToken(string accessTokenSet) => this.accessToken = accessTokenSet;
+        public void SetAccessToken(string accessTokenSet) => accessToken = accessTokenSet;
 
         private async Task<TokenResponse> RequestToken(DiscoveryResponse disco)
         {

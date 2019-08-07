@@ -12,6 +12,7 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTests
 {
+    [Trait("Category", "Pages Controller Unit Tests")]
     public class PagesControllerRouteTests
     {
         private readonly IHelpPageService fakeHelpPageService;
@@ -19,9 +20,29 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
         public PagesControllerRouteTests()
         {
-            this.fakeHelpPageService = A.Fake<IHelpPageService>();
-            this.fakeMapper = A.Fake<IMapper>();
+            fakeHelpPageService = A.Fake<IHelpPageService>();
+            fakeMapper = A.Fake<IMapper>();
         }
+
+        public static IEnumerable<object[]> DraftRouteData => new List<object[]>
+        {
+            new object[] { "/draft/{article}/htmlhead", "SomeArticle", "Head" },
+            new object[] { "/draft/htmlhead", string.Empty, "Head" },
+            new object[] { "/draft/{article}/breadcrumb", "SomeArticle", "Breadcrumb" },
+            new object[] { "/draft/breadcrumb", string.Empty, "Breadcrumb" },
+            new object[] { "/draft/{article}/contents", "SomeArticle", "Body" },
+            new object[] { "/draft/contents", string.Empty, "Body" },
+        };
+
+        public static IEnumerable<object[]> NonDraftRouteData => new List<object[]>
+        {
+            new object[] { "/pages/{article}/htmlhead", "SomeArticle", "Head" },
+            new object[] { "/pages/htmlhead", string.Empty, "Head" },
+            new object[] { "/pages/{article}/breadcrumb", "SomeArticle", "Breadcrumb" },
+            new object[] { "/pages/breadcrumb", string.Empty, "Breadcrumb" },
+            new object[] { "/pages/{article}/contents", "SomeArticle", "Body" },
+            new object[] { "/pages/contents", string.Empty, "Body" },
+        };
 
         [Theory]
         [MemberData(nameof(DraftRouteData))]
@@ -80,29 +101,9 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             {
                 ControllerContext = new ControllerContext
                 {
-                    HttpContext = httpContext
-                }
+                    HttpContext = httpContext,
+                },
             };
         }
-
-        public static IEnumerable<object[]> DraftRouteData => new List<object[]>
-        {
-            new object[] { "/draft/{article}/htmlhead", "SomeArticle", "Head" },
-            new object[] { "/draft/htmlhead", string.Empty, "Head" },
-            new object[] { "/draft/{article}/breadcrumb", "SomeArticle", "Breadcrumb" },
-            new object[] { "/draft/breadcrumb", string.Empty, "Breadcrumb" },
-            new object[] { "/draft/{article}/contents", "SomeArticle", "Body" },
-            new object[] { "/draft/contents", string.Empty, "Body" }
-        };
-
-        public static IEnumerable<object[]> NonDraftRouteData => new List<object[]>
-        {
-            new object[] { "/pages/{article}/htmlhead", "SomeArticle", "Head" },
-            new object[] { "/pages/htmlhead", string.Empty, "Head" },
-            new object[] { "/pages/{article}/breadcrumb", "SomeArticle", "Breadcrumb" },
-            new object[] { "/pages/breadcrumb", string.Empty, "Breadcrumb" },
-            new object[] { "/pages/{article}/contents", "SomeArticle", "Body" },
-            new object[] { "/pages/contents", string.Empty, "Body" }
-        };
     }
 }

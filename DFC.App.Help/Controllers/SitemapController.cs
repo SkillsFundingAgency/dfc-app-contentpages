@@ -38,21 +38,25 @@ namespace DFC.App.Help.Controllers
                 });
 
                 var helpPageModels = await helpPageService.GetAllAsync().ConfigureAwait(false);
-                var helpPageModelsList = helpPageModels.ToList();
 
-                if (helpPageModelsList.Any())
+                if (helpPageModels != null)
                 {
-                    var sitemapHelpPageModels = helpPageModelsList
-                         .Where(w => w.IncludeInSitemap && !w.CanonicalName.Equals(PagesController.DefaultArticleName, StringComparison.OrdinalIgnoreCase))
-                         .OrderBy(o => o.CanonicalName);
+                    var helpPageModelsList = helpPageModels.ToList();
 
-                    foreach (var helpPageModel in sitemapHelpPageModels)
+                    if (helpPageModelsList.Any())
                     {
-                        sitemap.Add(new SitemapLocation
+                        var sitemapHelpPageModels = helpPageModelsList
+                             .Where(w => w.IncludeInSitemap && !w.CanonicalName.Equals(PagesController.DefaultArticleName, StringComparison.OrdinalIgnoreCase))
+                             .OrderBy(o => o.CanonicalName);
+
+                        foreach (var helpPageModel in sitemapHelpPageModels)
                         {
-                            Url = $"{sitemapUrlPrefix}/{helpPageModel.CanonicalName}",
-                            Priority = 1,
-                        });
+                            sitemap.Add(new SitemapLocation
+                            {
+                                Url = $"{sitemapUrlPrefix}/{helpPageModel.CanonicalName}",
+                                Priority = 1,
+                            });
+                        }
                     }
                 }
 

@@ -1,4 +1,3 @@
-using DFC.App.Help.Data;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -6,6 +5,7 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTests
 {
+    [Trait("Category", "Pages Controller Unit Tests")]
     public class PagesControllerBodyTopTests : BasePagesController
     {
         [Theory]
@@ -20,7 +20,6 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             var result = controller.BodyTop(article);
 
             // Assert
-
             var statusResult = Assert.IsType<NoContentResult>(result);
 
             A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);

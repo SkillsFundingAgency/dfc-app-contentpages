@@ -11,13 +11,10 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 {
     public class BasePagesController
     {
-        protected readonly IHelpPageService fakeHelpPageService;
-        protected readonly AutoMapper.IMapper fakeMapper;
-
         public BasePagesController()
         {
-            fakeHelpPageService = A.Fake<IHelpPageService>();
-            fakeMapper = A.Fake<AutoMapper.IMapper>();
+            FakeHelpPageService = A.Fake<IHelpPageService>();
+            FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -36,18 +33,22 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             new string[] { MediaTypeNames.Application.Json },
         };
 
+        protected IHelpPageService FakeHelpPageService { get; }
+
+        protected AutoMapper.IMapper FakeMapper { get; }
+
         protected PagesController BuildPagesController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new PagesController(fakeHelpPageService, fakeMapper)
+            var controller = new PagesController(FakeHelpPageService, FakeMapper)
             {
                 ControllerContext = new ControllerContext()
                 {
                     HttpContext = httpContext,
-                }
+                },
             };
 
             return controller;

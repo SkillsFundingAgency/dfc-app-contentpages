@@ -9,6 +9,7 @@ using Xunit;
 
 namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTests
 {
+    [Trait("Category", "Pages Controller Unit Tests")]
     public class PagesControllerBreadcrumbTests : BasePagesController
     {
         [Theory]
@@ -22,13 +23,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
             expectedResult.CanonicalName = article;
 
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Breadcrumb(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(viewResult.ViewData.Model);
@@ -49,13 +50,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
             expectedResult.CanonicalName = article;
 
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Breadcrumb(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(jsonResult.Value);
@@ -76,13 +77,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
             expectedResult.CanonicalName = article;
 
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Breadcrumb(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(viewResult.ViewData.Model);
@@ -103,13 +104,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
             expectedResult.CanonicalName = article;
 
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Breadcrumb(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(jsonResult.Value);
@@ -128,13 +129,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             HelpPageModel expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Breadcrumb(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(viewResult.ViewData.Model);
@@ -153,13 +154,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             HelpPageModel expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Breadcrumb(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(jsonResult.Value);
@@ -180,13 +181,13 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
             expectedResult.CanonicalName = article;
 
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Breadcrumb(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHelpPageService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
