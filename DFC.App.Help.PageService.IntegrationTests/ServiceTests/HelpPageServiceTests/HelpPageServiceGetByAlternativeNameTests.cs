@@ -4,11 +4,10 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
+namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
     [TestFixture]
     public class HelpPageServiceGetByAlternativeNameTests : BaseHelpPageServiceTests
@@ -24,6 +23,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             {
                 CanonicalName = name + "_" + Guid.NewGuid().ToString(),
                 DocumentId = Guid.NewGuid(),
+                LastReviewed = DateTime.UtcNow,
                 AlternativeNames = new[] { alternativeName },
             };
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();

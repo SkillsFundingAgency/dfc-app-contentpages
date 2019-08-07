@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace DFC.App.Help.UnitTests.Controllers.Pages
 {
     [TestFixture]
+    [Category("HelpAppCreate.Tests")]
     public class CreateTests
     {
         private PagesController controller;
@@ -34,6 +35,7 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "canonicalname1",
+                LastReviewed = DateTime.UtcNow,
                 Content = "content1",
             };
 
@@ -57,6 +59,7 @@ namespace DFC.App.Help.UnitTests.Controllers.Pages
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "canonicalname1",
+                LastReviewed = DateTime.UtcNow,
                 Content = "content1",
             };
 

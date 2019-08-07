@@ -1,13 +1,14 @@
-using System;
-using System.Linq.Expressions;
-using System.Net;
 using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
 using FakeItEasy;
+using System;
+using System.Linq.Expressions;
+using System.Net;
 using Xunit;
 
 namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 {
+    [Trait("Category", "Page Service Unit Tests")]
     public class HelpPageServiceUpdateTests
     {
         [Fact]

@@ -104,7 +104,7 @@ namespace DFC.App.Help
                     template: "{controller=Home}/{action=Error}");
             });
 
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
+            mapper?.ConfigurationProvider.AssertConfigurationIsValid();
         }
     }
 }

@@ -5,7 +5,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
+namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageServiceTests
 {
     [TestFixture]
     public class HelpPageServiceGetByNameTests : BaseHelpPageServiceTests
@@ -19,6 +19,7 @@ namespace DFC.App.Help.IntegrationTests.ServiceTests.HelpPageServiceTests
             {
                 CanonicalName = $"{ValidNameValue}_getbyname_{Guid.NewGuid().ToString()}",
                 DocumentId = Guid.NewGuid(),
+                LastReviewed = DateTime.UtcNow,
             };
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
