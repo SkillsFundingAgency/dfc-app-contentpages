@@ -48,6 +48,11 @@ namespace DFC.App.Help.PageService
 
         public async Task<HelpPageModel> GetByAlternativeNameAsync(string alternativeName)
         {
+            if (string.IsNullOrWhiteSpace(alternativeName))
+            {
+                throw new ArgumentNullException(nameof(alternativeName));
+            }
+
             return await repository.GetAsync(d => d.AlternativeNames.Contains(alternativeName.ToLowerInvariant())).ConfigureAwait(false);
         }
 
