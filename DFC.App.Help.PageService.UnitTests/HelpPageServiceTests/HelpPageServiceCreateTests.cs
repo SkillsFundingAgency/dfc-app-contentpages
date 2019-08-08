@@ -4,6 +4,7 @@ using FakeItEasy;
 using System;
 using System.Linq.Expressions;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
@@ -31,6 +32,20 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
             A.CallTo(() => repository.CreateAsync(helpPageModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
+        }
+
+        [Fact]
+        public async Task HelpPageServiceCreateReturnsArgumentNullExceptionWhenNullIsUsedAsync()
+        {
+            // arrange
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
+            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+
+            // act
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await helpPageService.CreateAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
+
+            // assert
+            Assert.Equal("Value cannot be null.\r\nParameter name: helpPageModel", exceptionResult.Message);
         }
 
         [Fact]

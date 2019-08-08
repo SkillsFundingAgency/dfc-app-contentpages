@@ -34,6 +34,20 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         }
 
         [Fact]
+        public async System.Threading.Tasks.Task HelpPageServiceUpdateReturnsArgumentNullExceptionWhenNullIsUsed()
+        {
+            // arrange
+            var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
+            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+
+            // act
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await helpPageService.ReplaceAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
+
+            // assert
+            Assert.Equal("Value cannot be null.\r\nParameter name: helpPageModel", exceptionResult.Message);
+        }
+
+        [Fact]
         public void HelpPageServiceUpdateReturnsNullWhenHelpPageNotReplaced()
         {
             // arrange

@@ -40,6 +40,20 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
 
         [Test]
         [Category("HelpPageService.GetByAlternativeName")]
+        public async Task HelpPageServiceGetByAlternativeNameReturnsArgumentNullExceptionWhenNullIsUsed()
+        {
+            // arrange
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
+
+            // act
+            var exceptionResult = Assert.ThrowsAsync<ArgumentNullException>(async () => await helpPageService.GetByAlternativeNameAsync(null).ConfigureAwait(false));
+
+            //Assert
+            Assert.AreEqual("Value cannot be null.\r\nParameter name: alternativeName", exceptionResult.Message);
+        }
+
+        [Test]
+        [Category("HelpPageService.GetByAlternativeName")]
         public async Task HelpPageServiceGetByAlternativeNameReturnsNullWhenHelpPageDoesNotExist()
         {
             // arrange

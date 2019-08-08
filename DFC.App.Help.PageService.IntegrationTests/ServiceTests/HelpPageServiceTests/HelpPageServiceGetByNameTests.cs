@@ -35,6 +35,20 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
 
         [Test]
         [Category("HelpPageService.GetByName")]
+        public void HelpPageServiceGetByNameReturnsArgumentNullExceptionWhenNullIsUsed()
+        {
+            // Arrange
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
+
+            // Act
+            var exceptionResult = Assert.ThrowsAsync<ArgumentNullException>(async () => await helpPageService.GetByNameAsync(null).ConfigureAwait(false));
+
+            //Assert
+            Assert.AreEqual("Value cannot be null.\r\nParameter name: canonicalName", exceptionResult.Message);
+        }
+
+        [Test]
+        [Category("HelpPageService.GetByName")]
         public async Task HelpPageServiceGetByNameReturnsNullWhenHelpPageDoesNotExist()
         {
             // Arrange
@@ -55,7 +69,7 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
             var helpPageService = ServiceProvider.GetService<IHelpPageService>();
 
             // act
-            var result = await helpPageService.GetByNameAsync("help", true).ConfigureAwait(false);
+            var result = await helpPageService.GetByNameAsync(DFC.App.Help.Controllers.PagesController.DefaultArticleName, true).ConfigureAwait(false);
 
             // assert
             Assert.True(!string.IsNullOrEmpty(result.Content));

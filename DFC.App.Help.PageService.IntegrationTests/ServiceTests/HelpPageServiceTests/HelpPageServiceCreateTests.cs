@@ -35,5 +35,19 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
             result.DocumentId.Should().Be(helpPageModel.DocumentId);
             result.CanonicalName.Should().Be(helpPageModel.CanonicalName);
         }
+
+        [Test]
+        [Category("HelpPageService.GetByAlternativeName")]
+        public void HelpPageServiceCreateReturnsArgumentNullExceptionWhenNullIsUsed()
+        {
+            // arrange
+            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
+
+            // act
+            var exceptionResult = Assert.ThrowsAsync<ArgumentNullException>(async () => await helpPageService.CreateAsync(null).ConfigureAwait(false));
+
+            //Assert
+            Assert.AreEqual("Value cannot be null.\r\nParameter name: helpPageModel", exceptionResult.Message);
+        }
     }
 }
