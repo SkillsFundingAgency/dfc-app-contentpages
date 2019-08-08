@@ -39,6 +39,18 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         }
 
         [Fact]
+        public async Task HelpPageServiceGetByNameReturnsArgumentNullExceptionWhenNullIsUsed()
+        {
+            // arrange
+
+            // act
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await helpPageService.GetByNameAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
+
+            // assert
+            Assert.Equal("Value cannot be null.\r\nParameter name: canonicalName", exceptionResult.Message);
+        }
+
+        [Fact]
         public async Task HelpPageServiceGetByNameReturnsNullWhenMissingRepository()
         {
             // arrange
