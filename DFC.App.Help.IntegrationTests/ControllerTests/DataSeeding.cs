@@ -36,12 +36,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests
                 },
             };
 
-            if (factory == null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            var client = factory.CreateClient();
+            var client = factory?.CreateClient();
 
             client.DefaultRequestHeaders.Accept.Clear();
 

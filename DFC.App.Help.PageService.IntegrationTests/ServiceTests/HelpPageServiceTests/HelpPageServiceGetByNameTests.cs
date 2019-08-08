@@ -29,8 +29,8 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
             var result = await helpPageService.GetByNameAsync(helpPageModel.CanonicalName).ConfigureAwait(false);
 
             // assert
-            Assert.True(result.DocumentId == helpPageModel.DocumentId
-                        && result.CanonicalName.Equals(helpPageModel.CanonicalName, StringComparison.OrdinalIgnoreCase));
+            Assert.True(result.DocumentId == helpPageModel.DocumentId);
+            Assert.True(result.CanonicalName.Equals(helpPageModel.CanonicalName, StringComparison.OrdinalIgnoreCase));
         }
 
         [Test]
