@@ -2,5 +2,7 @@
 
 @if (Model.Content != null)
 {
-    @Html.Raw(Model.Content)
+    <div class="govuk-width-container">
+        @Html.Raw(Model.Content)
+    </div>
 }
