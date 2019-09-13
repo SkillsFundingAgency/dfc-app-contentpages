@@ -22,7 +22,7 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
-        [Route("pages/health")]
+        [Route("health")]
         public async Task<IActionResult> Health()
         {
             const string ResourceName = "Document store";
