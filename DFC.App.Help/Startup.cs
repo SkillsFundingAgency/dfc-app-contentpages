@@ -101,7 +101,7 @@ namespace DFC.App.Help
                 // add the default route
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Error}");
+                    template: "{controller=Pages}/{action=Index}");
             });
 
             mapper?.ConfigurationProvider.AssertConfigurationIsValid();

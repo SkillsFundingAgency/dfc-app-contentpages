@@ -25,7 +25,6 @@ namespace DFC.App.Help.Controllers
         }
 
         [HttpGet]
-        [Route("pages")]
         public async Task<IActionResult> Index()
         {
             var viewModel = new IndexViewModel();

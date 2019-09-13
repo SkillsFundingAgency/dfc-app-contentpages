@@ -22,7 +22,7 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.HealthControllerTests
 
         public static IEnumerable<object[]> HealthContentRouteData => new List<object[]>
         {
-            new object[] { "/pages/health" },
+            new object[] { "/health" },
         };
 
         public static IEnumerable<object[]> HealthOkRouteData => new List<object[]>
