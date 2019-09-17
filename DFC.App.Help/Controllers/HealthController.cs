@@ -41,7 +41,7 @@ namespace DFC.App.Help.Controllers
 
                     var viewModel = CreateHealthViewModel(ResourceName, message);
 
-                    return this.NegotiateContentResult(viewModel);
+                    return this.NegotiateContentResult(viewModel, viewModel.HealthItems);
                 }
 
                 message = $"Ping to {ResourceName} has failed";
