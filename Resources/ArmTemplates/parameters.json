@@ -21,7 +21,7 @@
             "value": "__SharedAppServicePlanName__"
         },
         "SharedAppServicePlanResourceGroup": {
-            "value": "__SharedAppServicePlanResourceGroup__"
+            "value": "__appSharedResourceGroup__"
         },
         "cosmosEndpointUrl": {
             "value": "__appSharedCosmosEndpointUrl__"
