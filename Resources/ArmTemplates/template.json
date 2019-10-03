@@ -235,7 +235,10 @@
                         "value": "[variables('CosmosDbCollectionPartitionKey')]"
                     }
                 }
-            }
+            },
+            "dependsOn": [
+                "[variables('CosmosDbDatabaseName')]"
+            ]
         }
     ],
         "outputs": {}
