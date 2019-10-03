@@ -9,10 +9,10 @@
             "value": "helppages"
         },
         "CosmosDbName": {
-            "value": "dfc-foo-shared-cdb"
+            "value": "dfc-dev-app-sharedresources-cdb"
         },
         "CosmosDbResourceGroup": {
-            "value": "dfc-foo-shared-rg"
+            "value": "dfc-dev-app-sharedresources-rg"
         },
         "Environment": {
             "value": "FOO"
