@@ -17,6 +17,12 @@
         "Environment": {
             "value": "FOO"
         },
+        "HelpAppDatabaseNeedsCreation": {
+            "value": true
+        },
+        "HelpAppDatabaseThroughput": {
+            "value": 400
+        },
         "SharedAppServicePlanName": {
             "value": "dfc-dev-compui-shared-asp"
         },
