@@ -2,29 +2,32 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "CosmosAccessKey": {
+            "value": "this-is-not-a-real-key=="
+        },
+        "CosmosDbCollectionName": {
+            "value": "helppages"
+        },
+        "CosmosDbName": {
+            "value": "dfc-dev-app-sharedresources-cdb"
+        },
+        "CosmosDbResourceGroup": {
+            "value": "dfc-dev-app-sharedresources-rg"
+        },
         "Environment": {
             "value": "FOO"
+        },
+        "HelpAppDatabaseNeedsCreation": {
+            "value": true
+        },
+        "HelpAppDatabaseThroughput": {
+            "value": 400
         },
         "SharedAppServicePlanName": {
             "value": "dfc-dev-compui-shared-asp"
         },
         "SharedAppServicePlanResourceGroup": {
             "value": "dfc-dev-compui-shared-rg"
-        },
-        "cosmosEndpointUrl": {
-            "value": "https://dfc-foo-bar-cdb.documents.azure.com:443/"
-        },
-        "cosmosAccessKey": {
-            "value": "this-is-not-a-real-key=="
-        },
-        "cosmosDatabaseName": {
-            "value": "dfc-foobar"
-        },
-        "cosmosCollectionHelpPages": {
-            "value": "helppages"
-        },
-        "cosmosCollectionHelpPagesPartitionKey": {
-            "value": "/myPartitionKey"
         }
     }
 }

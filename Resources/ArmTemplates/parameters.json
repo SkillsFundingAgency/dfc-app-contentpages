@@ -14,29 +14,32 @@
         "AspTier": {
             "value": "__AspTier__"
         },
+        "CosmosAccessKey": {
+            "value": "__appSharedCosmosPrimaryKey__"
+        },
+        "CosmosDbCollectionName": {
+            "value": "__helpAppCollectionName__"
+        },
+        "CosmosDbName": {
+            "value": "__appSharedCosmosDBName__"
+        },
+        "CosmosDbResourceGroup": {
+            "value": "__appSharedResourceGroup__"
+        },
         "Environment": {
             "value": "__ReleaseEnvironmentName__"
+        },
+        "HelpAppDatabaseNeedsCreation": {
+            "value": __CosmosDbDatabaseDoesntExist__
+        },
+        "HelpAppDatabaseThroughput": {
+            "value": __helpAppDatabaseThroughput__
         },
         "SharedAppServicePlanName": {
             "value": "__SharedAppServicePlanName__"
         },
         "SharedAppServicePlanResourceGroup": {
             "value": "__appSharedResourceGroup__"
-        },
-        "cosmosEndpointUrl": {
-            "value": "__appSharedCosmosEndpointUrl__"
-        },
-        "cosmosAccessKey": {
-            "value": "__appSharedCosmosPrimaryKey__"
-        },
-        "cosmosDatabaseName": {
-            "value": "__appDatabaseId__"
-        },
-        "cosmosCollectionHelpPages": {
-            "value": "__helpAppCollectionName__"
-        },
-        "cosmosCollectionHelpPagesPartitionKey": {
-            "value": "__helpAppCollectionPartitionKey__"
         }
     }
 }
