@@ -54,7 +54,7 @@
         "AppServicePlanResourceGroup": "[if(greater(length(parameters('SharedAppServicePlanResourceGroup')), 0), parameters('SharedAppServicePlanResourceGroup'), resourceGroup().name)]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "CosmosDbCollectionPartitionKey": "/lastReviewed",
-        "CosmosDbDatabaseName": "dfc-app-help",
+        "CosmosDbDatabaseName": "dfc-app-conpage",
         "CosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
         "WebAppName": "[concat(variables('ResourcePrefix'), '-as')]",
         "ResourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-conpage'))]"
