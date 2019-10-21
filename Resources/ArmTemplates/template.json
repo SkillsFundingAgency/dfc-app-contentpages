@@ -57,7 +57,7 @@
         "CosmosDbDatabaseName": "dfc-app-conpage",
         "CosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
         "WebAppName": "[concat(variables('ResourcePrefix'), '-as')]",
-        "ResourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-help'))]"
+        "ResourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-conpage'))]"
     },
     "resources": [
         {
