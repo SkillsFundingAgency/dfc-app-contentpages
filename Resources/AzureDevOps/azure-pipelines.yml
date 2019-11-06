@@ -39,11 +39,3 @@ jobs:
       DotNetCoreVersion: 2.2.402
       PublishWebApp: true
       TestSuffix: UnitTests
-  # Test DFC.App.Help.PageService (an artifact will be built but isn't consumed in the release) 
-  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
-    parameters:
-      SolutionBaseName: $(SolutionBaseName).PageService
-      BuildPlatform: $(BuildPlatform)
-      BuildConfiguration: $(BuildConfiguration)
-      DotNetCoreVersion: 2.2.402
-      TestSuffix: UnitTests
