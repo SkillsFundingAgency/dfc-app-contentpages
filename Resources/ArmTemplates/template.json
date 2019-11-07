@@ -168,6 +168,10 @@
                             {
                                 "name": "Configuration__CosmosDbConnections__HelpPages__PartitionKey",
                                 "value": "[variables('CosmosDbCollectionPartitionKey')]"
+                            },
+                            {
+                                "name": "Logging__ApplicationInsights__LogLevel__Default",
+                                "value": "Information"
                             }
                         ]
                     }
