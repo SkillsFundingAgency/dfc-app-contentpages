@@ -14,9 +14,11 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContentPages
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public const string CosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:ContentPages";
@@ -28,36 +30,7 @@ namespace DFC.App.ContentPages
             this.configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
-            var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
-            services.AddHttpContextAccessor();
-            services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
-            services.AddSingleton(cosmosDbConnection);
-            services.AddSingleton<IDocumentClient>(documentClient);
-            services.AddSingleton<ICosmosRepository<ContentPageModel>, CosmosRepository<ContentPageModel>>();
-            services.AddScoped<IContentPageService, ContentPageService>();
-            services.AddAutoMapper(typeof(Startup).Assembly);
-
-            services.AddMvc(config =>
-                {
-                    config.Filters.Add<LoggingAsynchActionFilter>();
-                    config.RespectBrowserAcceptHeader = true;
-                    config.ReturnHttpNotAcceptable = true;
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IMapper mapper)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env, IMapper mapper)
         {
             if (env.IsDevelopment())
             {
@@ -94,6 +67,34 @@ namespace DFC.App.ContentPages
             });
 
             mapper?.ConfigurationProvider.AssertConfigurationIsValid();
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
+            var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
+            services.AddHttpContextAccessor();
+            services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
+            services.AddSingleton(cosmosDbConnection);
+            services.AddSingleton<IDocumentClient>(documentClient);
+            services.AddSingleton<ICosmosRepository<ContentPageModel>, CosmosRepository<ContentPageModel>>();
+            services.AddScoped<IContentPageService, ContentPageService>();
+            services.AddAutoMapper(typeof(Startup).Assembly);
+
+            services.AddMvc(config =>
+                {
+                    config.Filters.Add<LoggingAsynchActionFilter>();
+                    config.RespectBrowserAcceptHeader = true;
+                    config.ReturnHttpNotAcceptable = true;
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
     }
 }

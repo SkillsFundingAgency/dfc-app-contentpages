@@ -2,9 +2,11 @@
 using DFC.App.ContentPages.Data;
 using DFC.App.ContentPages.ViewModels;
 using Microsoft.AspNetCore.Html;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContentPages.AutoMapperProfiles
 {
+    [ExcludeFromCodeCoverage]
     public class ContentPageModelProfile : Profile
     {
         public ContentPageModelProfile()

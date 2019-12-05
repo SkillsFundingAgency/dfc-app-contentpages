@@ -1,8 +1,11 @@
-﻿namespace DFC.App.ContentPages.Repository.CosmosDb
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace DFC.App.ContentPages.Repository.CosmosDb
 {
     /// <summary>
     /// Used to supply Cosmos DB connection values from app settings.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class CosmosDbConnection
     {
         /// <summary>
