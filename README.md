@@ -35,8 +35,9 @@ Once you have cloned the public repo you need to remove the -template part from 
 
 | Location | Repo Filename | Rename to |
 |-------|-------|-------|
-| DFC.App.Help.IntegrationTests | appsettings-template.json | appsettings.json |
-| DFC.App.Help | appsettings-template.json | appsettings.json |
+| DFC.App.ContentPages.IntegrationTests | appsettings-template.json | appsettings.json |
+| DFC.App.ContentPages.PageService.IntegrationTests | appsettings-template.json | appsettings.json |
+| DFC.App.ContentPages | appsettings-template.json | appsettings.json |
 
 ## Configuring to run locally
 
