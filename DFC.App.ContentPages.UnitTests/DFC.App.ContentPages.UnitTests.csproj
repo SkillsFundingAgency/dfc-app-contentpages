@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <CodeAnalysisRuleSet>../UnitTests.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <ProjectGuid>{424399D1-C9AC-4360-9C27-3B0CCFEF1D9E}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,6 +5,7 @@
 
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>../UnitTests.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <ProjectGuid>{2AB10422-003C-4DC9-A975-38C12A675368}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
