@@ -11,12 +11,10 @@ namespace DFC.App.Help.PageService
     public class HelpPageService : IHelpPageService
     {
         private readonly ICosmosRepository<HelpPageModel> repository;
-        private readonly IDraftHelpPageService draftHelpPageService;
 
-        public HelpPageService(ICosmosRepository<HelpPageModel> repository, IDraftHelpPageService draftHelpPageService)
+        public HelpPageService(ICosmosRepository<HelpPageModel> repository)
         {
             this.repository = repository;
-            this.draftHelpPageService = draftHelpPageService;
         }
 
         public async Task<bool> PingAsync()
@@ -34,16 +32,14 @@ namespace DFC.App.Help.PageService
             return await repository.GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
         }
 
-        public async Task<HelpPageModel> GetByNameAsync(string canonicalName, bool isDraft = false)
+        public async Task<HelpPageModel> GetByNameAsync(string canonicalName)
         {
             if (string.IsNullOrWhiteSpace(canonicalName))
             {
                 throw new ArgumentNullException(nameof(canonicalName));
             }
 
-            return isDraft
-                ? await draftHelpPageService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
-                : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
+            return await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
         public async Task<HelpPageModel> GetByAlternativeNameAsync(string alternativeName)

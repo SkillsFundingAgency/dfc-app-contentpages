@@ -9,7 +9,6 @@ Details of the Composite UI application may be found here https://github.com/Ski
 This Help app runs in two flavours:
 
 * Help documents
-* Draft Help documents
 
 The Help app also provisions the following for consumption by the Composite UI:
 
@@ -28,7 +27,6 @@ Clone the project and open the solution in Visual Studio 2019.
 
 |Item	|Purpose|
 |-------|-------|
-|Sitefinity |Content management system |
 |Azure Cosmos DB | Document storage |
 
 ## Local Config Files
@@ -44,18 +42,7 @@ Once you have cloned the public repo you need to remove the -template part from 
 
 The project contains a number of "appsettings-template.json" files which contain sample appsettings for the web app and the integration test projects. To use these files, rename them to "appsettings.json" and edit and replace the configuration item values with values suitable for your environment.
 
-By default, the appsettings include a local Azure Cosmos Emulator configuration using the well known configuration values. These may be changed to suit your environment if you are not using the Azure Cosmos Emulator. In addition, Sitefinity configuration settings will need to be edited.
-
-|File                                       |Setting                        |Example value                      |
-|------------------------------------------:|------------------------------:|----------------------------------:|
-| appsettings.json     | SitefinityApi.AuthTokenEndpoint      |< your domain authentication endpoint >  |
-| appsettings.json     | SitefinityApi.SitefinityApiUrlBase     |http://< your domain api base endpoint >  |
-| appsettings.json     | SitefinityApi.SitefinityApiDataEndpoint |< your domain api data endpoint >  |
-| appsettings.json     | SitefinityApi.ClientId           | < can be obtained from sitefinity  >|
-| appsettings.json     | SitefinityApi.ClientSecret       | < generate it with sitefinity >     |
-| appsettings.json     | SitefinityApi.Username           | < sitefinity username >             |
-| appsettings.json     | SitefinityApi.Password           | < sitefinity password >             |
-| appsettings.json     | SitefinityApi.Scopes             | < authentication protocol> OpenId   |
+By default, the appsettings include a local Azure Cosmos Emulator configuration using the well known configuration values. These may be changed to suit your environment if you are not using the Azure Cosmos Emulator.
 
 ## Running locally
 
@@ -80,4 +67,4 @@ CSS, JS, images and fonts used in this site can found in the following repositor
 
 ## References
 
-Please refer to https://github.com/SkillsFundingAgency/dfc-digital for additional instructions on configuring individual components like Sitefinity and Cosmos.
+Please refer to https://github.com/SkillsFundingAgency/dfc-digital for additional instructions on configuring individual components like Cosmos.

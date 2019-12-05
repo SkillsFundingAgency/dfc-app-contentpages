@@ -20,7 +20,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.DeleteAsync(documentId)).Returns(HttpStatusCode.NoContent);
 
-            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+            var helpPageService = new HelpPageService(repository);
 
             // act
             var result = helpPageService.DeleteAsync(documentId).Result;
@@ -40,7 +40,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.DeleteAsync(documentId)).Returns(HttpStatusCode.BadRequest);
 
-            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+            var helpPageService = new HelpPageService(repository);
 
             // act
             var result = helpPageService.DeleteAsync(documentId).Result;
@@ -61,7 +61,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.DeleteAsync(documentId)).Returns(HttpStatusCode.FailedDependency);
 
-            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+            var helpPageService = new HelpPageService(repository);
 
             // act
             var result = helpPageService.DeleteAsync(documentId).Result;

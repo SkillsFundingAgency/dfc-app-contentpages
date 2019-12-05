@@ -20,7 +20,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
-            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+            var helpPageService = new HelpPageService(repository);
 
             // act
             var result = helpPageService.GetByAlternativeNameAsync(alternativeName).Result;
@@ -35,7 +35,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
         {
             // arrange
             var repository = A.Fake<ICosmosRepository<HelpPageModel>>();
-            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+            var helpPageService = new HelpPageService(repository);
 
             // act
             var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await helpPageService.GetByAlternativeNameAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
@@ -54,7 +54,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
-            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+            var helpPageService = new HelpPageService(repository);
 
             // act
             var result = helpPageService.GetByAlternativeNameAsync(alternativeName).Result;

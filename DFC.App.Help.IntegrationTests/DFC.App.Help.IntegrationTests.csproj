@@ -14,7 +14,6 @@
   <ItemGroup>
     <None Remove="appsettings-template.Development.json" />
     <None Remove="appsettings.Development.json" />
-    <None Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,10 +21,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="appsettings.Development.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
@@ -52,6 +47,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.Help\DFC.App.Help.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

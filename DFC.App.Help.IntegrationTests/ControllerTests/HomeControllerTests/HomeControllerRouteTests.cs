@@ -21,8 +21,6 @@ namespace DFC.App.Help.IntegrationTests.ControllerTests.HomeControllerTests
 
         public static IEnumerable<object[]> HomeContentRouteData => new List<object[]>
         {
-            new object[] { "/" },
-            new object[] { "/Home" },
             new object[] { "/Home/Error" },
         };
 

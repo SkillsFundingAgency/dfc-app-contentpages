@@ -24,17 +24,7 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
             fakeMapper = A.Fake<IMapper>();
         }
 
-        public static IEnumerable<object[]> DraftRouteData => new List<object[]>
-        {
-            new object[] { "/draft/{article}/htmlhead", "SomeArticle", "Head" },
-            new object[] { "/draft/htmlhead", string.Empty, "Head" },
-            new object[] { "/draft/{article}/breadcrumb", "SomeArticle", "Breadcrumb" },
-            new object[] { "/draft/breadcrumb", string.Empty, "Breadcrumb" },
-            new object[] { "/draft/{article}/contents", "SomeArticle", "Body" },
-            new object[] { "/draft/contents", string.Empty, "Body" },
-        };
-
-        public static IEnumerable<object[]> NonDraftRouteData => new List<object[]>
+        public static IEnumerable<object[]> PagesRouteData => new List<object[]>
         {
             new object[] { "/pages/{article}/htmlhead", "SomeArticle", "Head" },
             new object[] { "/pages/htmlhead", string.Empty, "Head" },
@@ -45,8 +35,8 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
         };
 
         [Theory]
-        [MemberData(nameof(DraftRouteData))]
-        public async void PagesControllerCallsHelpPageServiceWithIsDraftTrueWhenUsingDraftRoute(string route, string article, string actionMethod)
+        [MemberData(nameof(PagesRouteData))]
+        public async void PagesControllerCallsHelpPageServiceUsingPagesRoute(string route, string article, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
@@ -56,23 +46,7 @@ namespace DFC.App.Help.PagesModule.UnitTests.ControllerTests.PagesControllerTest
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, true)).MustHaveHappenedOnceExactly();
-            controller.Dispose();
-        }
-
-        [Theory]
-        [MemberData(nameof(NonDraftRouteData))]
-        public async void PagesControllerCallsHelpPageServiceWithIsDraftFalseWhenUsingNonDraftRoute(string route, string article, string actionMethod)
-        {
-            // Arrange
-            var controller = BuildController(route);
-
-            // Act
-            var result = await RunControllerAction(controller, article, actionMethod).ConfigureAwait(false);
-
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored, false)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeHelpPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             controller.Dispose();
         }
 

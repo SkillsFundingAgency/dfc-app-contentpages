@@ -17,7 +17,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+            var helpPageService = new HelpPageService(repository);
 
             // act
             var result = helpPageService.PingAsync().Result;
@@ -36,7 +36,7 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var helpPageService = new HelpPageService(repository, A.Fake<IDraftHelpPageService>());
+            var helpPageService = new HelpPageService(repository);
 
             // act
             var result = helpPageService.PingAsync().Result;

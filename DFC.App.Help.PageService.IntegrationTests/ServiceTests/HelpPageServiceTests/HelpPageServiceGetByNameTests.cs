@@ -60,19 +60,5 @@ namespace DFC.App.Help.PageService.IntegrationTests.ServiceTests.HelpPageService
             //Assert
             Assert.Null(result);
         }
-
-        [Test]
-        [Category("HelpPageService.GetByName")]
-        public async Task HelpPageServiceGetByNameReturnsModelFromSitefinityWhenIsDraftIsTrue()
-        {
-            // arrange
-            var helpPageService = ServiceProvider.GetService<IHelpPageService>();
-
-            // act
-            var result = await helpPageService.GetByNameAsync(DFC.App.Help.Controllers.PagesController.DefaultArticleName, true).ConfigureAwait(false);
-
-            // assert
-            Assert.True(!string.IsNullOrEmpty(result.Content));
-        }
     }
 }

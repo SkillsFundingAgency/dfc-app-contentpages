@@ -13,14 +13,12 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
     {
         private const string CanonicalName = "name1";
         private readonly ICosmosRepository<HelpPageModel> repository;
-        private readonly IDraftHelpPageService draftHelpPageService;
         private readonly IHelpPageService helpPageService;
 
         public HelpPageServiceGetByNameTests()
         {
             repository = A.Fake<ICosmosRepository<HelpPageModel>>();
-            draftHelpPageService = A.Fake<IDraftHelpPageService>();
-            helpPageService = new HelpPageService(repository, draftHelpPageService);
+            helpPageService = new HelpPageService(repository);
         }
 
         [Fact]
@@ -62,21 +60,6 @@ namespace DFC.App.Help.PageService.UnitTests.HelpPageServiceTests
             // assert
             A.CallTo(() => repository.GetAsync(A<Expression<Func<HelpPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
             Assert.Null(result);
-        }
-
-        [Fact]
-        public async Task HelpPageServiceGetByNameCallsDraftServiceWhenIsDraftIsTrue()
-        {
-            // arrange
-            var fakeModel = new HelpPageModel { Content = "TestContent" };
-            A.CallTo(() => draftHelpPageService.GetSitefinityData(A<string>.Ignored)).Returns(fakeModel);
-
-            // act
-            var result = await helpPageService.GetByNameAsync(CanonicalName, true).ConfigureAwait(false);
-
-            // assert
-            A.CallTo(() => draftHelpPageService.GetSitefinityData(CanonicalName)).MustHaveHappenedOnceExactly();
-            Assert.Equal(result, fakeModel);
         }
     }
 }

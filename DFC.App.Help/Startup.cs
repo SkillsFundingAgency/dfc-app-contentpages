@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using DFC.App.DraftHelp.PageService;
 using DFC.App.Help.Data;
 using DFC.App.Help.Data.Contracts;
-using DFC.App.Help.Extensions;
 using DFC.App.Help.Filters;
 using DFC.App.Help.Framework;
 using DFC.App.Help.PageService;
-using DFC.App.Help.Policies.Options;
 using DFC.App.Help.Repository.CosmosDb;
-using DFC.App.Help.Repository.SitefinityApi.DataContext;
-using DFC.App.Help.Repository.SitefinityApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,19 +39,13 @@ namespace DFC.App.Help
 
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
             var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
-            var sitefinityApiConnection = configuration.GetSection("SitefinityApi").Get<SitefinityAPIConnectionSettings>();
-
-            services.AddSingleton(sitefinityApiConnection ?? new SitefinityAPIConnectionSettings());
             services.AddHttpContextAccessor();
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<HelpPageModel>, CosmosRepository<HelpPageModel>>();
             services.AddScoped<IHelpPageService, HelpPageService>();
-            services.AddScoped<IDraftHelpPageService, DraftHelpPageService>();
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddHttpClient<ISitefinityODataContext, SitefinityODataContext, HttpClientOptions>(configuration, nameof(HttpClientOptions));
-            services.AddHttpClient<ITokenService, TokenService, HttpClientOptions>(configuration, nameof(HttpClientOptions));
 
             services.AddMvc(config =>
                 {

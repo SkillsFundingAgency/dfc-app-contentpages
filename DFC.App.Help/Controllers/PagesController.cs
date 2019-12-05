@@ -107,8 +107,6 @@ namespace DFC.App.Help.Controllers
         [HttpGet]
         [Route("pages/{article}/htmlhead")]
         [Route("pages/htmlhead")]
-        [Route("draft/{article}/htmlhead")]
-        [Route("draft/htmlhead")]
         public async Task<IActionResult> Head(string article)
         {
             var viewModel = new HeadViewModel();
@@ -126,8 +124,6 @@ namespace DFC.App.Help.Controllers
 
         [Route("pages/{article}/breadcrumb")]
         [Route("pages/breadcrumb")]
-        [Route("draft/{article}/breadcrumb")]
-        [Route("draft/breadcrumb")]
         public async Task<IActionResult> Breadcrumb(string article)
         {
             var helpPageModel = await GetHelpPageAsync(article).ConfigureAwait(false);
@@ -139,8 +135,6 @@ namespace DFC.App.Help.Controllers
         [HttpGet]
         [Route("pages/{article}/bodytop")]
         [Route("pages/bodytop")]
-        [Route("draft/{article}/bodytop")]
-        [Route("draft/bodytop")]
         public IActionResult BodyTop(string article)
         {
             return NoContent();
@@ -149,8 +143,6 @@ namespace DFC.App.Help.Controllers
         [HttpGet]
         [Route("pages/{article}/contents")]
         [Route("pages/contents")]
-        [Route("draft/{article}/contents")]
-        [Route("draft/contents")]
         public async Task<IActionResult> Body(string article)
         {
             var viewModel = new BodyViewModel();
@@ -178,8 +170,6 @@ namespace DFC.App.Help.Controllers
         [HttpGet]
         [Route("pages/{article}/bodyfooter")]
         [Route("pages/bodyfooter")]
-        [Route("draft/{article}/bodyfooter")]
-        [Route("draft/bodyfooter")]
         public IActionResult BodyFooter(string article)
         {
             return NoContent();
@@ -224,10 +214,9 @@ namespace DFC.App.Help.Controllers
 
         private async Task<HelpPageModel> GetHelpPageAsync(string article)
         {
-            var isDraft = Request.IsDraftRequest();
             var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
 
-            var helpPageModel = await helpPageService.GetByNameAsync(name, isDraft).ConfigureAwait(false);
+            var helpPageModel = await helpPageService.GetByNameAsync(name).ConfigureAwait(false);
 
             return helpPageModel;
         }
