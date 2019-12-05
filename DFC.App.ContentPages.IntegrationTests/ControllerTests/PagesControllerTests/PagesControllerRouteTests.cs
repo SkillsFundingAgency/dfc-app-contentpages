@@ -98,54 +98,6 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.PagesControllerT
         }
 
         [Fact]
-        public async Task PostHelpEndpointsReturnCreated()
-        {
-            // Arrange
-            const string url = "/pages";
-            var contentPageModel = new ContentPageModel()
-            {
-                DocumentId = Guid.NewGuid(),
-                CanonicalName = Guid.NewGuid().ToString().ToLowerInvariant(),
-                LastReviewed = DateTime.UtcNow,
-            };
-            var client = factory.CreateClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-
-            // Act
-            var response = await client.PostAsync(url, contentPageModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
-        }
-
-        [Fact]
-        public async Task PuttHelpEndpointsReturnOk()
-        {
-            // Arrange
-            const string url = "/pages";
-            var contentPageModel = new ContentPageModel()
-            {
-                DocumentId = Guid.NewGuid(),
-                CanonicalName = Guid.NewGuid().ToString().ToLowerInvariant(),
-                LastReviewed = DateTime.UtcNow,
-            };
-            var client = factory.CreateClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-
-            _ = await client.PostAsync(url, contentPageModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
-
-            // Act
-            var response = await client.PutAsync(url, contentPageModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-
-        [Fact]
         public async Task DeleteHelpEndpointsReturnNotFound()
         {
             // Arrange

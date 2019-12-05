@@ -57,37 +57,6 @@ namespace DFC.App.ContentPages.Controllers
             return NoContent();
         }
 
-        [HttpPut]
-        [HttpPost]
-        [Route("pages")]
-        public async Task<IActionResult> HelpCreateOrUpdate([FromBody]ContentPageModel contentPageModel)
-        {
-            if (contentPageModel == null)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var existingcontentPageModel = await contentPageService.GetByIdAsync(contentPageModel.DocumentId).ConfigureAwait(false);
-
-            if (existingcontentPageModel == null)
-            {
-                var createdResponse = await contentPageService.CreateAsync(contentPageModel).ConfigureAwait(false);
-
-                return new CreatedAtActionResult(nameof(Document), "Pages", new { article = createdResponse.CanonicalName }, createdResponse);
-            }
-            else
-            {
-                var updatedResponse = await contentPageService.ReplaceAsync(contentPageModel).ConfigureAwait(false);
-
-                return new OkObjectResult(updatedResponse);
-            }
-        }
-
         [HttpDelete]
         [Route("pages/{documentId}")]
         public async Task<IActionResult> HelpDelete(Guid documentId)
