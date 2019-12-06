@@ -1,5 +1,5 @@
-﻿using DFC.App.ContentPages.Data.Contracts;
-using DFC.App.ContentPages.Extensions;
+﻿using DFC.App.ContentPages.Extensions;
+using DFC.App.ContentPages.PageService;
 using DFC.App.ContentPages.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,6 +14,7 @@ namespace DFC.App.ContentPages.Controllers
     {
         private readonly ILogger<HealthController> logger;
         private readonly IContentPageService contentPageService;
+        private readonly string resourceName = typeof(Program).Namespace;
 
         public HealthController(ILogger<HealthController> logger, IContentPageService contentPageService)
         {
@@ -25,9 +26,6 @@ namespace DFC.App.ContentPages.Controllers
         [Route("health")]
         public async Task<IActionResult> Health()
         {
-            string resourceName = typeof(Program).Namespace;
-            string message;
-
             logger.LogInformation($"{nameof(Health)} has been called");
 
             try
@@ -36,21 +34,19 @@ namespace DFC.App.ContentPages.Controllers
 
                 if (isHealthy)
                 {
-                    message = "Document store is available";
+                    const string message = "Document store is available";
                     logger.LogInformation($"{nameof(Health)} responded with: {resourceName} - {message}");
 
-                    var viewModel = CreateHealthViewModel(resourceName, message);
+                    var viewModel = CreateHealthViewModel(message);
 
                     return this.NegotiateContentResult(viewModel, viewModel.HealthItems);
                 }
 
-                message = $"Ping to {resourceName} has failed";
-                logger.LogError($"{nameof(Health)}: {message}");
+                logger.LogError($"{nameof(Health)}: Ping to {resourceName} has failed");
             }
             catch (Exception ex)
             {
-                message = $"{resourceName} exception: {ex.Message}";
-                logger.LogError(ex, $"{nameof(Health)}: {message}");
+                logger.LogError(ex, $"{nameof(Health)}: {resourceName} exception: {ex.Message}");
             }
 
             return StatusCode((int)HttpStatusCode.ServiceUnavailable);
@@ -65,7 +61,7 @@ namespace DFC.App.ContentPages.Controllers
             return Ok();
         }
 
-        private static HealthViewModel CreateHealthViewModel(string resourceName, string message)
+        private HealthViewModel CreateHealthViewModel(string message)
         {
             return new HealthViewModel
             {

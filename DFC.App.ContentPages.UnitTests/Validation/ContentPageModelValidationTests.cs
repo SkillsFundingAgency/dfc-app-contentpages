@@ -68,6 +68,7 @@ namespace DFC.App.ContentPages.UnitTests.Validation
             var model = new ContentPageModel
             {
                 DocumentId = documentId,
+                Category = "help",
                 CanonicalName = canonicalName,
                 LastReviewed = DateTime.UtcNow,
                 Content = content,

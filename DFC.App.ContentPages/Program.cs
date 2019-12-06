@@ -19,7 +19,6 @@ namespace DFC.App.ContentPages
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var webHost = WebHost.CreateDefaultBuilder(args)
-                .UseApplicationInsights()
                  .ConfigureLogging((webHostBuilderContext, loggingBuilder) =>
                  {
                      //This filter is for app insights only

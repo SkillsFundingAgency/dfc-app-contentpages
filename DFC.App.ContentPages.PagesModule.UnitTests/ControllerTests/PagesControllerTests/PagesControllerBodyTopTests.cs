@@ -13,11 +13,12 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
         public void PagesControllerBodyTopJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
+            const string category = "a-category";
             const string article = "an-article-name";
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = controller.BodyTop(article);
+            var result = controller.BodyTop(category, article);
 
             // Assert
             var statusResult = Assert.IsType<NoContentResult>(result);

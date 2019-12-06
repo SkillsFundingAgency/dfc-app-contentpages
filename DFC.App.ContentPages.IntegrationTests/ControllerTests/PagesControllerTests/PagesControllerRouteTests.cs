@@ -1,10 +1,7 @@
-﻿using DFC.App.ContentPages.Data;
-using FluentAssertions;
+﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,32 +18,27 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.PagesControllerT
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.CategoryNameForHelp, Controllers.PagesController.CategoryNameForAlert, Controllers.PagesController.DefaultArticleName);
         }
 
-        public static IEnumerable<object[]> PagesRouteData => new List<object[]>
+        public static IEnumerable<object[]> PagesContentRouteData => new List<object[]>
         {
             new object[] { "/pages" },
-            new object[] { $"/pages/{DFC.App.ContentPages.Controllers.PagesController.DefaultArticleName}" },
-            new object[] { "/pages/htmlhead" },
-            new object[] { $"/pages/{DFC.App.ContentPages.Controllers.PagesController.DefaultArticleName}/htmlhead" },
-            new object[] { "/pages/breadcrumb" },
-            new object[] { $"/pages/{DFC.App.ContentPages.Controllers.PagesController.DefaultArticleName}/breadcrumb" },
-            new object[] { "/pages/contents" },
-            new object[] { $"/pages/{DFC.App.ContentPages.Controllers.PagesController.DefaultArticleName}/contents" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/htmlhead" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/breadcrumb" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/contents" },
         };
 
         public static IEnumerable<object[]> PagesNoContentRouteData => new List<object[]>
         {
-            new object[] { "/pages/bodytop" },
-            new object[] { $"/pages/{DFC.App.ContentPages.Controllers.PagesController.DefaultArticleName}/bodytop" },
-            new object[] { "/pages/bodyfooter" },
-            new object[] { $"/pages/{DFC.App.ContentPages.Controllers.PagesController.DefaultArticleName}/bodyfooter" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/bodytop" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/bodyfooter" },
         };
 
         [Theory]
-        [MemberData(nameof(PagesRouteData))]
-        public async Task GetHelpHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        [MemberData(nameof(PagesContentRouteData))]
+        public async Task GetPagesHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
@@ -63,8 +55,8 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.PagesControllerT
         }
 
         [Theory]
-        [MemberData(nameof(PagesRouteData))]
-        public async Task GetHelpJsonContentEndpointsReturnSuccessAndCorrectContentType(string url)
+        [MemberData(nameof(PagesContentRouteData))]
+        public async Task GetPagesJsonContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
@@ -82,7 +74,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.PagesControllerT
 
         [Theory]
         [MemberData(nameof(PagesNoContentRouteData))]
-        public async Task GetHelpEndpointsReturnSuccessAndNoContent(string url)
+        public async Task GetPagesEndpointsReturnSuccessAndNoContent(string url)
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
@@ -98,7 +90,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.PagesControllerT
         }
 
         [Fact]
-        public async Task DeleteHelpEndpointsReturnNotFound()
+        public async Task DeletePagesEndpointsReturnNotFound()
         {
             // Arrange
             var uri = new Uri($"/pages/{Guid.NewGuid()}", UriKind.Relative);

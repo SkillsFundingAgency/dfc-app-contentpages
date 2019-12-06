@@ -2,6 +2,7 @@ using DFC.App.ContentPages.Data;
 using DFC.App.ContentPages.Data.Contracts;
 using FakeItEasy;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
@@ -10,7 +11,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
     public class ContentPageServiceGetAllTests
     {
         [Fact]
-        public void ContentPageServiceGetAllListReturnsSuccess()
+        public async Task ContentPageServiceGetAllListReturnsSuccess()
         {
             // arrange
             var repository = A.Fake<ICosmosRepository<ContentPageModel>>();
@@ -21,7 +22,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var results = contentPageService.GetAllAsync().Result;
+            var results = await contentPageService.GetAllAsync().ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.GetAllAsync()).MustHaveHappenedOnceExactly();
@@ -29,7 +30,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
         }
 
         [Fact]
-        public void ContentPageServiceGetAllListReturnsNullWhenMissingRepository()
+        public async Task ContentPageServiceGetAllListReturnsNullWhenMissingRepository()
         {
             // arrange
             var repository = A.Dummy<ICosmosRepository<ContentPageModel>>();
@@ -40,7 +41,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var results = contentPageService.GetAllAsync().Result;
+            var results = await contentPageService.GetAllAsync().ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.GetAllAsync()).MustHaveHappenedOnceExactly();

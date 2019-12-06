@@ -20,16 +20,16 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageModel = A.Fake<ContentPageModel>();
             var expectedResult = A.Fake<ContentPageModel>();
 
-            A.CallTo(() => repository.CreateAsync(contentPageModel)).Returns(HttpStatusCode.Created);
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.Created);
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var result = contentPageService.CreateAsync(contentPageModel).Result;
+            var result = contentPageService.UpsertAsync(contentPageModel).Result;
 
             // assert
-            A.CallTo(() => repository.CreateAsync(contentPageModel)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
         }
@@ -42,7 +42,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.CreateAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.UpsertAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
             Assert.Equal("Value cannot be null.\r\nParameter name: contentPageModel", exceptionResult.Message);
@@ -56,15 +56,15 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageModel = A.Fake<ContentPageModel>();
             var expectedResult = A.Dummy<ContentPageModel>();
 
-            A.CallTo(() => repository.CreateAsync(contentPageModel)).Returns(HttpStatusCode.BadRequest);
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.BadRequest);
 
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var result = contentPageService.CreateAsync(contentPageModel).Result;
+            var result = contentPageService.UpsertAsync(contentPageModel).Result;
 
             // assert
-            A.CallTo(() => repository.CreateAsync(contentPageModel)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustNotHaveHappened();
             A.Equals(result, expectedResult);
         }
@@ -77,15 +77,15 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageModel = A.Fake<ContentPageModel>();
             ContentPageModel expectedResult = null;
 
-            A.CallTo(() => repository.CreateAsync(contentPageModel)).Returns(HttpStatusCode.FailedDependency);
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.FailedDependency);
 
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var result = contentPageService.CreateAsync(contentPageModel).Result;
+            var result = contentPageService.UpsertAsync(contentPageModel).Result;
 
             // assert
-            A.CallTo(() => repository.CreateAsync(contentPageModel)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustNotHaveHappened();
             A.Equals(result, expectedResult);
         }

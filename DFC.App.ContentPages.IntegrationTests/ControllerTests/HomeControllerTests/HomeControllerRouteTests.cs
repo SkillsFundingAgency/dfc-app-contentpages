@@ -16,7 +16,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.HomeControllerTe
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.CategoryNameForHelp, Controllers.PagesController.CategoryNameForAlert, Controllers.PagesController.DefaultArticleName);
         }
 
         public static IEnumerable<object[]> HomeContentRouteData => new List<object[]>

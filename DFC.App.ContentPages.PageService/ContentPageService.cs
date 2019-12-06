@@ -27,57 +27,59 @@ namespace DFC.App.ContentPages.PageService
             return await repository.GetAllAsync().ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<ContentPageModel>> GetAllAsync(string category)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
+            return await repository.GetAllAsync(d => d.Category == category.ToLowerInvariant()).ConfigureAwait(false);
+        }
+
         public async Task<ContentPageModel> GetByIdAsync(Guid documentId)
         {
             return await repository.GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel> GetByNameAsync(string canonicalName)
+        public async Task<ContentPageModel> GetByNameAsync(string category, string canonicalName)
         {
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
             if (string.IsNullOrWhiteSpace(canonicalName))
             {
                 throw new ArgumentNullException(nameof(canonicalName));
             }
 
-            return await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
+            return await repository.GetAsync(d => d.Category == category.ToLowerInvariant() && d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel> GetByAlternativeNameAsync(string alternativeName)
+        public async Task<ContentPageModel> GetByAlternativeNameAsync(string category, string alternativeName)
         {
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+
             if (string.IsNullOrWhiteSpace(alternativeName))
             {
                 throw new ArgumentNullException(nameof(alternativeName));
             }
 
-            return await repository.GetAsync(d => d.AlternativeNames.Contains(alternativeName.ToLowerInvariant())).ConfigureAwait(false);
+            return await repository.GetAsync(d => d.Category == category.ToLowerInvariant() && d.AlternativeNames.Contains(alternativeName.ToLowerInvariant())).ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel> CreateAsync(ContentPageModel contentPageModel)
+        public async Task<HttpStatusCode> UpsertAsync(ContentPageModel contentPageModel)
         {
             if (contentPageModel == null)
             {
                 throw new ArgumentNullException(nameof(contentPageModel));
             }
 
-            var result = await repository.CreateAsync(contentPageModel).ConfigureAwait(false);
-
-            return result == HttpStatusCode.Created
-                ? await GetByIdAsync(contentPageModel.DocumentId).ConfigureAwait(false)
-                : null;
-        }
-
-        public async Task<ContentPageModel> ReplaceAsync(ContentPageModel contentPageModel)
-        {
-            if (contentPageModel == null)
-            {
-                throw new ArgumentNullException(nameof(contentPageModel));
-            }
-
-            var result = await repository.UpdateAsync(contentPageModel.DocumentId, contentPageModel).ConfigureAwait(false);
-
-            return result == HttpStatusCode.OK
-                ? await GetByIdAsync(contentPageModel.DocumentId).ConfigureAwait(false)
-                : null;
+            return await repository.UpsertAsync(contentPageModel).ConfigureAwait(false);
         }
 
         public async Task<bool> DeleteAsync(Guid documentId)

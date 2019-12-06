@@ -28,10 +28,6 @@ namespace DFC.App.ContentPages.Controllers
                 var robot = GenerateThisSiteRobot();
 
                 // add any dynamic robots data form the Shell app
-                /*
-                 * robot.Add("<<add any dynamic text or other here>>");
-                 */
-
                 logger.LogInformation("Generated Robots.txt");
 
                 return Content(robot.Data, MediaTypeNames.Text.Plain);
@@ -62,10 +58,6 @@ namespace DFC.App.ContentPages.Controllers
             }
 
             // add any dynamic robots data form the Shell app
-            /*
-             * robot.Add("<<add any dynamic text or other here>>");
-             */
-
             return robot;
         }
     }

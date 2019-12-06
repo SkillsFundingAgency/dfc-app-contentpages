@@ -23,7 +23,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
             A.CallTo(() => FakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
 
             // Act
-            var result = await controller.HelpDelete(documentId).ConfigureAwait(false);
+            var result = await controller.Delete(documentId).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
@@ -47,7 +47,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
             A.CallTo(() => FakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
 
             // Act
-            var result = await controller.HelpDelete(documentId).ConfigureAwait(false);
+            var result = await controller.Delete(documentId).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();

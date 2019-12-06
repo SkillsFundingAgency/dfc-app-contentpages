@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DFC.App.ContentPages.Controllers;
 using DFC.App.ContentPages.Data;
 using DFC.App.ContentPages.Data.Contracts;
 using DFC.App.ContentPages.Filters;
@@ -48,11 +49,14 @@ namespace DFC.App.ContentPages
 
             app.UseMvc(routes =>
             {
-                // add the site map route
-                routes.MapRoute(
-                    name: "Sitemap",
-                    template: "Sitemap.xml",
-                    defaults: new { controller = "Sitemap", action = "Sitemap" });
+                foreach (string category in new[] { PagesController.CategoryNameForHelp, PagesController.CategoryNameForAlert })
+                {
+                    // add the site map route
+                    routes.MapRoute(
+                        name: $"Sitemap-{category}",
+                        template: $"{category}/Sitemap.xml",
+                        defaults: new { controller = "Sitemap", action = "Sitemap", Category = category });
+                }
 
                 // add the robots.txt route
                 routes.MapRoute(
@@ -80,6 +84,7 @@ namespace DFC.App.ContentPages
 
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
             var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
+            services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
             services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
             services.AddSingleton(cosmosDbConnection);

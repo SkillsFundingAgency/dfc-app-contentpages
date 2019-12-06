@@ -19,16 +19,16 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageModel = A.Fake<ContentPageModel>();
             var expectedResult = A.Fake<ContentPageModel>();
 
-            A.CallTo(() => repository.UpdateAsync(contentPageModel.DocumentId, contentPageModel)).Returns(HttpStatusCode.OK);
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.OK);
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var result = contentPageService.ReplaceAsync(contentPageModel).Result;
+            var result = contentPageService.UpsertAsync(contentPageModel).Result;
 
             // assert
-            A.CallTo(() => repository.UpdateAsync(contentPageModel.DocumentId, contentPageModel)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
         }
@@ -41,7 +41,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.ReplaceAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.UpsertAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
             Assert.Equal("Value cannot be null.\r\nParameter name: contentPageModel", exceptionResult.Message);
@@ -55,15 +55,15 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageModel = A.Fake<ContentPageModel>();
             var expectedResult = A.Dummy<ContentPageModel>();
 
-            A.CallTo(() => repository.UpdateAsync(contentPageModel.DocumentId, contentPageModel)).Returns(HttpStatusCode.BadRequest);
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.BadRequest);
 
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var result = contentPageService.ReplaceAsync(contentPageModel).Result;
+            var result = contentPageService.UpsertAsync(contentPageModel).Result;
 
             // assert
-            A.CallTo(() => repository.UpdateAsync(contentPageModel.DocumentId, contentPageModel)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustNotHaveHappened();
             A.Equals(result, expectedResult);
         }
@@ -76,15 +76,15 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var contentPageModel = A.Fake<ContentPageModel>();
             ContentPageModel expectedResult = null;
 
-            A.CallTo(() => repository.UpdateAsync(contentPageModel.DocumentId, contentPageModel)).Returns(HttpStatusCode.FailedDependency);
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.FailedDependency);
 
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var result = contentPageService.ReplaceAsync(contentPageModel).Result;
+            var result = contentPageService.UpsertAsync(contentPageModel).Result;
 
             // assert
-            A.CallTo(() => repository.UpdateAsync(contentPageModel.DocumentId, contentPageModel)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.UpsertAsync(contentPageModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustNotHaveHappened();
             A.Equals(result, expectedResult);
         }

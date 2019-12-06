@@ -56,7 +56,6 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             // arrange
             Guid documentId = Guid.NewGuid();
             var repository = A.Dummy<ICosmosRepository<ContentPageModel>>();
-            var contentPageModel = A.Fake<ContentPageModel>();
             var expectedResult = false;
 
             A.CallTo(() => repository.DeleteAsync(documentId)).Returns(HttpStatusCode.FailedDependency);

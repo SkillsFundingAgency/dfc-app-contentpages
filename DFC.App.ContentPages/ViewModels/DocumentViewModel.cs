@@ -11,6 +11,8 @@ namespace DFC.App.ContentPages.ViewModels
         [Display(Name = "Document Id")]
         public Guid? DocumentId { get; set; }
 
+        public string Category { get; set; }
+
         [Display(Name = "Canonical Name")]
         public string CanonicalName { get; set; }
 
@@ -33,5 +35,7 @@ namespace DFC.App.ContentPages.ViewModels
 
         [Display(Name = "Alternative Names")]
         public string[] AlternativeNames { get; set; }
+
+        public BodyViewModel BodyViewModel { get; set; }
     }
 }

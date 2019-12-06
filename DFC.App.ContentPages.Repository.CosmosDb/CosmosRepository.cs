@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContentPages.Data;
 using DFC.App.ContentPages.Data.Contracts;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
@@ -20,17 +21,25 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
     {
         private readonly CosmosDbConnection cosmosDbConnection;
         private readonly IDocumentClient documentClient;
+        private readonly IHostingEnvironment env;
 
-        public CosmosRepository(CosmosDbConnection cosmosDbConnection, IDocumentClient documentClient)
+        public CosmosRepository(CosmosDbConnection cosmosDbConnection, IDocumentClient documentClient, IHostingEnvironment env)
         {
             this.cosmosDbConnection = cosmosDbConnection;
             this.documentClient = documentClient;
-
-            CreateDatabaseIfNotExistsAsync().Wait();
-            CreateCollectionIfNotExistsAsync().Wait();
+            this.env = env;
         }
 
         private Uri DocumentCollectionUri => UriFactory.CreateDocumentCollectionUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId);
+
+        public async Task InitialiseDevEnvironment()
+        {
+            if (env.IsDevelopment())
+            {
+                await CreateDatabaseIfNotExistsAsync().ConfigureAwait(false);
+                await CreateCollectionIfNotExistsAsync().ConfigureAwait(false);
+            }
+        }
 
         public async Task<bool> PingAsync()
         {
@@ -51,8 +60,8 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
         public async Task<T> GetAsync(Expression<Func<T, bool>> where)
         {
             var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
-                                       .Where(where)
-                                       .AsDocumentQuery();
+                                      .Where(where)
+                                      .AsDocumentQuery();
 
             if (query == null)
             {
@@ -72,7 +81,7 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { EnableCrossPartitionQuery = true })
-                                       .AsDocumentQuery();
+                                      .AsDocumentQuery();
 
             var models = new List<T>();
 
@@ -86,18 +95,32 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
             return models.Any() ? models : null;
         }
 
-        public async Task<HttpStatusCode> CreateAsync(T model)
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> where)
         {
-            var result = await documentClient.CreateDocumentAsync(DocumentCollectionUri, model).ConfigureAwait(false);
+            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { EnableCrossPartitionQuery = true })
+                                      .Where(where)
+                                      .AsDocumentQuery();
 
-            return result.StatusCode;
+            var models = new List<T>();
+
+            while (query.HasMoreResults)
+            {
+                var result = await query.ExecuteNextAsync<T>().ConfigureAwait(false);
+
+                models.AddRange(result);
+            }
+
+            return models.Any() ? models : null;
         }
 
-        public async Task<HttpStatusCode> UpdateAsync(Guid documentId, T model)
+        public async Task<HttpStatusCode> UpsertAsync(T model)
         {
-            var documentUri = CreateDocumentUri(documentId);
+            await InitialiseDevEnvironment().ConfigureAwait(false);
 
-            var result = await documentClient.ReplaceDocumentAsync(documentUri, model).ConfigureAwait(false);
+            var ac = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
+            var pk = new PartitionKey(model.PartitionKey);
+
+            var result = await documentClient.UpsertDocumentAsync(DocumentCollectionUri, model, new RequestOptions { AccessCondition = ac, PartitionKey = pk }).ConfigureAwait(false);
 
             return result.StatusCode;
         }
@@ -106,9 +129,19 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
         {
             var documentUri = CreateDocumentUri(documentId);
 
-            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions() { PartitionKey = new PartitionKey(Undefined.Value) }).ConfigureAwait(false);
+            var model = await GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
 
-            return result.StatusCode;
+            if (model != null)
+            {
+                var ac = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
+                var pk = new PartitionKey(model.PartitionKey);
+
+                var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { AccessCondition = ac, PartitionKey = pk }).ConfigureAwait(false);
+
+                return result.StatusCode;
+            }
+
+            return HttpStatusCode.NotFound;
         }
 
         private async Task CreateDatabaseIfNotExistsAsync()

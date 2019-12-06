@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Text;
@@ -17,7 +16,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.HealthController
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.CategoryNameForHelp, Controllers.PagesController.CategoryNameForAlert, Controllers.PagesController.DefaultArticleName);
         }
 
         public static IEnumerable<object[]> HealthContentRouteData => new List<object[]>

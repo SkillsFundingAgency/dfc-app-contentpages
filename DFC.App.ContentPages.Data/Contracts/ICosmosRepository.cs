@@ -15,9 +15,9 @@ namespace DFC.App.ContentPages.Data.Contracts
 
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<HttpStatusCode> CreateAsync(T model);
+        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> where);
 
-        Task<HttpStatusCode> UpdateAsync(Guid documentId, T model);
+        Task<HttpStatusCode> UpsertAsync(T model);
 
         Task<HttpStatusCode> DeleteAsync(Guid documentId);
     }

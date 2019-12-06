@@ -1,5 +1,5 @@
 ﻿using DFC.App.ContentPages.Controllers;
-using DFC.App.ContentPages.Data.Contracts;
+using DFC.App.ContentPages.PageService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

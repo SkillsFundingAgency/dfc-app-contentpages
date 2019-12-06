@@ -3,6 +3,7 @@ using DFC.App.ContentPages.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesControllerTests
@@ -12,21 +13,22 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void PagesControllerDocumentHtmlReturnsSuccess(string mediaTypeName)
+        public async Task PagesControllerDocumentHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
+            const string category = "a-category";
             const string article = "an-article-name";
             var expectedResult = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(category, article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -37,21 +39,22 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void PagesControllerDocumentJsonReturnsSuccess(string mediaTypeName)
+        public async Task PagesControllerDocumentJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
+            const string category = "a-category";
             const string article = "an-article-name";
             var expectedResult = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(category, article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -62,20 +65,21 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void PagesControllerDocumentHtmlReturnsNoContentWhenNoData(string mediaTypeName)
+        public async Task PagesControllerDocumentHtmlReturnsNoContentWhenNoData(string mediaTypeName)
         {
             // Arrange
+            const string category = "a-category";
             const string article = "an-article-name";
             ContentPageModel expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).Returns(expectedResult);
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(category, article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<NoContentResult>(result);
 
@@ -86,20 +90,21 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void PagesControllerDocumentJsonReturnsNoContentWhenNoData(string mediaTypeName)
+        public async Task PagesControllerDocumentJsonReturnsNoContentWhenNoData(string mediaTypeName)
         {
             // Arrange
+            const string category = "a-category";
             const string article = "an-article-name";
             ContentPageModel expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).Returns(expectedResult);
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(category, article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<NoContentResult>(result);
 
@@ -110,21 +115,22 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public async void PagesControllerDocumentReturnsNotAcceptable(string mediaTypeName)
+        public async Task PagesControllerDocumentReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
+            const string category = "a-category";
             const string article = "an-article-name";
             var expectedResult = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(category, article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);

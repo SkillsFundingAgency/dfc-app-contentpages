@@ -1,4 +1,5 @@
-﻿using DFC.App.ContentPages.Data;
+﻿using DFC.App.ContentPages.Controllers;
+using DFC.App.ContentPages.Data;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.SitemapCont
             A.CallTo(() => FakeContentPageService.GetAllAsync()).Returns(expectedResults);
 
             // Act
-            var result = await controller.Sitemap().ConfigureAwait(false);
+            var result = await controller.Sitemap(PagesController.CategoryNameForHelp).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeContentPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
@@ -53,7 +54,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.SitemapCont
             A.CallTo(() => FakeContentPageService.GetAllAsync()).Returns(expectedResults);
 
             // Act
-            var result = await controller.Sitemap().ConfigureAwait(false);
+            var result = await controller.Sitemap(PagesController.CategoryNameForHelp).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeContentPageService.GetAllAsync()).MustHaveHappenedOnceExactly();

@@ -1,8 +1,5 @@
-﻿using DFC.App.ContentPages.Data;
-using Microsoft.AspNetCore.Mvc.Testing;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Net.Http.Formatting;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Xunit;
@@ -18,12 +15,13 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.SitemapControlle
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.DefaultArticleName);
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.CategoryNameForHelp, Controllers.PagesController.CategoryNameForAlert, Controllers.PagesController.DefaultArticleName);
         }
 
         public static IEnumerable<object[]> SitemapRouteData => new List<object[]>
         {
-            new object[] { "/sitemap.xml" },
+            new object[] { $"/{Controllers.PagesController.CategoryNameForHelp}/sitemap.xml" },
+            new object[] { $"/{Controllers.PagesController.CategoryNameForAlert}/sitemap.xml" },
         };
 
         [Theory]

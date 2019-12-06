@@ -1,8 +1,9 @@
 ﻿using DFC.App.ContentPages.Controllers;
-using DFC.App.ContentPages.Data.Contracts;
+using DFC.App.ContentPages.PageService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -13,6 +14,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
     {
         public BasePagesController()
         {
+            Logger = A.Fake<ILogger<PagesController>>();
             FakeContentPageService = A.Fake<IContentPageService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
@@ -33,6 +35,8 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
             new string[] { MediaTypeNames.Application.Json },
         };
 
+        protected ILogger<PagesController> Logger { get; }
+
         protected IContentPageService FakeContentPageService { get; }
 
         protected AutoMapper.IMapper FakeMapper { get; }
@@ -43,7 +47,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new PagesController(FakeContentPageService, FakeMapper)
+            var controller = new PagesController(Logger, FakeContentPageService, FakeMapper)
             {
                 ControllerContext = new ControllerContext()
                 {

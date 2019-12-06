@@ -1,5 +1,6 @@
-﻿using DFC.App.ContentPages.Data.Contracts;
+﻿using DFC.App.ContentPages.Extensions;
 using DFC.App.ContentPages.Models;
+using DFC.App.ContentPages.PageService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,23 +22,23 @@ namespace DFC.App.ContentPages.Controllers
         }
 
         [HttpGet]
-        public async Task<ContentResult> Sitemap()
+        public async Task<ContentResult> Sitemap(string category)
         {
             try
             {
                 logger.LogInformation("Generating Sitemap");
 
-                var sitemapUrlPrefix = $"{Request.Scheme}://{Request.Host}/{PagesController.HelpPathRoot}";
+                var sitemapUrlPrefix = $"{Request.GetBaseAddress()}";
                 var sitemap = new Sitemap();
 
                 // add the defaults
                 sitemap.Add(new SitemapLocation
                 {
-                    Url = sitemapUrlPrefix,
+                    Url = $"{sitemapUrlPrefix}{category}",
                     Priority = 1,
                 });
 
-                var contentPageModels = await contentPageService.GetAllAsync().ConfigureAwait(false);
+                var contentPageModels = await contentPageService.GetAllAsync(category).ConfigureAwait(false);
 
                 if (contentPageModels != null)
                 {
@@ -53,7 +54,7 @@ namespace DFC.App.ContentPages.Controllers
                         {
                             sitemap.Add(new SitemapLocation
                             {
-                                Url = $"{sitemapUrlPrefix}/{contentPageModel.CanonicalName}",
+                                Url = $"{sitemapUrlPrefix}{contentPageModel.Category}/{contentPageModel.CanonicalName}",
                                 Priority = 1,
                             });
                         }

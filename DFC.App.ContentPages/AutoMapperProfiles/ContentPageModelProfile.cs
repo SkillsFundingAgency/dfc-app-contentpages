@@ -21,6 +21,7 @@ namespace DFC.App.ContentPages.AutoMapperProfiles
                 .ForMember(d => d.Title, s => s.MapFrom(a => a.MetaTags.Title))
                 .ForMember(d => d.Description, s => s.MapFrom(a => a.MetaTags.Description))
                 .ForMember(d => d.Keywords, s => s.MapFrom(a => a.MetaTags.Keywords))
+                .ForMember(d => d.BodyViewModel, s => s.MapFrom(a => a))
                 ;
 
             CreateMap<ContentPageModel, HeadViewModel>()

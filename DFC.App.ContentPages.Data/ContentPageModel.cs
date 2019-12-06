@@ -11,10 +11,22 @@ namespace DFC.App.ContentPages.Data
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }
 
+        [JsonProperty(PropertyName = "_etag")]
+        public string Etag { get; set; }
+
+        [Required]
+        [LowerCase]
+        [UrlPath]
+        public string Category { get; set; }
+
         [Required]
         [LowerCase]
         [UrlPath]
         public string CanonicalName { get; set; }
+
+        public long SequenceNumber { get; set; }
+
+        public string PartitionKey => Category;
 
         [Display(Name = "Breadcrumb Title")]
         public string BreadcrumbTitle { get; set; }
