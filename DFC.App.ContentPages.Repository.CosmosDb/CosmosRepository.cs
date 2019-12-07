@@ -78,6 +78,29 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
             return default(T);
         }
 
+        public async Task<T> GetAsync(string partitionKey, Expression<Func<T, bool>> where)
+        {
+            var pk = new PartitionKey(partitionKey);
+
+            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, PartitionKey = pk })
+                                      .Where(where)
+                                      .AsDocumentQuery();
+
+            if (query == null)
+            {
+                return default(T);
+            }
+
+            var models = await query.ExecuteNextAsync<T>().ConfigureAwait(false);
+
+            if (models != null && models.Count > 0)
+            {
+                return models.FirstOrDefault();
+            }
+
+            return default(T);
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { EnableCrossPartitionQuery = true })
@@ -95,10 +118,11 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
             return models.Any() ? models : null;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> where)
+        public async Task<IEnumerable<T>> GetAllAsync(string partitionKey)
         {
-            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { EnableCrossPartitionQuery = true })
-                                      .Where(where)
+            var pk = new PartitionKey(partitionKey);
+
+            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { PartitionKey = pk })
                                       .AsDocumentQuery();
 
             var models = new List<T>();

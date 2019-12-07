@@ -62,7 +62,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
             A.CallTo(() => FakeMapper.Map(A<ContentPageModel>.Ignored, A<BodyViewModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<BodyViewModel>(jsonResult.Value);
+            var model = Assert.IsAssignableFrom<ContentPageModel>(jsonResult.Value);
 
             controller.Dispose();
         }
@@ -185,7 +185,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void PagesControllerBodyHtmlReturnsSuccessWhenNoAlternateArticle(string mediaTypeName)
+        public async void PagesControllerBodyHtmlReturnsNotFoundWhenNoAlternateArticle(string mediaTypeName)
         {
             // Arrange
             const string category = "a-category";
@@ -204,15 +204,16 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeContentPageService.GetByAlternativeNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<BodyViewModel>(viewResult.ViewData.Model);
+            var statusResult = Assert.IsType<NotFoundResult>(result);
+
+            A.Equals((int)HttpStatusCode.NotFound, statusResult.StatusCode);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void PagesControllerBodyJsonReturnsSuccessWhenNoAlternateArticle(string mediaTypeName)
+        public async void PagesControllerBodyJsonReturnsNotFoundWhenNoAlternateArticle(string mediaTypeName)
         {
             // Arrange
             const string category = "a-category";
@@ -231,8 +232,9 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeContentPageService.GetByAlternativeNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
-            var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<BodyViewModel>(jsonResult.Value);
+            var statusResult = Assert.IsType<NotFoundResult>(result);
+
+            A.Equals((int)HttpStatusCode.NotFound, statusResult.StatusCode);
 
             controller.Dispose();
         }

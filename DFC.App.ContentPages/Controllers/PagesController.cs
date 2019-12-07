@@ -270,7 +270,7 @@ namespace DFC.App.ContentPages.Controllers
                 },
             };
 
-            if (string.Compare(contentPageModel.Category, CategoryNameForAlert, true, CultureInfo.InvariantCulture) != 0)
+            if (contentPageModel != null && string.Compare(contentPageModel.Category, CategoryNameForAlert, true, CultureInfo.InvariantCulture) != 0)
             {
                 var articlePathViewModel = new BreadcrumbPathViewModel
                 {

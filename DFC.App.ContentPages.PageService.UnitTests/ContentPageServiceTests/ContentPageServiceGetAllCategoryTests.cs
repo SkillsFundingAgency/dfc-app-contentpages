@@ -20,7 +20,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var repository = A.Fake<ICosmosRepository<ContentPageModel>>();
             var expectedResults = A.CollectionOfFake<ContentPageModel>(2);
 
-            A.CallTo(() => repository.GetAllAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResults);
+            A.CallTo(() => repository.GetAllAsync(A<string>.Ignored)).Returns(expectedResults);
 
             var contentPageService = new ContentPageService(repository);
 
@@ -28,7 +28,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var results = await contentPageService.GetAllAsync(category).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => repository.GetAllAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.GetAllAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(results, expectedResults);
         }
 
@@ -40,7 +40,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var repository = A.Dummy<ICosmosRepository<ContentPageModel>>();
             IEnumerable<ContentPageModel> expectedResults = null;
 
-            A.CallTo(() => repository.GetAllAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResults);
+            A.CallTo(() => repository.GetAllAsync(A<string>.Ignored)).Returns(expectedResults);
 
             var contentPageService = new ContentPageService(repository);
 
@@ -48,7 +48,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var results = await contentPageService.GetAllAsync(category).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => repository.GetAllAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.GetAllAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(results, expectedResults);
         }
 

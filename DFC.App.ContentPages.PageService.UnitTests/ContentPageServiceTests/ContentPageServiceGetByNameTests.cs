@@ -27,13 +27,13 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
         {
             // arrange
             var expectedResult = A.Fake<ContentPageModel>();
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => repository.GetAsync(A<string>.Ignored, A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
             // act
             var result = await contentPageService.GetByNameAsync(Category, CanonicalName).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.GetAsync(A<string>.Ignored, A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
             Assert.Equal(result, expectedResult);
         }
 
@@ -65,13 +65,13 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
         public async Task ContentPageServiceGetByNameReturnsNullWhenMissingRepository()
         {
             // arrange
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns((ContentPageModel)null);
+            A.CallTo(() => repository.GetAsync(A<string>.Ignored, A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns((ContentPageModel)null);
 
             // act
             var result = await contentPageService.GetByNameAsync(Category, CanonicalName).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.GetAsync(A<string>.Ignored, A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
             Assert.Null(result);
         }
     }

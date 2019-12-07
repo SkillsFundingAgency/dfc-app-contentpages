@@ -28,13 +28,13 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.SitemapCont
             expectedResults[2].IncludeInSitemap = true;
             expectedResults[2].CanonicalName = "in-sitemap";
 
-            A.CallTo(() => FakeContentPageService.GetAllAsync()).Returns(expectedResults);
+            A.CallTo(() => FakeContentPageService.GetAllAsync(A<string>.Ignored)).Returns(expectedResults);
 
             // Act
             var result = await controller.Sitemap(PagesController.CategoryNameForHelp).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetAllAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             var contentResult = Assert.IsType<ContentResult>(result);
 
@@ -51,13 +51,13 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.SitemapCont
             var expectedResults = A.CollectionOfFake<ContentPageModel>(resultsCount);
             var controller = BuildSitemapController();
 
-            A.CallTo(() => FakeContentPageService.GetAllAsync()).Returns(expectedResults);
+            A.CallTo(() => FakeContentPageService.GetAllAsync(A<string>.Ignored)).Returns(expectedResults);
 
             // Act
             var result = await controller.Sitemap(PagesController.CategoryNameForHelp).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetAllAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetAllAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             var contentResult = Assert.IsType<ContentResult>(result);
 

@@ -21,7 +21,6 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var expectedResult = A.Fake<ContentPageModel>();
 
             A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.Created);
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
             var contentPageService = new ContentPageService(repository);
 
@@ -30,7 +29,6 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
 
             // assert
             A.CallTo(() => repository.UpsertAsync(contentPageModel)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
         }
 

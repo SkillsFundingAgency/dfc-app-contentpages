@@ -34,7 +34,7 @@ namespace DFC.App.ContentPages.PageService
                 throw new ArgumentNullException(nameof(category));
             }
 
-            return await repository.GetAllAsync(d => d.Category == category.ToLowerInvariant()).ConfigureAwait(false);
+            return await repository.GetAllAsync(category).ConfigureAwait(false);
         }
 
         public async Task<ContentPageModel> GetByIdAsync(Guid documentId)
@@ -54,7 +54,7 @@ namespace DFC.App.ContentPages.PageService
                 throw new ArgumentNullException(nameof(canonicalName));
             }
 
-            return await repository.GetAsync(d => d.Category == category.ToLowerInvariant() && d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
+            return await repository.GetAsync(category, d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
         public async Task<ContentPageModel> GetByAlternativeNameAsync(string category, string alternativeName)

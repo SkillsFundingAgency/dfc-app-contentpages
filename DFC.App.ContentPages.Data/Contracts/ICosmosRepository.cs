@@ -13,9 +13,11 @@ namespace DFC.App.ContentPages.Data.Contracts
 
         Task<T> GetAsync(Expression<Func<T, bool>> where);
 
+        Task<T> GetAsync(string partitionKey, Expression<Func<T, bool>> where);
+
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> where);
+        Task<IEnumerable<T>> GetAllAsync(string partitionKey);
 
         Task<HttpStatusCode> UpsertAsync(T model);
 
