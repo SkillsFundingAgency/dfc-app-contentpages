@@ -234,7 +234,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void PagesControllerBodyHtmlReturnsNoContentWhenNoAlternateAlertArticle(string mediaTypeName)
+        public async void PagesControllerBodyHtmlReturnsNotFoundWhenNoAlternateAlertArticle(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
@@ -252,16 +252,16 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeContentPageService.GetByAlternativeNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
-            var statusResult = Assert.IsType<NoContentResult>(result);
+            var statusResult = Assert.IsType<NotFoundResult>(result);
 
-            A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);
+            A.Equals((int)HttpStatusCode.NotFound, statusResult.StatusCode);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void PagesControllerBodyJsonReturnsNoContentWhenNoAlternateAlertArticle(string mediaTypeName)
+        public async void PagesControllerBodyJsonReturnsNotFoundWhenNoAlternateAlertArticle(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
@@ -279,9 +279,9 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeContentPageService.GetByAlternativeNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
-            var statusResult = Assert.IsType<NoContentResult>(result);
+            var statusResult = Assert.IsType<NotFoundResult>(result);
 
-            A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);
+            A.Equals((int)HttpStatusCode.NotFound, statusResult.StatusCode);
 
             controller.Dispose();
         }
