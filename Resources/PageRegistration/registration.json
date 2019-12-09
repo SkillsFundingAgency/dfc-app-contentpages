@@ -9,28 +9,30 @@
 		"Regions": [
       {
         "PageRegion": 1,
+        "HeathCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/htmlhead"
       },
       {
         "PageRegion": 2,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/breadcrumb",
-        "OfflineHtml": "<H3>Service Unavailable</H3>"
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/breadcrumb"
+        "HeathCheckRequired": false,
       },
       {
         "PageRegion": 3,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/bodytop",
-        "OfflineHtml": "<H3>Service Unavailable</H3>"
+        "HeathCheckRequired": false,
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/bodytop"
       },
       {
         "PageRegion": 4,
+        "HeathCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/contents",
         "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Service Unavailable</H3></div>"
       },
-			{
-				"PageRegion": 7,
-				"RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/bodyfooter",
-				"OfflineHtml": "<div class=\"govuk-width-container\"><H3>Service Unavailable</H3></div>"
-			}
+      {
+        "PageRegion": 7,
+        "HeathCheckRequired": false,
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/bodyfooter"
+      }
 		]
 	},
   {
@@ -43,27 +45,29 @@
     "Regions": [
       {
         "PageRegion": 1,
+        "HeathCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/htmlhead"
       },
       {
         "PageRegion": 2,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/breadcrumb",
-        "OfflineHtml": "<H3>Service Unavailable</H3>"
+        "HeathCheckRequired": false,
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/breadcrumb"
       },
       {
         "PageRegion": 3,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/bodytop",
-        "OfflineHtml": "<H3>Service Unavailable</H3>"
+        "HeathCheckRequired": false,
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/bodytop"
       },
       {
         "PageRegion": 4,
+        "HeathCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/contents",
         "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Service Unavailable</H3></div>"
       },
       {
         "PageRegion": 7,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/bodyfooter",
-        "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Service Unavailable</H3></div>"
+        "HeathCheckRequired": false,
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/bodyfooter"
       }
     ]
   }

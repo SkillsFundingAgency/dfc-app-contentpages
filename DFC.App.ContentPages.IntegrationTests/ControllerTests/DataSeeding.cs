@@ -8,17 +8,18 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests
 {
     public static class DataSeeding
     {
-        public static void SeedDefaultArticle(CustomWebApplicationFactory<DFC.App.ContentPages.Startup> factory, string category1, string category2, string article)
+        public static void SeedDefaultArticle(CustomWebApplicationFactory<DFC.App.ContentPages.Startup> factory, string category1, string category2)
         {
             const string url = "/pages";
             var contentPageModels = new List<ContentPageModel>()
             {
                 new ContentPageModel()
                 {
-                    DocumentId = Guid.Parse("63DEA97E-B61C-4C14-85DC-1BD08EA20DC8"),
+                    DocumentId = Guid.Parse("9244BFF6-BA0C-40DB-AD52-A293C37441B1"),
                     Category = category1,
-                    CanonicalName = article,
+                    CanonicalName = category1,
                     IncludeInSitemap = true,
+                    Content = "<h1>A document ({0})</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
                 new ContentPageModel()
@@ -27,6 +28,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests
                     Category = category1,
                     CanonicalName = "in-sitemap",
                     IncludeInSitemap = true,
+                    Content = "<h1>A document ({0})</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
                 new ContentPageModel()
@@ -35,6 +37,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests
                     Category = category1,
                     CanonicalName = "not-in-sitemap",
                     IncludeInSitemap = false,
+                    Content = "<h1>A document ({0})</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
                 new ContentPageModel()
@@ -43,6 +46,16 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests
                     Category = category1,
                     CanonicalName = "not-in-sitemap",
                     IncludeInSitemap = false,
+                    Content = "<h1>A document ({0})</h1>",
+                    LastReviewed = DateTime.UtcNow,
+                },
+                new ContentPageModel()
+                {
+                    DocumentId = Guid.Parse("22382F85-03CF-4F47-875A-21C6DA3DFD53"),
+                    Category = category2,
+                    CanonicalName = category2,
+                    IncludeInSitemap = true,
+                    Content = "<h1>A document ({0})</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
                 new ContentPageModel()
@@ -51,6 +64,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests
                     Category = category2,
                     CanonicalName = "in-sitemap",
                     IncludeInSitemap = true,
+                    Content = "<h1>A document ({0})</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
                 new ContentPageModel()
@@ -59,6 +73,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests
                     Category = category2,
                     CanonicalName = "not-in-sitemap",
                     IncludeInSitemap = false,
+                    Content = "<h1>A document ({0})</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
             };

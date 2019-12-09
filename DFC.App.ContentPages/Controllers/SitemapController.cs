@@ -22,6 +22,7 @@ namespace DFC.App.ContentPages.Controllers
         }
 
         [HttpGet]
+        [Route("{category}/sitemap.xml")]
         public async Task<ContentResult> Sitemap(string category)
         {
             try
@@ -47,7 +48,7 @@ namespace DFC.App.ContentPages.Controllers
                     if (contentPageModelsList.Any())
                     {
                         var sitemapcontentPageModels = contentPageModelsList
-                             .Where(w => w.IncludeInSitemap && !w.CanonicalName.Equals(PagesController.DefaultArticleName, StringComparison.OrdinalIgnoreCase))
+                             .Where(w => w.IncludeInSitemap && !w.CanonicalName.Equals(w.Category, StringComparison.OrdinalIgnoreCase))
                              .OrderBy(o => o.CanonicalName);
 
                         foreach (var contentPageModel in sitemapcontentPageModels)

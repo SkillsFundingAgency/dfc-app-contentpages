@@ -75,7 +75,35 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
         {
             // Arrange
             const string category = "a-category";
-            const string article = PagesController.DefaultArticleName;
+            const string article = DefaultHelpArticleName;
+            var expectedResult = A.Fake<ContentPageModel>();
+            var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
+
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.Breadcrumb(category, article).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(viewResult.ViewData.Model);
+
+            model.Paths.Count.Should().BeGreaterThan(0);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [MemberData(nameof(HtmlMediaTypes))]
+        public async Task PagesControllerBreadcrumbWithNullArticleHtmlReturnsSuccessForDefaultArticleName(string mediaTypeName)
+        {
+            // Arrange
+            const string category = "a-category";
+            const string article = null;
             var expectedResult = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
@@ -103,7 +131,35 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
         {
             // Arrange
             const string category = "a-category";
-            const string article = PagesController.DefaultArticleName;
+            const string article = DefaultHelpArticleName;
+            var expectedResult = A.Fake<ContentPageModel>();
+            var controller = BuildPagesController(mediaTypeName);
+
+            expectedResult.CanonicalName = article;
+
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.Breadcrumb(category, article).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var jsonResult = Assert.IsType<OkObjectResult>(result);
+            var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(jsonResult.Value);
+
+            model.Paths.Count.Should().BeGreaterThan(0);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [MemberData(nameof(JsonMediaTypes))]
+        public async Task PagesControllerBreadcrumbWithNullArticleJsonReturnsSuccessForDefaultArticleName(string mediaTypeName)
+        {
+            // Arrange
+            const string category = "a-category";
+            const string article = null;
             var expectedResult = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 

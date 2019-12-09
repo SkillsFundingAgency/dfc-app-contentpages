@@ -12,28 +12,34 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.PagesControllerT
     [Trait("Category", "Integration")]
     public class PagesControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.ContentPages.Startup>>
     {
+        private const string DefaultHelpArticleName = "help";
         private readonly CustomWebApplicationFactory<DFC.App.ContentPages.Startup> factory;
 
         public PagesControllerRouteTests(CustomWebApplicationFactory<DFC.App.ContentPages.Startup> factory)
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.CategoryNameForHelp, Controllers.PagesController.CategoryNameForAlert, Controllers.PagesController.DefaultArticleName);
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.CategoryNameForHelp, Controllers.PagesController.CategoryNameForAlert);
         }
 
         public static IEnumerable<object[]> PagesContentRouteData => new List<object[]>
         {
             new object[] { "/pages" },
-            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}" },
-            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/htmlhead" },
-            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/breadcrumb" },
-            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/contents" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{DefaultHelpArticleName}" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{DefaultHelpArticleName}/htmlhead" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/htmlhead" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{DefaultHelpArticleName}/breadcrumb" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/breadcrumb" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{DefaultHelpArticleName}/contents" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/contents" },
         };
 
         public static IEnumerable<object[]> PagesNoContentRouteData => new List<object[]>
         {
-            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/bodytop" },
-            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{Controllers.PagesController.DefaultArticleName}/bodyfooter" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{DefaultHelpArticleName}/bodytop" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/bodytop" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/{DefaultHelpArticleName}/bodyfooter" },
+            new object[] { $"/pages/{Controllers.PagesController.CategoryNameForHelp}/bodyfooter" },
         };
 
         [Theory]

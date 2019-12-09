@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DFC.App.ContentPages.Controllers;
+using DFC.App.ContentPages.Data;
 using DFC.App.ContentPages.PageService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -29,11 +30,11 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
         public static IEnumerable<object[]> PagesRouteData => new List<object[]>
         {
-            new object[] { "/pages/{article}/htmlhead", "a-category", "SomeArticle", "Head" },
+            new object[] { "/pages/{category}/{article}/htmlhead", "a-category", "SomeArticle", "Head" },
             new object[] { "/pages/htmlhead", string.Empty, string.Empty, "Head" },
-            new object[] { "/pages/{article}/breadcrumb", "a-category", "SomeArticle", "Breadcrumb" },
+            new object[] { "/pages/{category}/{article}/breadcrumb", "a-category", "SomeArticle", "Breadcrumb" },
             new object[] { "/pages/breadcrumb", string.Empty, string.Empty, "Breadcrumb" },
-            new object[] { "/pages/{article}/contents", "a-category", "SomeArticle", "Body" },
+            new object[] { "/pages/{category}/{article}/contents", "a-category", "SomeArticle", "Body" },
             new object[] { "/pages/contents", string.Empty, string.Empty, "Body" },
         };
 
@@ -43,6 +44,9 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
         {
             // Arrange
             var controller = BuildController(route);
+            var expectedResult = new ContentPageModel() { Content = "<h1>A document ({0})</h1>" };
+
+            A.CallTo(() => fakeContentPageService.GetByNameAsync(A<string>.Ignored, A<string>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await RunControllerAction(controller, category, article, actionMethod).ConfigureAwait(false);

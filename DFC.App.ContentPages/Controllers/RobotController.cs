@@ -19,6 +19,7 @@ namespace DFC.App.ContentPages.Controllers
         }
 
         [HttpGet]
+        [Route("robots.txt")]
         public ContentResult Robot()
         {
             try
@@ -27,7 +28,7 @@ namespace DFC.App.ContentPages.Controllers
 
                 var robot = GenerateThisSiteRobot();
 
-                // add any dynamic robots data form the Shell app
+                // add any dynamic robots data from the Shell app
                 logger.LogInformation("Generated Robots.txt");
 
                 return Content(robot.Data, MediaTypeNames.Text.Plain);

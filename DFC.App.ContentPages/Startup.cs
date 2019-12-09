@@ -49,21 +49,6 @@ namespace DFC.App.ContentPages
 
             app.UseMvc(routes =>
             {
-                foreach (string category in new[] { PagesController.CategoryNameForHelp, PagesController.CategoryNameForAlert })
-                {
-                    // add the site map route
-                    routes.MapRoute(
-                        name: $"Sitemap-{category}",
-                        template: $"{category}/Sitemap.xml",
-                        defaults: new { controller = "Sitemap", action = "Sitemap", Category = category });
-                }
-
-                // add the robots.txt route
-                routes.MapRoute(
-                    name: "Robots",
-                    template: "Robots.txt",
-                    defaults: new { controller = "Robot", action = "Robot" });
-
                 // add the default route
                 routes.MapRoute(
                     name: "default",

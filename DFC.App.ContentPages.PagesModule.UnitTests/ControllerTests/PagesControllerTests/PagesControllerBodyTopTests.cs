@@ -27,5 +27,25 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
             controller.Dispose();
         }
+
+        [Theory]
+        [MemberData(nameof(JsonMediaTypes))]
+        public void PagesControllerBodyTopWithNullArticleJsonReturnsSuccess(string mediaTypeName)
+        {
+            // Arrange
+            const string category = "a-category";
+            const string article = null;
+            var controller = BuildPagesController(mediaTypeName);
+
+            // Act
+            var result = controller.BodyTop(category, article);
+
+            // Assert
+            var statusResult = Assert.IsType<NoContentResult>(result);
+
+            A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);
+
+            controller.Dispose();
+        }
     }
 }

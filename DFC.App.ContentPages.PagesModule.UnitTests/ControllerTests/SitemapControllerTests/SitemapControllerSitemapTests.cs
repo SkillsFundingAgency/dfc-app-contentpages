@@ -22,7 +22,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.SitemapCont
             var controller = BuildSitemapController();
 
             expectedResults[0].IncludeInSitemap = true;
-            expectedResults[0].CanonicalName = DFC.App.ContentPages.Controllers.PagesController.DefaultArticleName;
+            expectedResults[0].CanonicalName = "help";
             expectedResults[1].IncludeInSitemap = false;
             expectedResults[1].CanonicalName = "not-in-sitemap";
             expectedResults[2].IncludeInSitemap = true;

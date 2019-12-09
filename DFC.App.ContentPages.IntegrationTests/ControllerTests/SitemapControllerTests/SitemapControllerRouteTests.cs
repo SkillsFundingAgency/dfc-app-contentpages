@@ -15,7 +15,7 @@ namespace DFC.App.ContentPages.IntegrationTests.ControllerTests.SitemapControlle
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.CategoryNameForHelp, Controllers.PagesController.CategoryNameForAlert, Controllers.PagesController.DefaultArticleName);
+            DataSeeding.SeedDefaultArticle(factory, Controllers.PagesController.CategoryNameForHelp, Controllers.PagesController.CategoryNameForAlert);
         }
 
         public static IEnumerable<object[]> SitemapRouteData => new List<object[]>

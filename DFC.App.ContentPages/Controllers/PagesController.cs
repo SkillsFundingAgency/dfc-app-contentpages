@@ -15,9 +15,8 @@ namespace DFC.App.ContentPages.Controllers
 {
     public class PagesController : Controller
     {
-        public const string CategoryNameForHelp = "help";
         public const string CategoryNameForAlert = "alert";
-        public const string DefaultArticleName = "help";
+        public const string CategoryNameForHelp = "help";
 
         private readonly ILogger<PagesController> logger;
         private readonly IContentPageService contentPageService;
@@ -80,6 +79,7 @@ namespace DFC.App.ContentPages.Controllers
 
         [HttpGet]
         [Route("pages/{category}/{article}/htmlhead")]
+        [Route("pages/{category}/htmlhead")]
         public async Task<IActionResult> Head(string category, string article)
         {
             logger.LogInformation($"{nameof(Head)} has been called");
@@ -100,6 +100,7 @@ namespace DFC.App.ContentPages.Controllers
         }
 
         [Route("pages/{category}/{article}/breadcrumb")]
+        [Route("pages/{category}/breadcrumb")]
         public async Task<IActionResult> Breadcrumb(string category, string article)
         {
             logger.LogInformation($"{nameof(Breadcrumb)} has been called");
@@ -114,27 +115,19 @@ namespace DFC.App.ContentPages.Controllers
 
         [HttpGet]
         [Route("pages/{category}/{article}/bodytop")]
+        [Route("pages/{category}/bodytop")]
         public IActionResult BodyTop(string category, string article)
         {
             return NoContent();
         }
 
         [HttpGet]
-        [Route("pages/{category}/contents")]
-        public IActionResult Contents(string category)
-        {
-            logger.LogInformation($"{nameof(Contents)} has been called");
-
-            var indexUrl = $"{Request.GetBaseAddress()}{category}/{category}/contents";
-            logger.LogWarning($"{nameof(Body)} has been redirected for: {category} to {indexUrl}");
-
-            return RedirectPermanentPreserveMethod(indexUrl);
-        }
-
-        [HttpGet]
         [Route("pages/{category}/{article}/contents")]
+        [Route("pages/{category}/contents")]
         public async Task<IActionResult> Body(string category, string article)
         {
+            const string ArticlePlaceholder = "{0}";
+
             logger.LogInformation($"{nameof(Body)} has been called");
 
             var viewModel = new BodyViewModel();
@@ -142,6 +135,8 @@ namespace DFC.App.ContentPages.Controllers
 
             if (contentPageModel != null)
             {
+                contentPageModel.Content = contentPageModel.Content.Replace(ArticlePlaceholder, article, StringComparison.OrdinalIgnoreCase);
+
                 mapper.Map(contentPageModel, viewModel);
                 logger.LogInformation($"{nameof(Body)} has returned content for: {article}");
 
@@ -163,6 +158,7 @@ namespace DFC.App.ContentPages.Controllers
 
         [HttpGet]
         [Route("pages/{category}/{article}/bodyfooter")]
+        [Route("pages/{category}/bodyfooter")]
         public IActionResult BodyFooter(string category, string article)
         {
             return NoContent();
@@ -256,6 +252,11 @@ namespace DFC.App.ContentPages.Controllers
 
         #region Define helper methods
 
+        private static bool IsAlertCategory(string category)
+        {
+            return string.Compare(category, CategoryNameForAlert, true, CultureInfo.InvariantCulture) == 0;
+        }
+
         private static BreadcrumbViewModel BuildBreadcrumb(ContentPageModel contentPageModel)
         {
             var viewModel = new BreadcrumbViewModel
@@ -270,7 +271,7 @@ namespace DFC.App.ContentPages.Controllers
                 },
             };
 
-            if (contentPageModel != null && string.Compare(contentPageModel.Category, CategoryNameForAlert, true, CultureInfo.InvariantCulture) != 0)
+            if (contentPageModel != null && !IsAlertCategory(contentPageModel.Category))
             {
                 var articlePathViewModel = new BreadcrumbPathViewModel
                 {
@@ -281,7 +282,7 @@ namespace DFC.App.ContentPages.Controllers
                 viewModel.Paths.Add(articlePathViewModel);
             }
 
-            if (contentPageModel?.CanonicalName != null && !contentPageModel.CanonicalName.Equals(DefaultArticleName, StringComparison.OrdinalIgnoreCase))
+            if (contentPageModel?.CanonicalName != null && !contentPageModel.CanonicalName.Equals(contentPageModel.Category, StringComparison.OrdinalIgnoreCase))
             {
                 var articlePathViewModel = new BreadcrumbPathViewModel
                 {
@@ -299,7 +300,7 @@ namespace DFC.App.ContentPages.Controllers
 
         private async Task<ContentPageModel> GetContentPageAsync(string category, string article)
         {
-            var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
+            var name = !string.IsNullOrWhiteSpace(article) ? article : category;
 
             var contentPageModel = await contentPageService.GetByNameAsync(category, name).ConfigureAwait(false);
 
@@ -308,7 +309,7 @@ namespace DFC.App.ContentPages.Controllers
 
         private async Task<ContentPageModel> GetAlternativeContentPageAsync(string category, string article)
         {
-            var name = !string.IsNullOrWhiteSpace(article) ? article : DefaultArticleName;
+            var name = !string.IsNullOrWhiteSpace(article) ? article : category;
 
             var contentPageModel = await contentPageService.GetByAlternativeNameAsync(category, name).ConfigureAwait(false);
 

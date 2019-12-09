@@ -80,7 +80,7 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
 
         public async Task<T> GetAsync(string partitionKey, Expression<Func<T, bool>> where)
         {
-            var pk = new PartitionKey(partitionKey);
+            var pk = new PartitionKey(partitionKey.ToLowerInvariant());
 
             var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, PartitionKey = pk })
                                       .Where(where)
@@ -120,7 +120,7 @@ namespace DFC.App.ContentPages.Repository.CosmosDb
 
         public async Task<IEnumerable<T>> GetAllAsync(string partitionKey)
         {
-            var pk = new PartitionKey(partitionKey);
+            var pk = new PartitionKey(partitionKey.ToLowerInvariant());
 
             var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { PartitionKey = pk })
                                       .AsDocumentQuery();

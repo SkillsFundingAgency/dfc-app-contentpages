@@ -12,6 +12,8 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 {
     public class BasePagesController
     {
+        protected const string DefaultHelpArticleName = "help";
+
         public BasePagesController()
         {
             Logger = A.Fake<ILogger<PagesController>>();
