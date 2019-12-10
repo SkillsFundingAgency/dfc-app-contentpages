@@ -53,7 +53,7 @@
         "AppServicePlanName": "[if(greater(length(parameters('SharedAppServicePlanName')), 0), parameters('SharedAppServicePlanName'), concat(variables('ResourcePrefix'), '-asp'))]",
         "AppServicePlanResourceGroup": "[if(greater(length(parameters('SharedAppServicePlanResourceGroup')), 0), parameters('SharedAppServicePlanResourceGroup'), resourceGroup().name)]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
-        "CosmosDbCollectionPartitionKey": "/lastReviewed",
+        "CosmosDbCollectionPartitionKey": "/PartitionKey",
         "CosmosDbDatabaseName": "dfc-app-conpage",
         "CosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
         "WebAppName": "[concat(variables('ResourcePrefix'), '-as')]",
@@ -150,23 +150,23 @@
                                 "value": "[reference(variables('AppServiceAppInsightsName')).outputs.InstrumentationKey.value]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__HelpPages__EndpointUrl",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__EndpointUrl",
                                 "value": "[variables('CosmosDbEndpoint')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__HelpPages__AccessKey",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__AccessKey",
                                 "value": "[parameters('CosmosAccessKey')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__HelpPages__DatabaseId",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__DatabaseId",
                                 "value": "[parameters('CosmosDbName')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__HelpPages__CollectionId",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__CollectionId",
                                 "value": "[parameters('CosmosDbCollectionName')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__HelpPages__PartitionKey",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__PartitionKey",
                                 "value": "[variables('CosmosDbCollectionPartitionKey')]"
                             },
                             {
