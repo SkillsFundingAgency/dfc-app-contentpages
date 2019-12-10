@@ -12,19 +12,7 @@
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="appsettings-template.Development.json" />
-    <None Remove="appsettings.Development.json" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="appsettings-template.Development.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="appsettings.Development.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.9.0" />
@@ -50,10 +38,5 @@
     <ProjectReference Include="..\DFC.App.ContentPages\DFC.App.ContentPages.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 
 </Project>

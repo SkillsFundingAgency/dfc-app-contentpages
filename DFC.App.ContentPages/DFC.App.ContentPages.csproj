@@ -12,11 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings-template.json" />
-    <Content Remove="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
@@ -44,15 +39,6 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-    <None Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="appsettings-template.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContentPages.Data\DFC.App.ContentPages.Data.csproj" />
@@ -61,10 +47,5 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-    <Content Update="appsettings.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
 </Project>
