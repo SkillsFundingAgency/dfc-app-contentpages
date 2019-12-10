@@ -14,8 +14,8 @@
       },
       {
         "PageRegion": 2,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/breadcrumb"
-        "HeathCheckRequired": false,
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/breadcrumb",
+        "HeathCheckRequired": false
       },
       {
         "PageRegion": 3,
