@@ -159,7 +159,7 @@
                             },
                             {
                                 "name": "Configuration__CosmosDbConnections__ContentPages__DatabaseId",
-                                "value": "[parameters('CosmosDbName')]"
+                                "value": "[variables('cosmosDbDatabaseName')]"
                             },
                             {
                                 "name": "Configuration__CosmosDbConnections__ContentPages__CollectionId",
