@@ -1,6 +1,6 @@
 variables:
     ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'     
-    SolutionBaseName: 'DFC.App.Help'
+    SolutionBaseName: 'DFC.App.ContentPages'
     BuildPlatform: 'any cpu'
     BuildConfiguration: 'release'
 
