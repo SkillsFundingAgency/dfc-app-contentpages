@@ -1,4 +1,3 @@
-using DFC.App.ContentPages.Data;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,11 +8,11 @@ using Xunit;
 namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerHelpDeleteTests : BasePagesController
+    public class PagesControllerDeleteTests : BasePagesController
     {
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async Task PagesControllerHelpDeleteReturnsSuccess(string mediaTypeName)
+        public async Task PagesControllerDeleteReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             Guid documentId = Guid.NewGuid();
@@ -36,7 +35,7 @@ namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesContro
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async Task PagesControllerHelpDeleteReturnsNotFound(string mediaTypeName)
+        public async Task PagesControllerDeleteReturnsNotFound(string mediaTypeName)
         {
             // Arrange
             Guid documentId = Guid.NewGuid();
