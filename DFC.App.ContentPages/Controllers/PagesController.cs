@@ -1,4 +1,4 @@
-﻿using DFC.App.ContentPages.Data;
+﻿using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.Extensions;
 using DFC.App.ContentPages.PageService;
 using DFC.App.ContentPages.ViewModels;
@@ -186,8 +186,7 @@ namespace DFC.App.ContentPages.Controllers
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
             }
 
-            var response = await contentPageService.UpsertAsync(upsertContentPageModel)
-                .ConfigureAwait(false);
+            var response = await contentPageService.UpsertAsync(upsertContentPageModel).ConfigureAwait(false);
 
             logger.LogInformation($"{nameof(Create)} has upserted content for: {upsertContentPageModel.Category}/{upsertContentPageModel.CanonicalName} with response code {response}");
 

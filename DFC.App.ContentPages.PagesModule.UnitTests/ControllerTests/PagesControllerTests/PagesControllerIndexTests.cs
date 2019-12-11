@@ -1,14 +1,10 @@
-using DFC.App.ContentPages.Controllers;
-using DFC.App.ContentPages.Data;
+using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.ViewModels;
 using FakeItEasy;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Mime;
 using Xunit;
 
 namespace DFC.App.ContentPages.PagesModule.UnitTests.ControllerTests.PagesControllerTests

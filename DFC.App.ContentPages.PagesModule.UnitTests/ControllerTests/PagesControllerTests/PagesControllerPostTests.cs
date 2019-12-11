@@ -1,4 +1,4 @@
-using DFC.App.ContentPages.Data;
+using DFC.App.ContentPages.Data.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System;

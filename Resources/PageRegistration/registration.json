@@ -26,7 +26,7 @@
         "PageRegion": 4,
         "HeathCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/contents",
-        "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Service Unavailable</H3></div>"
+        "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Help Service Unavailable</H3></div>"
       },
       {
         "PageRegion": 7,
@@ -40,7 +40,7 @@
     "TopNavigationOrder": 999,
     "Layout": 2,
     "OfflineHtml": "<div class=\"govuk-width-container\"><H2>Alert Service Unavailable</H2></div>",
-    "SitemapUrl": "https://__AppServiceName__.__appServiceDomain__/alert/sitemap.xml",
+    "SitemapUrl": null,
     "RobotsUrl": "https://__AppServiceName__.__appServiceDomain__/Robots.txt",
     "Regions": [
       {
@@ -62,7 +62,7 @@
         "PageRegion": 4,
         "HeathCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/contents",
-        "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Service Unavailable</H3></div>"
+        "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Alert Service Unavailable</H3></div>"
       },
       {
         "PageRegion": 7,

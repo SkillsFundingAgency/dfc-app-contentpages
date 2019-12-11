@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using DFC.App.ContentPages.Controllers;
-using DFC.App.ContentPages.Data;
 using DFC.App.ContentPages.Data.Contracts;
+using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.Filters;
 using DFC.App.ContentPages.Framework;
 using DFC.App.ContentPages.PageService;

@@ -1,5 +1,4 @@
-using DFC.App.ContentPages.Controllers;
-using DFC.App.ContentPages.Data;
+using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.ViewModels;
 using FakeItEasy;
 using FluentAssertions;

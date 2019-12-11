@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DFC.App.ContentPages.Data;
+using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.ViewModels;
 using Microsoft.AspNetCore.Html;
 using System.Diagnostics.CodeAnalysis;

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DFC.App.ContentPages.Data
+namespace DFC.App.ContentPages.Data.Models
 {
     public interface IDataModel
     {

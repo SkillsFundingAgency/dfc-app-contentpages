@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DFC.App.ContentPages.Controllers;
-using DFC.App.ContentPages.Data;
+using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.PageService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
