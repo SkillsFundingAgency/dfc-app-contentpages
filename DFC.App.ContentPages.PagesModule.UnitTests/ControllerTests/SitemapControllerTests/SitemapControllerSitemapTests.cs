@@ -1,9 +1,8 @@
 ﻿using DFC.App.ContentPages.Controllers;
-using DFC.App.ContentPages.Data;
+using DFC.App.ContentPages.Data.Models;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Xunit;

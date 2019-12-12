@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DFC.App.ContentPages.Data
+namespace DFC.App.ContentPages.Data.Models
 {
     public class ContentPageModel : IDataModel
     {
@@ -24,9 +24,9 @@ namespace DFC.App.ContentPages.Data
         [UrlPath]
         public string CanonicalName { get; set; }
 
-        public long SequenceNumber { get; set; }
-
         public string PartitionKey => Category;
+
+        public long SequenceNumber { get; set; }
 
         [Display(Name = "Breadcrumb Title")]
         public string BreadcrumbTitle { get; set; }
@@ -34,15 +34,15 @@ namespace DFC.App.ContentPages.Data
         [Display(Name = "Include In SiteMap")]
         public bool IncludeInSitemap { get; set; }
 
+        [UrlPath]
+        [LowerCase]
+        public string[] AlternativeNames { get; set; }
+
         public MetaTagsModel MetaTags { get; set; }
 
         public string Content { get; set; }
 
         [Display(Name = "Last Reviewed")]
         public DateTime LastReviewed { get; set; }
-
-        [UrlPath]
-        [LowerCase]
-        public string[] AlternativeNames { get; set; }
     }
 }

@@ -38,5 +38,11 @@
     <ProjectReference Include="..\DFC.App.ContentPages\DFC.App.ContentPages.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>

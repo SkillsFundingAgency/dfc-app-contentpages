@@ -1,4 +1,4 @@
-﻿namespace DFC.App.ContentPages.Data
+﻿namespace DFC.App.ContentPages.Data.Models
 {
     public class MetaTagsModel
     {

@@ -1,5 +1,5 @@
-﻿using DFC.App.ContentPages.Data;
-using DFC.App.ContentPages.Data.Contracts;
+﻿using DFC.App.ContentPages.Data.Contracts;
+using DFC.App.ContentPages.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

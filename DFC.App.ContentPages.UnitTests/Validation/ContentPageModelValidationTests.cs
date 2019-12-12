@@ -1,5 +1,5 @@
-﻿using DFC.App.ContentPages.Data;
-using DFC.App.ContentPages.Data.Common;
+﻿using DFC.App.ContentPages.Data.Common;
+using DFC.App.ContentPages.Data.Models;
 using FluentAssertions;
 using NUnit.Framework;
 using System;

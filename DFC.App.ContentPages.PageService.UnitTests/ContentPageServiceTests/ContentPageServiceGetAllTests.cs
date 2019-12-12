@@ -1,4 +1,4 @@
-using DFC.App.ContentPages.Data;
+using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.Data.Contracts;
 using FakeItEasy;
 using System.Collections.Generic;
