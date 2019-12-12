@@ -10,7 +10,7 @@ resources:
   - repository: dfc-devops
     type: github
     name: SkillsFundingAgency/dfc-devops
-    ref: refs/tags/v1.6.1
+    ref: refs/tags/v1.6.12
     endpoint: 'GitHub (ESFA)'
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
     - visualstudio
 
   steps:
-  # build DFC.App.Help
+  # Build DFC.App.ContentPages
   - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
     parameters:
       SolutionBaseName: $(SolutionBaseName)
@@ -39,16 +39,13 @@ jobs:
       DotNetCoreVersion: 2.2.402
       PublishWebApp: true
       TestSuffix: UnitTests
-  # Test DFC.App.Help.PageService (an artifact will be built but isn't consumed in the release) 
+
+  # Build DFC.App.ContentPages.MessageFunctionApp
   - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
     parameters:
-      SolutionBaseName: $(SolutionBaseName).PageService
+      SolutionBaseName: $(SolutionBaseName).MessageFunctionApp
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 2.2.402
+      PublishWebApp: true
       TestSuffix: UnitTests
-
-
-
-
-
