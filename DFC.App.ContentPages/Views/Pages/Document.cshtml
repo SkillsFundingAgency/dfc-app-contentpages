@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @if (!string.IsNullOrWhiteSpace(Model.BreadcrumbTitle))
+    @if (!string.IsNullOrWhiteSpace(Model.Title))
     {
-        ViewData["Title"] = Model.BreadcrumbTitle;
+        ViewData["Title"] = Model.Title;
 
         <title>@ViewData["Title"]</title>
     }

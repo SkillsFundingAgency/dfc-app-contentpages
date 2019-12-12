@@ -18,7 +18,7 @@ namespace DFC.App.ContentPages.AutoMapperProfiles
             CreateMap<ContentPageModel, DocumentViewModel>()
                 .ForMember(d => d.Breadcrumb, s => s.Ignore())
                 .ForMember(d => d.Content, s => s.MapFrom(a => new HtmlString(a.Content)))
-                .ForMember(d => d.Title, s => s.MapFrom(a => a.MetaTags.Title))
+                .ForMember(d => d.Title, s => s.MapFrom(a => a.MetaTags.Title + " | Explore careers | National Careers Service"))
                 .ForMember(d => d.Description, s => s.MapFrom(a => a.MetaTags.Description))
                 .ForMember(d => d.Keywords, s => s.MapFrom(a => a.MetaTags.Keywords))
                 .ForMember(d => d.BodyViewModel, s => s.MapFrom(a => a))
@@ -26,7 +26,7 @@ namespace DFC.App.ContentPages.AutoMapperProfiles
 
             CreateMap<ContentPageModel, HeadViewModel>()
                 .ForMember(d => d.CanonicalUrl, s => s.Ignore())
-                .ForMember(d => d.Title, s => s.MapFrom(a => a.MetaTags.Title))
+                .ForMember(d => d.Title, s => s.MapFrom(a => a.MetaTags.Title + " | Explore careers | National Careers Service"))
                 .ForMember(d => d.Description, s => s.MapFrom(a => a.MetaTags.Description))
                 .ForMember(d => d.Keywords, s => s.MapFrom(a => a.MetaTags.Keywords))
                 ;
