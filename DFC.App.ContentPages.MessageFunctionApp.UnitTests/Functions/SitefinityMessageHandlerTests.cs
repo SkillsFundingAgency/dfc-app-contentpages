@@ -43,7 +43,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Functions
         {
             // arrange
             const MessageAction messageAction = MessageAction.Published;
-            const MessageContentType messageContentType = MessageContentType.Alert;
+            const MessageContentType messageContentType = MessageContentType.Pages;
             const long sequenceNumber = 123;
             var model = A.Fake<ContentPageMessage>();
             var message = JsonConvert.SerializeObject(model);
@@ -76,7 +76,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Functions
         {
             // arrange
             const MessageAction messageAction = MessageAction.Published;
-            const MessageContentType messageContentType = MessageContentType.Alert;
+            const MessageContentType messageContentType = MessageContentType.Pages;
             var serviceBusMessage = new Message(Encoding.ASCII.GetBytes(string.Empty));
 
             serviceBusMessage.UserProperties.Add("ActionType", messageAction);
@@ -92,7 +92,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Functions
         {
             // arrange
             const int messageAction = -1;
-            const MessageContentType messageContentType = MessageContentType.Alert;
+            const MessageContentType messageContentType = MessageContentType.Pages;
             var model = A.Fake<ContentPageMessage>();
             var message = JsonConvert.SerializeObject(model);
             var serviceBusMessage = new Message(Encoding.ASCII.GetBytes(message));
