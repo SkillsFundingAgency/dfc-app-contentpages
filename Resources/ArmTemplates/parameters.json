@@ -2,6 +2,18 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "appServiceDomain": {
+            "value": "__appServiceDomain__"
+        },
+        "appSharedResourceGroup": {
+            "value": "__appSharedResourceGroup__"
+        },
+        "appSharedServiceBusName": {
+            "value": "__appSharedServiceBusName__"
+        },
+        "appSharedStorageAccountName": {
+            "value": "__appSharedStorageAccountName__"
+        },
         "AseHostingEnvironmentName": {
             "value": "__AseHostingEnvironmentName__"
         },
@@ -40,6 +52,9 @@
         },
         "SharedAppServicePlanResourceGroup": {
             "value": "__appSharedResourceGroup__"
+        },
+        "cmsTopicName": {
+            "value": "__cmsTopicName__"
         }
     }
 }
