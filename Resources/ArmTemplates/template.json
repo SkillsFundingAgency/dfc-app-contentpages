@@ -2,6 +2,18 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "appServiceDomain": {
+            "type": "string"
+        },
+        "appSharedResourceGroup": {
+            "type": "string"
+        },
+        "appSharedServiceBusName": {
+            "type": "string"
+        },
+        "appSharedStorageAccountName": {
+            "type": "string"
+        },
         "AseHostingEnvironmentName": {
             "type": "string",
             "defaultValue": ""
@@ -46,23 +58,34 @@
         "SharedAppServicePlanResourceGroup": {
             "type": "string",
             "defaultValue": ""
+        },
+        "cmsTopicName": {
+            "type": "string",
+            "defaultValue": "cms-messages",
+            "metadata": {
+                "description": "Name of CMS messages topic"
+            }
         }
     },
     "variables": {
-        "AppServiceAppInsightsName": "[concat(variables('ResourcePrefix'), '-ai')]",
+        "ResourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-conpage'))]",
         "AppServicePlanName": "[if(greater(length(parameters('SharedAppServicePlanName')), 0), parameters('SharedAppServicePlanName'), concat(variables('ResourcePrefix'), '-asp'))]",
         "AppServicePlanResourceGroup": "[if(greater(length(parameters('SharedAppServicePlanResourceGroup')), 0), parameters('SharedAppServicePlanResourceGroup'), resourceGroup().name)]",
         "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "CosmosDbCollectionPartitionKey": "/PartitionKey",
         "CosmosDbDatabaseName": "dfc-app-conpage",
         "CosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
-        "WebAppName": "[concat(variables('ResourcePrefix'), '-as')]",
-        "ResourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-conpage'))]"
+        "webAppName": "[concat(variables('ResourcePrefix'), '-as')]",
+        "webAppInsightsName": "[concat(variables('webAppName'), '-ai')]",
+        "functionAppName": "[concat(variables('ResourcePrefix'), '-fa')]",
+        "functionAppInsightsName": "[concat(variables('functionAppName'), '-ai')]",
+        "urlContentPages": "[toLower(concat('https://', variables('webAppName'), '.', parameters('appServiceDomain')))]",
+        "cmsSubscriptionName": "job-profile-metadata"
     },
     "resources": [
         {
             "apiVersion": "2017-05-10",
-            "name": "[variables('AppServiceAppInsightsName')]",
+            "name": "[variables('webAppInsightsName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -72,7 +95,7 @@
                 },
                 "parameters": {
                     "appInsightsName": {
-                        "value": "[variables('AppServiceAppInsightsName')]"
+                        "value": "[variables('webAppInsightsName')]"
                     },
                     "attachedService": {
                         "value": ""
@@ -147,7 +170,7 @@
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference(variables('AppServiceAppInsightsName')).outputs.InstrumentationKey.value]"
+                                "value": "[reference(variables('webAppInsightsName')).outputs.InstrumentationKey.value]"
                             },
                             {
                                 "name": "Configuration__CosmosDbConnections__ContentPages__EndpointUrl",
@@ -178,7 +201,99 @@
                 }
             },
             "dependsOn": [
-                "[variables('AppServiceAppInsightsName')]"
+                "[variables('webAppInsightsName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('functionAppInsightsName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('buildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('functionAppInsightsName')]"
+                    },
+                    "attachedService": {
+                        "value": ""
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('functionAppName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('buildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('functionAppName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[variables('appServicePlanResourceGroup')]"
+                    },
+                    "appServiceType": {
+                        "value": "functionapp"
+                    },
+                    "deployStagingSlot": {
+                        "value": false
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                             {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
+                            },
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(variables('functionAppInsightsName')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('appSharedStorageAccountName'),';AccountKey=',listKeys(resourceId(parameters('appSharedResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('appSharedStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+                            },
+                            {
+                                "name": "service-bus-connection-string",
+                                "value": "[listKeys(resourceId(parameters('appSharedResourceGroup'), 'Microsoft.ServiceBus/namespaces/authorizationRules', parameters('appSharedServiceBusName'), 'ReadWrite'), '2017-04-01').primaryConnectionString]"
+                            },
+                            {
+                                "name": "cms-messages-topic",
+                                "value": "[parameters('cmsTopicName')]"
+                            },
+                            {
+                                "name": "cms-messages-subscription",
+                                "value": "[variables('cmsSubscriptionName')]"
+                            },
+                            {
+                                "name": "contentPagesClientOptions__Timeout",
+                                "value": "00:00:10"
+                            },
+                            {
+                                "name": "contentPagesClientOptions__BaseAddress",
+                                "value": "[variables('urlContentPages')]"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('functionAppInsightsName')]"
             ]
         },
         {
