@@ -31,16 +31,16 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
             const HttpStatusCode expectedResult = HttpStatusCode.Created;
             const string message = "{}";
             const long sequenceNumber = 1;
-            const MessageContentType messageContentType = MessageContentType.Alert;
+            const MessageContentType messageContentType = MessageContentType.Pages;
 
-            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType)).Returns(A.Fake<ContentPageModel>());
+            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).Returns(A.Fake<ContentPageModel>());
             A.CallTo(() => httpClientService.PutAsync(A<ContentPageModel>.Ignored)).Returns(expectedResult);
 
             // act
-            var result = await messageProcessor.ProcessAsync(message, sequenceNumber, MessageContentType.Alert, MessageAction.Published).ConfigureAwait(false);
+            var result = await messageProcessor.ProcessAsync(message, sequenceNumber, messageContentType, MessageAction.Published).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).MustHaveHappenedOnceExactly();
             A.CallTo(() => httpClientService.PutAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
             Assert.Equal(expectedResult, result);
         }
@@ -52,17 +52,17 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
             const HttpStatusCode expectedResult = HttpStatusCode.OK;
             const string message = "{}";
             const long sequenceNumber = 1;
-            const MessageContentType messageContentType = MessageContentType.Alert;
+            const MessageContentType messageContentType = MessageContentType.Pages;
 
-            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType)).Returns(A.Fake<ContentPageModel>());
+            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).Returns(A.Fake<ContentPageModel>());
             A.CallTo(() => httpClientService.PutAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.NotFound);
             A.CallTo(() => httpClientService.PostAsync(A<ContentPageModel>.Ignored)).Returns(expectedResult);
 
             // act
-            var result = await messageProcessor.ProcessAsync(message, sequenceNumber, MessageContentType.Alert, MessageAction.Published).ConfigureAwait(false);
+            var result = await messageProcessor.ProcessAsync(message, sequenceNumber, messageContentType, MessageAction.Published).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).MustHaveHappenedOnceExactly();
             A.CallTo(() => httpClientService.PutAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => httpClientService.PostAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
             Assert.Equal(expectedResult, result);
@@ -75,16 +75,16 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
             const HttpStatusCode expectedResult = HttpStatusCode.OK;
             const string message = "{}";
             const long sequenceNumber = 1;
-            const MessageContentType messageContentType = MessageContentType.Alert;
+            const MessageContentType messageContentType = MessageContentType.Pages;
 
-            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType)).Returns(A.Fake<ContentPageModel>());
+            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).Returns(A.Fake<ContentPageModel>());
             A.CallTo(() => httpClientService.DeleteAsync(A<Guid>.Ignored)).Returns(expectedResult);
 
             // act
-            var result = await messageProcessor.ProcessAsync(message, sequenceNumber, MessageContentType.Alert, MessageAction.Deleted).ConfigureAwait(false);
+            var result = await messageProcessor.ProcessAsync(message, sequenceNumber, messageContentType, MessageAction.Deleted).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).MustHaveHappenedOnceExactly();
             A.CallTo(() => httpClientService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             Assert.Equal(expectedResult, result);
         }
@@ -95,15 +95,15 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
             // arrange
             const string message = "{}";
             const long sequenceNumber = 1;
-            const MessageContentType messageContentType = MessageContentType.Alert;
+            const MessageContentType messageContentType = MessageContentType.Pages;
 
-            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType)).Returns(A.Fake<ContentPageModel>());
+            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).Returns(A.Fake<ContentPageModel>());
 
             // act
-            var exceptionResult = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await messageProcessor.ProcessAsync(message, sequenceNumber, MessageContentType.Alert, (MessageAction)(-1)).ConfigureAwait(false)).ConfigureAwait(false);
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await messageProcessor.ProcessAsync(message, sequenceNumber, messageContentType, (MessageAction)(-1)).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).MustHaveHappenedOnceExactly();
             Assert.Equal("Invalid message action '-1' received, should be one of 'Published,Deleted,Draft'\r\nParameter name: messageAction", exceptionResult.Message);
         }
 

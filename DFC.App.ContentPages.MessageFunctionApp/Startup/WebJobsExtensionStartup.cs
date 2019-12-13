@@ -11,7 +11,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
-
 [assembly: WebJobsStartup(typeof(DFC.App.ContentPages.MessageFunctionApp.Startup.WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 
 namespace DFC.App.ContentPages.MessageFunctionApp.Startup

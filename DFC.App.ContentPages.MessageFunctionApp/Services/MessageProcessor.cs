@@ -20,18 +20,17 @@ namespace DFC.App.ContentPages.MessageFunctionApp.Services
         {
             switch (messageContentType)
             {
-                case MessageContentType.Alert:
-                case MessageContentType.Help:
-                    return await ProcessItemAsync(message, messageAction, sequenceNumber, messageContentType).ConfigureAwait(false);
+                case MessageContentType.Pages:
+                    return await ProcessItemAsync(message, messageAction, sequenceNumber).ConfigureAwait(false);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(messageContentType), $"Unexpected sitefinity content type '{messageContentType}'");
             }
         }
 
-        private async Task<HttpStatusCode> ProcessItemAsync(string message, MessageAction messageAction, long sequenceNumber, MessageContentType messageContentType)
+        private async Task<HttpStatusCode> ProcessItemAsync(string message, MessageAction messageAction, long sequenceNumber)
         {
-            var contentPageModel = mappingService.MapToContentPageModel(message, sequenceNumber, messageContentType);
+            var contentPageModel = mappingService.MapToContentPageModel(message, sequenceNumber);
 
             switch (messageAction)
             {

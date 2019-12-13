@@ -15,14 +15,14 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
     public class MappingServiceTests
     {
         private const int SequenceNumber = 123;
-        private const MessageContentType MessageContentTypeAlert = MessageContentType.Alert;
+        private const MessageContentType MessageContentTypeAlert = MessageContentType.Pages;
         private const string TestPageName = "Test Job name";
         private const string Title = "Title 1";
         private const bool IncludeInSitemap = true;
         private const string Description = "A description";
         private const string Keywords = "Some keywords";
         private const string Content = "<p>This is some content</p>";
-        private static readonly string[] alternativeNames = new string[] { "alt-name-1", "alt-name-2" };
+        private static readonly string[] AlternativeNames = new string[] { "alt-name-1", "alt-name-2" };
 
         private static readonly DateTime LastModified = DateTime.UtcNow.AddDays(-1);
         private static readonly Guid ContentPageId = Guid.NewGuid();
@@ -50,7 +50,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
             var expectedResponse = BuildExpectedResponse();
 
             // Act
-            var actualMappedModel = mappingService.MapToContentPageModel(message, SequenceNumber, MessageContentTypeAlert);
+            var actualMappedModel = mappingService.MapToContentPageModel(message, SequenceNumber);
 
             // Assert
             expectedResponse.Should().BeEquivalentTo(actualMappedModel);
@@ -61,10 +61,11 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
             return new ContentPageMessage
             {
                 ContentPageId = ContentPageId,
+                Category = Category,
                 CanonicalName = TestPageName,
                 LastModified = LastModified,
                 Title = Title,
-                AlternativeNames = alternativeNames,
+                AlternativeNames = AlternativeNames,
                 IncludeInSitemap = IncludeInSitemap,
                 Description = Description,
                 Keywords = Keywords,
@@ -83,7 +84,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
                 Etag = null,
                 BreadcrumbTitle = Title,
                 IncludeInSitemap = IncludeInSitemap,
-                AlternativeNames = alternativeNames,
+                AlternativeNames = AlternativeNames,
                 Content = Content,
                 LastReviewed = LastModified,
                 MetaTags = new MetaTagsModel()

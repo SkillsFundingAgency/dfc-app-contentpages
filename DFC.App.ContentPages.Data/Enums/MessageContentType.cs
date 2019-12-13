@@ -2,7 +2,6 @@
 {
     public enum MessageContentType
     {
-        Alert,
-        Help,
+        Pages,
     }
 }

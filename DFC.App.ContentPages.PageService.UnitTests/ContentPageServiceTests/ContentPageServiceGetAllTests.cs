@@ -1,5 +1,5 @@
-using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.Data.Contracts;
+using DFC.App.ContentPages.Data.Models;
 using FakeItEasy;
 using System.Collections.Generic;
 using System.Threading.Tasks;
