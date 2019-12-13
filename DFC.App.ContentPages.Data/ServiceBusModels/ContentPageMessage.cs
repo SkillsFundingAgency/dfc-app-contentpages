@@ -6,6 +6,9 @@ namespace DFC.App.ContentPages.Data.ServiceBusModels
     public class ContentPageMessage : BaseContentPageMessage
     {
         [Required]
+        public string Category { get; set; }
+
+        [Required]
         public string CanonicalName { get; set; }
 
         public DateTime? LastModified { get; set; }

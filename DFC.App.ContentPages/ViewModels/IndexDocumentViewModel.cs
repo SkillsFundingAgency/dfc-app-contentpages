@@ -3,6 +3,7 @@
     public class IndexDocumentViewModel
     {
         public string Category { get; set; }
+
         public string CanonicalName { get; set; }
     }
 }

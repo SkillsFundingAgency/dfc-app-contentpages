@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DFC.App.ContentPages.Data.Enums;
 using DFC.App.ContentPages.Data.Models;
 using DFC.App.ContentPages.Data.ServiceBusModels;
 using Newtonsoft.Json;
@@ -15,12 +14,11 @@ namespace DFC.App.ContentPages.MessageFunctionApp.Services
             this.mapper = mapper;
         }
 
-        public ContentPageModel MapToContentPageModel(string message, long sequenceNumber, MessageContentType messageContentType)
+        public ContentPageModel MapToContentPageModel(string message, long sequenceNumber)
         {
             var fullMessage = JsonConvert.DeserializeObject<ContentPageMessage>(message);
             var contentPageModel = mapper.Map<ContentPageModel>(fullMessage);
             contentPageModel.SequenceNumber = sequenceNumber;
-            contentPageModel.Category = $"{messageContentType.ToString().ToLowerInvariant()}";
 
             return contentPageModel;
         }
