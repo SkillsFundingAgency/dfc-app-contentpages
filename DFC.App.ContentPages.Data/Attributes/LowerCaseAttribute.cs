@@ -27,10 +27,10 @@ namespace DFC.App.ContentPages.Data.Attributes
             switch (value)
             {
                 case IEnumerable<string> list:
-                    result = list.All(s => s.Equals(s.ToLowerInvariant(), StringComparison.InvariantCultureIgnoreCase));
+                    result = list.All(s => s.Equals(s.ToLowerInvariant(), StringComparison.InvariantCulture));
                     break;
                 default:
-                    result = value.ToString().Equals(value.ToString().ToLowerInvariant(), StringComparison.InvariantCultureIgnoreCase);
+                    result = value.ToString().Equals(value.ToString().ToLowerInvariant(), StringComparison.InvariantCulture);
                     break;
             }
 
