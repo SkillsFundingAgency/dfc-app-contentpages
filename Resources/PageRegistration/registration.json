@@ -9,28 +9,28 @@
 		"Regions": [
       {
         "PageRegion": 1,
-        "HeathCheckRequired": false,
+        "HealthCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/htmlhead"
       },
       {
         "PageRegion": 2,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/breadcrumb",
-        "HeathCheckRequired": false
+        "HealthCheckRequired": false
       },
       {
         "PageRegion": 3,
-        "HeathCheckRequired": false,
+        "HealthCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/bodytop"
       },
       {
         "PageRegion": 4,
-        "HeathCheckRequired": true,
+        "HealthCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/contents",
         "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Help Service Unavailable</H3></div>"
       },
       {
         "PageRegion": 7,
-        "HeathCheckRequired": false,
+        "HealthCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/bodyfooter"
       }
 		]
@@ -45,28 +45,28 @@
     "Regions": [
       {
         "PageRegion": 1,
-        "HeathCheckRequired": false,
+        "HealthCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/htmlhead"
       },
       {
         "PageRegion": 2,
-        "HeathCheckRequired": false,
+        "HealthCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/breadcrumb"
       },
       {
         "PageRegion": 3,
-        "HeathCheckRequired": false,
+        "HealthCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/bodytop"
       },
       {
         "PageRegion": 4,
-        "HeathCheckRequired": true,
+        "HealthCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/contents",
         "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Alert Service Unavailable</H3></div>"
       },
       {
         "PageRegion": 7,
-        "HeathCheckRequired": false,
+        "HealthCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alert/{0}/bodyfooter"
       }
     ]
