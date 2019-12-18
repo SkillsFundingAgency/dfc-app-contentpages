@@ -55,6 +55,9 @@
         },
         "cmsTopicName": {
             "value": "__cmsTopicName__"
+        },
+        "cmsSubscriptionSqlFilter": {
+            "value": "__cmsSubscriptionSqlFilter__"
         }
     }
 }
