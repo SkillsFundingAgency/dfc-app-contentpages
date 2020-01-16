@@ -15,7 +15,7 @@ namespace DFC.App.ContentPages.Controllers
 {
     public class PagesController : Controller
     {
-        public const string CategoryNameForAlert = "alert";
+        public const string CategoryNameForAlert = "alerts";
         public const string CategoryNameForHelp = "help";
 
         private readonly ILogger<PagesController> logger;
@@ -264,7 +264,7 @@ namespace DFC.App.ContentPages.Controllers
                 {
                     new BreadcrumbPathViewModel()
                     {
-                        Route = "/explore-careers",
+                        Route = "/",
                         Title = "Home",
                     },
                 },
