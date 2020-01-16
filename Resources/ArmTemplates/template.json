@@ -259,7 +259,7 @@
                     },
                     "appServiceAppSettings": {
                         "value": [
-                             {
+                            {
                                 "name": "FUNCTIONS_EXTENSION_VERSION",
                                 "value": "~2"
                             },
@@ -288,11 +288,11 @@
                                 "value": "[variables('cmsSubscriptionName')]"
                             },
                             {
-                                "name": "contentPagesClientOptions__Timeout",
+                                "name": "ContentPageClientOptions__Timeout",
                                 "value": "00:00:10"
                             },
                             {
-                                "name": "contentPagesClientOptions__BaseAddress",
+                                "name": "ContentPageClientOptions__BaseAddress",
                                 "value": "[variables('urlContentPages')]"
                             }
                         ]
@@ -394,5 +394,6 @@
             }
         }
     ],
-        "outputs": {}
+    "outputs": {
     }
+}
