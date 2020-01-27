@@ -18,6 +18,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
         private const MessageContentType MessageContentTypeAlert = MessageContentType.Pages;
         private const string TestPageName = "Test Job name";
         private const string Title = "Title 1";
+        private const string BreadcrumbTitle = "BreadcrumbTitle 1";
         private const bool IncludeInSitemap = true;
         private const string Description = "A description";
         private const string Keywords = "Some keywords";
@@ -70,6 +71,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
                 Description = Description,
                 Keywords = Keywords,
                 Content = Content,
+                BreadcrumbTitle = BreadcrumbTitle,
             };
         }
 
@@ -82,7 +84,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
                 SequenceNumber = SequenceNumber,
                 Category = Category,
                 Etag = null,
-                BreadcrumbTitle = Title,
+                BreadcrumbTitle = BreadcrumbTitle,
                 IncludeInSitemap = IncludeInSitemap,
                 AlternativeNames = AlternativeNames,
                 Content = Content,
