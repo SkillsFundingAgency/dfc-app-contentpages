@@ -16,6 +16,8 @@ namespace DFC.App.ContentPages.Data.ServiceBusModels
         [Required]
         public string Title { get; set; }
 
+        public string BreadcrumbTitle { get; set; }
+
         public string[] AlternativeNames { get; set; }
 
         public bool IncludeInSitemap { get; set; }

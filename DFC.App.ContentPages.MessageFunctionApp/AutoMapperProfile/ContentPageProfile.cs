@@ -10,7 +10,6 @@ namespace DFC.App.ContentPages.MessageFunctionApp.AutoMapperProfile
         {
             CreateMap<ContentPageMessage, ContentPageModel>()
                 .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.ContentPageId))
-                .ForMember(d => d.BreadcrumbTitle, o => o.MapFrom(s => s.Title))
                 .ForPath(d => d.MetaTags.Title, o => o.MapFrom(s => s.Title))
                 .ForPath(d => d.MetaTags.Description, o => o.MapFrom(s => s.Description))
                 .ForPath(d => d.MetaTags.Keywords, o => o.MapFrom(s => s.Keywords))
