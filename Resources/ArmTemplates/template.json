@@ -1,0 +1,399 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appServiceDomain": {
+            "type": "string"
+        },
+        "appSharedResourceGroup": {
+            "type": "string"
+        },
+        "appSharedServiceBusName": {
+            "type": "string"
+        },
+        "appSharedStorageAccountName": {
+            "type": "string"
+        },
+        "AseHostingEnvironmentName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "AseResourceGroup": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "AspSize": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "AspTier": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "CosmosAccessKey": {
+            "type": "securestring"
+        },
+        "CosmosDbCollectionName": {
+            "type": "string"
+        },
+        "CosmosDbName": {
+            "type": "string"
+        },
+        "CosmosDbResourceGroup": {
+            "type": "string"
+        },
+        "Environment": {
+            "type": "string"
+        },
+        "HelpAppDatabaseNeedsCreation": {
+            "type": "bool"
+        },
+        "HelpAppDatabaseThroughput": {
+            "type": "int"
+        },
+        "SharedAppServicePlanName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "SharedAppServicePlanResourceGroup": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "cmsTopicName": {
+            "type": "string",
+            "defaultValue": "cms-messages",
+            "metadata": {
+                "description": "Name of CMS messages topic"
+            }
+        },
+        "cmsSubscriptionSqlFilter": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Filter to apply to subscription (no filter applied if left blank)"
+            }
+        }
+    },
+    "variables": {
+        "ResourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-conpage'))]",
+        "AppServicePlanName": "[if(greater(length(parameters('SharedAppServicePlanName')), 0), parameters('SharedAppServicePlanName'), concat(variables('ResourcePrefix'), '-asp'))]",
+        "AppServicePlanResourceGroup": "[if(greater(length(parameters('SharedAppServicePlanResourceGroup')), 0), parameters('SharedAppServicePlanResourceGroup'), resourceGroup().name)]",
+        "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
+        "CosmosDbCollectionPartitionKey": "/PartitionKey",
+        "CosmosDbDatabaseName": "dfc-app-conpage",
+        "CosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
+        "webAppName": "[concat(variables('ResourcePrefix'), '-as')]",
+        "webAppInsightsName": "[concat(variables('webAppName'), '-ai')]",
+        "functionAppName": "[concat(variables('ResourcePrefix'), '-fa')]",
+        "functionAppInsightsName": "[concat(variables('functionAppName'), '-ai')]",
+        "urlContentPages": "[toLower(concat('https://', variables('webAppName'), '.', parameters('appServiceDomain')))]",
+        "cmsSubscriptionName": "content-pages"
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('webAppInsightsName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('webAppInsightsName')]"
+                    },
+                    "attachedService": {
+                        "value": ""
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('AppServicePlanName')]",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[not(equals(parameters('SharedAppServicePlanName'), variables('AppServicePlanName')))]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service-plan.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "aseHostingEnvironmentName": {
+                        "value": "[parameters('AseHostingEnvironmentName')]"
+                    },
+                    "aseResourceGroup": {
+                        "value": "[parameters('AseResourceGroup')]"
+                    },
+                    "aspSize": {
+                        "value": "[parameters('AspSize')]"
+                    },
+                    "aspInstances": {
+                        "value": 1
+                    },
+                    "nonASETier": {
+                        "value": "[parameters('AspTier')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('WebAppName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('WebAppName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[variables('AppServicePlanResourceGroup')]"
+                    },
+                    "appServiceType": {
+                        "value": "app"
+                    },
+                    "deployStagingSlot": {
+                        "value": false
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(variables('webAppInsightsName')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__ContentPages__EndpointUrl",
+                                "value": "[variables('CosmosDbEndpoint')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__ContentPages__AccessKey",
+                                "value": "[parameters('CosmosAccessKey')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__ContentPages__DatabaseId",
+                                "value": "[variables('cosmosDbDatabaseName')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__ContentPages__CollectionId",
+                                "value": "[parameters('CosmosDbCollectionName')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__ContentPages__PartitionKey",
+                                "value": "[variables('CosmosDbCollectionPartitionKey')]"
+                            },
+                            {
+                                "name": "Logging__ApplicationInsights__LogLevel__Default",
+                                "value": "Information"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('webAppInsightsName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('functionAppInsightsName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('buildingBlocksDfcBaseUrl'), 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsightsName": {
+                        "value": "[variables('functionAppInsightsName')]"
+                    },
+                    "attachedService": {
+                        "value": ""
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('functionAppName')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('buildingBlocksDfcBaseUrl'), 'app-service.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceName": {
+                        "value": "[variables('functionAppName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('appServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[variables('appServicePlanResourceGroup')]"
+                    },
+                    "appServiceType": {
+                        "value": "functionapp"
+                    },
+                    "deployStagingSlot": {
+                        "value": false
+                    },
+                    "appServiceAppSettings": {
+                        "value": [
+                            {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
+                            },
+                            {
+                                "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                                "value": "1"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference(variables('functionAppInsightsName')).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('appSharedStorageAccountName'),';AccountKey=',listKeys(resourceId(parameters('appSharedResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('appSharedStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+                            },
+                            {
+                                "name": "service-bus-connection-string",
+                                "value": "[listKeys(resourceId(parameters('appSharedResourceGroup'), 'Microsoft.ServiceBus/namespaces/authorizationRules', parameters('appSharedServiceBusName'), 'ReadWrite'), '2017-04-01').primaryConnectionString]"
+                            },
+                            {
+                                "name": "cms-messages-topic",
+                                "value": "[parameters('cmsTopicName')]"
+                            },
+                            {
+                                "name": "cms-messages-subscription",
+                                "value": "[variables('cmsSubscriptionName')]"
+                            },
+                            {
+                                "name": "ContentPageClientOptions__Timeout",
+                                "value": "00:00:10"
+                            },
+                            {
+                                "name": "ContentPageClientOptions__BaseAddress",
+                                "value": "[variables('urlContentPages')]"
+                            }
+                        ]
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('functionAppInsightsName')]"
+            ]
+        },
+        {
+            "name": "[variables('CosmosDbDatabaseName')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('CosmosDbResourceGroup')]",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'),'CosmosDb/cosmos-database.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "accountName": {
+                        "value": "[parameters('CosmosDbName')]"
+                    },
+                    "databaseName": {
+                        "value": "[variables('CosmosDbDatabaseName')]"
+                    },
+                    "useSharedRequestUnits": {
+                        "value": true
+                    },
+                    "offerThroughput": {
+                        "value": "[parameters('HelpAppDatabaseThroughput')]"
+                    },
+                    "databaseNeedsCreation": {
+                        "value": "[parameters('HelpAppDatabaseNeedsCreation')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[parameters('CosmosDbCollectionName')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('CosmosDbResourceGroup')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'CosmosDb/cosmos-collection.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "accountName": {
+                        "value": "[parameters('CosmosDbName')]"
+                    },
+                    "databaseName": {
+                        "value": "[variables('CosmosDbDatabaseName')]"
+                    },
+                    "collectionName": {
+                        "value": "[parameters('CosmosDbCollectionName')]"
+                    },
+                    "provisionRequestUnits": {
+                        "value": false
+                    },
+                    "partitionKey": {
+                        "value": "[variables('CosmosDbCollectionPartitionKey')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('CosmosDbDatabaseName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[variables('cmsSubscriptionName')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('appSharedResourceGroup')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'ServiceBus/servicebus-topic-subscription.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serviceBusNamespaceName": {
+                        "value": "[parameters('appSharedServiceBusName')]"
+                    },
+                    "serviceBusTopicName": {
+                        "value": "[parameters('cmsTopicName')]"
+                    },
+                    "serviceBusTopicSubscriptionName": {
+                        "value": "[variables('cmsSubscriptionName')]"
+                    },
+                    "subscriptionSqlFilter": {
+                        "value": "[parameters('cmsSubscriptionSqlFilter')]"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {
+    }
+}

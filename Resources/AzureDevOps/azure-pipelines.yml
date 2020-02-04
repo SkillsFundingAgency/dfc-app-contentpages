@@ -1,6 +1,6 @@
 variables:
     ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'     
-    SolutionBaseName: 'DFC.App.Help'
+    SolutionBaseName: 'DFC.App.ContentPages'
     BuildPlatform: 'any cpu'
     BuildConfiguration: 'release'
 
@@ -10,30 +10,40 @@ resources:
   - repository: dfc-devops
     type: github
     name: SkillsFundingAgency/dfc-devops
-    ref: refs/tags/v1.6.7
+    ref: refs/tags/v1.6.12
     endpoint: 'GitHub (ESFA)'
 
 jobs:
 
 #Build and test resources
-# - template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
-#   parameters:
-#     ArmTemplateRoot: $(ArmTemplateRoot)
+- template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
+  parameters:
+    ArmTemplateRoot: $(ArmTemplateRoot)
 
 #Build and test application
 - job: BuildDotNetCore
   displayName: Build-DotNetCore
   pool:
-    name: NCS - CI and CD
+    name: Continuous Integration 02 - SSD - 160ACU
     demands:
     - msbuild
     - visualstudio
 
   steps:
-  # build DFC.App.Help
-  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build-sonar.yml@dfc-devops
+  # Build DFC.App.ContentPages
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
     parameters:
       SolutionBaseName: $(SolutionBaseName)
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
+      PublishWebApp: true
+      TestSuffix: UnitTests
+
+  # Build DFC.App.ContentPages.MessageFunctionApp
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).MessageFunctionApp
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 2.2.402

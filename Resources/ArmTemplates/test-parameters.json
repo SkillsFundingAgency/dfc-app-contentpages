@@ -1,0 +1,45 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appServiceDomain": {
+            "value": "azurewebsites.net"
+        },
+        "appSharedResourceGroup": {
+            "value": "dfc-dev-app-sharedresources-rg"
+        },
+        "appSharedServiceBusName": {
+            "value": "dfc-dev-app-sharedresources-ns"
+        },
+        "appSharedStorageAccountName": {
+            "value": "dfcdevappsharedstr"
+        },
+        "CosmosAccessKey": {
+            "value": "this-is-not-a-real-key=="
+        },
+        "CosmosDbCollectionName": {
+            "value": "helppages"
+        },
+        "CosmosDbName": {
+            "value": "dfc-dev-app-sharedresources-cdb"
+        },
+        "CosmosDbResourceGroup": {
+            "value": "dfc-dev-app-sharedresources-rg"
+        },
+        "Environment": {
+            "value": "FOO"
+        },
+        "HelpAppDatabaseNeedsCreation": {
+            "value": true
+        },
+        "HelpAppDatabaseThroughput": {
+            "value": 400
+        },
+        "SharedAppServicePlanName": {
+            "value": "dfc-dev-compui-shared-asp"
+        },
+        "SharedAppServicePlanResourceGroup": {
+            "value": "dfc-dev-compui-shared-rg"
+        }
+    }
+}
