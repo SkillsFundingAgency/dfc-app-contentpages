@@ -1,0 +1,63 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appServiceDomain": {
+            "value": "__appServiceDomain__"
+        },
+        "appSharedResourceGroup": {
+            "value": "__appSharedResourceGroup__"
+        },
+        "appSharedServiceBusName": {
+            "value": "__appSharedServiceBusName__"
+        },
+        "appSharedStorageAccountName": {
+            "value": "__appSharedStorageAccountName__"
+        },
+        "AseHostingEnvironmentName": {
+            "value": "__AseHostingEnvironmentName__"
+        },
+        "AseResourceGroup": {
+            "value": "__AseResourceGroup__"
+        },
+        "AspSize": {
+            "value": "__AspSize__"
+        },
+        "AspTier": {
+            "value": "__AspTier__"
+        },
+        "CosmosAccessKey": {
+            "value": "__appSharedCosmosPrimaryKey__"
+        },
+        "CosmosDbCollectionName": {
+            "value": "__helpAppCollectionName__"
+        },
+        "CosmosDbName": {
+            "value": "__appSharedCosmosDBName__"
+        },
+        "CosmosDbResourceGroup": {
+            "value": "__appSharedResourceGroup__"
+        },
+        "Environment": {
+            "value": "__ReleaseEnvironmentName__"
+        },
+        "HelpAppDatabaseNeedsCreation": {
+            "value": __CosmosDbDatabaseDoesntExist__
+        },
+        "HelpAppDatabaseThroughput": {
+            "value": __helpAppDatabaseThroughput__
+        },
+        "SharedAppServicePlanName": {
+            "value": "__SharedAppServicePlanName__"
+        },
+        "SharedAppServicePlanResourceGroup": {
+            "value": "__appSharedResourceGroup__"
+        },
+        "cmsTopicName": {
+            "value": "__cmsTopicName__"
+        },
+        "cmsSubscriptionSqlFilter": {
+            "value": "__cmsSubscriptionSqlFilter__"
+        }
+    }
+}
