@@ -51,28 +51,33 @@
       {
         "PageRegion": 1,
         "HealthCheckRequired": false,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/htmlhead"
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/htmlhead",
+        "IsHealthy" : true
       },
       {
         "PageRegion": 2,
         "HealthCheckRequired": false,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/breadcrumb"
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/breadcrumb",
+        "IsHealthy" : true
       },
       {
         "PageRegion": 3,
         "HealthCheckRequired": false,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/bodytop"
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/bodytop",
+        "IsHealthy" : true
       },
       {
         "PageRegion": 4,
-        "HealthCheckRequired": true,
+        "HealthCheckRequired": false,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/contents",
-        "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Alert Service Unavailable</H3></div>"
+        "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Alert Service Unavailable</H3></div>",
+        "IsHealthy" : true
       },
       {
         "PageRegion": 7,
         "HealthCheckRequired": false,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/bodyfooter"
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/alerts/{0}/bodyfooter",
+        "IsHealthy" : true
       }
     ]
   }
