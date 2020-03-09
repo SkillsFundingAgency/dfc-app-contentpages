@@ -45,15 +45,14 @@ namespace DFC.App.ContentPages
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                // add the default route
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Pages}/{action=Index}");
-            });
+                endpoints.MapRazorPages();
 
+                // add the default route
+                endpoints.MapControllerRoute("default", "{controller=Health}/{action=Ping}");
+            });
             mapper?.ConfigurationProvider.AssertConfigurationIsValid();
         }
 
