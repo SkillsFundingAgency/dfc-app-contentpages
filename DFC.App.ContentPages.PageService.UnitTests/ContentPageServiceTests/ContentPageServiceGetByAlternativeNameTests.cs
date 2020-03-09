@@ -43,7 +43,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.GetByAlternativeNameAsync(category, null).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
-            Assert.Equal("Value cannot be null.\r\nParameter name: alternativeName", exceptionResult.Message);
+            Assert.Equal("Value cannot be null. (Parameter 'alternativeName')", exceptionResult.Message);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.GetByAlternativeNameAsync(null, alternativeName).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
-            Assert.Equal("Value cannot be null.\r\nParameter name: category", exceptionResult.Message);
+            Assert.Equal("Value cannot be null. (Parameter 'category')", exceptionResult.Message);
         }
 
         [Fact]
