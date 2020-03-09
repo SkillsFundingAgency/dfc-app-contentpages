@@ -51,7 +51,7 @@ namespace DFC.App.ContentPages
                 // add the default route
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Pages}/{action=Index}");
+                    template: "{controller=Health}/{action=Ping}");
             });
 
             mapper?.ConfigurationProvider.AssertConfigurationIsValid();
