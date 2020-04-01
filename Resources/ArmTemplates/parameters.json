@@ -58,6 +58,9 @@
         },
         "cmsSubscriptionSqlFilter": {
             "value": "__cmsSubscriptionSqlFilter__"
+        },
+        "enableAlerts": {
+            "value": __EnableAzureMonitorAlerting__
         }
     }
 }

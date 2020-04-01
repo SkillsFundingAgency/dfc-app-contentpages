@@ -104,7 +104,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
 
             // assert
             A.CallTo(() => mappingService.MapToContentPageModel(message, sequenceNumber)).MustHaveHappenedOnceExactly();
-            Assert.Equal("Invalid message action '-1' received, should be one of 'Published,Deleted,Draft'\r\nParameter name: messageAction", exceptionResult.Message);
+            Assert.Equal("Invalid message action '-1' received, should be one of 'Published,Deleted,Draft' (Parameter 'messageAction')", exceptionResult.Message);
         }
 
         [Fact]
@@ -114,7 +114,7 @@ namespace DFC.App.ContentPages.MessageFunctionApp.UnitTests.Services
             var exceptionResult = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await messageProcessor.ProcessAsync(string.Empty, 1, (MessageContentType)(-1), MessageAction.Published).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
-            Assert.Equal("Unexpected sitefinity content type '-1'\r\nParameter name: messageContentType", exceptionResult.Message);
+            Assert.Equal("Unexpected sitefinity content type '-1' (Parameter 'messageContentType')", exceptionResult.Message);
         }
     }
 }

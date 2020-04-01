@@ -13,6 +13,7 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
@@ -30,7 +31,7 @@ namespace DFC.App.ContentPages
             this.configuration = configuration;
         }
 
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env, IMapper mapper)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
         {
             if (env.IsDevelopment())
             {
@@ -45,15 +46,14 @@ namespace DFC.App.ContentPages
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                // add the default route
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Pages}/{action=Index}");
-            });
+                endpoints.MapRazorPages();
 
+                // add the default route
+                endpoints.MapControllerRoute("default", "{controller=Health}/{action=Ping}");
+            });
             mapper?.ConfigurationProvider.AssertConfigurationIsValid();
         }
 
@@ -83,7 +83,8 @@ namespace DFC.App.ContentPages
                     config.RespectBrowserAcceptHeader = true;
                     config.ReturnHttpNotAcceptable = true;
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .AddNewtonsoftJson()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
     }
 }
