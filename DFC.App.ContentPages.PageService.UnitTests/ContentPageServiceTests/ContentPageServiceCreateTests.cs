@@ -43,7 +43,7 @@ namespace DFC.App.ContentPages.PageService.UnitTests.ContentPageServiceTests
             var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.UpsertAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
-            Assert.Equal("Value cannot be null.\r\nParameter name: contentPageModel", exceptionResult.Message);
+            Assert.Equal("Value cannot be null. (Parameter 'contentPageModel')", exceptionResult.Message);
         }
 
         [Fact]
