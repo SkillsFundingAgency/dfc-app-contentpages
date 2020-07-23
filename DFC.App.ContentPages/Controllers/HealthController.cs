@@ -53,6 +53,7 @@ namespace DFC.App.ContentPages.Controllers
         }
 
         [HttpGet]
+        [Route("/")]
         [Route("health/ping")]
         public IActionResult Ping()
         {
