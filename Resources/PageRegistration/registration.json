@@ -1,17 +1,18 @@
 [
-	{
-		"Path": "help",
-		"TopNavigationOrder": 999,
-		"Layout": 2,
-		"OfflineHtml": "<div class=\"govuk-width-container\"><H2>Help Service Unavailable</H2></div>",
-		"SitemapUrl": "https://__AppServiceName__.__appServiceDomain__/help/sitemap.xml",
-		"RobotsUrl": "https://__AppServiceName__.__appServiceDomain__/Robots.txt",
-		"Regions": [
+  {
+    "Path": "help",
+    "TopNavigationOrder": 999,
+    "Layout": 2,
+    "OfflineHtml": "<div class=\"govuk-width-container\"><H2>Help Service Unavailable</H2></div>",
+    "PhaseBannerHtml": "<div class=\"govuk-phase-banner\"><p class=\"govuk-phase-banner__content\"><strong class=\"govuk-tag govuk-phase-banner__content__tag \">beta</strong> <span class=\"govuk-phase-banner__text\">Complete <a target=\"_blank\" class=\"govuk-link\" href=\"https://surveys.ipsosinteractive.com/mrIWeb/mrIWeb.dll?I.Project=S1039833&amp;id=&amp;cf=ovl \">Ipsos MORI survey</a> to give us your feedback about the service.</span> </p></div>",
+    "SitemapUrl": "https://__AppServiceName__.__appServiceDomain__/help/sitemap.xml",
+    "RobotsUrl": "https://__AppServiceName__.__appServiceDomain__/Robots.txt",
+    "Regions": [
       {
         "PageRegion": 1,
         "HealthCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/htmlhead",
-				"IsHealthy" : true
+        "IsHealthy" : true
       },
       {
         "PageRegion": 2,
@@ -38,13 +39,14 @@
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/help/{0}/bodyfooter",
         "IsHealthy" : true
       }
-		]
-	},
+    ]
+  },
   {
     "Path": "alerts",
     "TopNavigationOrder": 999,
     "Layout": 2,
     "OfflineHtml": "<div class=\"govuk-width-container\"><H2>Alert Service Unavailable</H2></div>",
+    "PhaseBannerHtml": "<div class=\"govuk-phase-banner\"><p class=\"govuk-phase-banner__content\"><strong class=\"govuk-tag govuk-phase-banner__content__tag \">beta</strong> <span class=\"govuk-phase-banner__text\">Complete <a target=\"_blank\" class=\"govuk-link\" href=\"https://surveys.ipsosinteractive.com/mrIWeb/mrIWeb.dll?I.Project=S1039833&amp;id=&amp;cf=ovl \">Ipsos MORI survey</a> to give us your feedback about the service.</span> </p></div>",
     "SitemapUrl": null,
     "RobotsUrl": "https://__AppServiceName__.__appServiceDomain__/Robots.txt",
     "Regions": [
