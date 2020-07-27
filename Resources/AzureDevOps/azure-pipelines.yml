@@ -24,7 +24,7 @@ jobs:
 - job: BuildDotNetCore
   displayName: Build-DotNetCore
   pool:
-    name: Continuous Integration 02 - SSD - 160ACU
+    name: NCS - CI and CD
     demands:
     - msbuild
     - visualstudio
@@ -36,7 +36,7 @@ jobs:
       SolutionBaseName: $(SolutionBaseName)
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
-      DotNetCoreVersion: 2.2.402
+      DotNetCoreVersion: 3.1.101
       PublishWebApp: true
       TestSuffix: UnitTests
 
@@ -46,6 +46,6 @@ jobs:
       SolutionBaseName: $(SolutionBaseName).MessageFunctionApp
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
-      DotNetCoreVersion: 2.2.402
+      DotNetCoreVersion: 3.1.101
       PublishWebApp: true
       TestSuffix: UnitTests

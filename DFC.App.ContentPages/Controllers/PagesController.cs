@@ -30,7 +30,6 @@ namespace DFC.App.ContentPages.Controllers
         }
 
         [HttpGet]
-        [Route("/")]
         [Route("pages")]
         public async Task<IActionResult> Index()
         {
