@@ -26,7 +26,7 @@ stages:
       - job: TestArmTemplates
         displayName: "Test & package ARM template(s)"
         steps:
-          - template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
+          - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-arm-build.yml@dfc-devops
             parameters:
               ArmTemplateRoot: '${{ variables.ArmTemplateRoot }}'
               SolutionBaseName: '${{ variables.SolutionBaseName }}'
@@ -37,7 +37,7 @@ stages:
 
         steps:
         # Build DFC.App.ContentPages
-        - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+        - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-sonar.yml@dfc-devops
           parameters:
             SolutionBaseName: $(SolutionBaseName)
             BuildPlatform: $(BuildPlatform)
@@ -47,7 +47,7 @@ stages:
             TestSuffix: UnitTests
 
         # Build DFC.App.ContentPages.MessageFunctionApp
-        - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+        - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
           parameters:
             SolutionBaseName: $(SolutionBaseName).MessageFunctionApp
             BuildPlatform: $(BuildPlatform)
